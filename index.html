@@ -4,215 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MARKET_INSPIRARTE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --madera-oscura: #5d4037;
-            --madera-clara: #d7ccc8;
-            --oro: #bfa004;
-            --fondo: #f5f5f5;
-            --texto: #333;
-        }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--fondo);
-            color: var(--texto);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        header {
-            background-color: var(--madera-oscura);
-            color: white;
-            width: 100%;
-            padding: 20px 0;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-        }
-
-        .slogan {
-            font-size: 0.9rem;
-            font-style: italic;
-            opacity: 0.9;
-        }
-
-        .container {
-            padding: 20px;
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-        }
-
-        .bienvenida {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
-            margin-bottom: 25px;
-            color: var(--madera-oscura);
-        }
-
-        /* Estilo de los Pasillos */
-        .pasillos-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .btn-pasillo {
-            background: white;
-            border: 2px solid var(--madera-clara);
-            padding: 20px 10px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-weight: bold;
-            color: var(--madera-oscura);
-        }
-
-        .btn-pasillo:active {
-            transform: scale(0.95);
-            background-color: var(--madera-clara);
-        }
-
-        .btn-pasillo span {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-        }
-
-        /* Área de visualización del reto */
-        #pantalla-inspiracion {
-            display: none;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-top: 5px solid var(--oro);
-            margin-top: 10px;
-        }
-
-        blockquote {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            font-style: italic;
-            margin: 15px 0;
-        }
-
-        .btn-finalizar {
-            background-color: var(--madera-oscura);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-weight: bold;
-            margin-top: 15px;
-            width: 100%;
-        }
-
-        .racha-footer {
-            margin-top: 30px;
-            font-size: 0.8rem;
-            color: #888;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f1ea; color: #4a3728; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
+        .header { text-align: center; margin-bottom: 30px; background-color: #6d4c41; color: white; padding: 20px; width: 100%; border-radius: 0 0 20px 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 400px; }
+        .card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); cursor: pointer; border: 2px solid transparent; transition: all 0.3s; }
+        .card:active { transform: scale(0.95); background-color: #efebe9; }
+        .resiliencia { border-color: #8bc34a; }
+        .calma { border-color: #03a9f4; }
+        .sabiduria { border-color: #9c27b0; }
+        .empatia { border-color: #ffc107; }
+        .icon { font-size: 30px; margin-bottom: 10px; display: block; }
+        #pantalla-inspiracion { display: none; background: white; width: 100%; max-width: 400px; padding: 30px; border-radius: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-top: 20px; border-top: 10px solid #6d4c41; }
+        .btn-ready { background: #3e2723; color: white; border: none; padding: 15px 30px; border-radius: 25px; font-weight: bold; margin-top: 20px; cursor: pointer; width: 100%; }
+        .racha { margin-top: 30px; font-size: 0.9em; color: #8d6e63; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <header>
+    <div class="header">
         <h1>MARKET_INSPIRARTE</h1>
-        <div class="slogan">Una chispa para iluminar tu día</div>
-    </header>
+        <p>Una chispa para iluminar tu día</p>
+    </div>
 
-    <div class="container">
-        <p class="bienvenida">¿Qué necesitas llevarte hoy?</p>
-
-        <div class="pasillos-grid">
-            <button class="btn-pasillo" onclick="mostrarInspiracion('resiliencia')">
-                <span>🌱</span> Resiliencia
-            </button>
-            <button class="btn-pasillo" onclick="mostrarInspiracion('calma')">
-                <span>🌊</span> Calma
-            </button>
-            <button class="btn-pasillo" onclick="mostrarInspiracion('sabiduria')">
-                <span>📚</span> Sabiduría
-            </button>
-            <button class="btn-pasillo" onclick="mostrarInspiracion('empatia')">
-                <span>🤝</span> Empatía
-            </button>
+    <div id="seleccion" style="text-align:center;">
+        <h2 style="margin-bottom:20px;">¿Qué necesitas llevarte hoy?</h2>
+        <div class="grid">
+            <div class="card resiliencia" onclick="mostrarInspiracion('resiliencia')">
+                <span class="icon">🌱</span> <strong>Resiliencia</strong>
+            </div>
+            <div class="card calma" onclick="mostrarInspiracion('calma')">
+                <span class="icon">🌊</span> <strong>Calma</strong>
+            </div>
+            <div class="card sabiduria" onclick="mostrarInspiracion('sabiduria')">
+                <span class="icon">📚</span> <strong>Sabiduría</strong>
+            </div>
+            <div class="card empatia" onclick="mostrarInspiracion('empatia')">
+                <span class="icon">🧡</span> <strong>Empatía</strong>
+            </div>
         </div>
+    </div>
 
-        <div id="pantalla-inspiracion">
-            <h3 id="titulo-pasillo" style="color: var(--oro); margin-top: 0;"></h3>
-            <blockquote id="cita"></blockquote>
-            <p id="reto" style="font-weight: bold;"></p>
-            <button class="btn-finalizar" onclick="finalizar()">ENTRENAMIENTO COMPLETADO</button>
-        </div>
+    <div id="pantalla-inspiracion">
+        <h2 id="titulo-pasillo" style="color:#6d4c41"></h2>
+        <p id="cita" style="font-style: italic; font-size: 1.2em; margin: 20px 0;"></p>
+        <p id="reto" style="background: #fdf5e6; padding: 15px; border-radius: 10px; font-weight: bold;"></p>
+        <button class="btn-ready" onclick="finalizar()">ENTRENAMIENTO COMPLETADO</button>
+    </div>
 
-        <div class="racha-footer">
-            Tu racha de inspiración: <span id="contador">0</span> días 🔥
-        </div>
+    <div class="racha">
+        Tu racha de inspiración: <span id="contador">0</span> días 🔥
     </div>
 
     <script>
         const contenido = {
-            resiliencia: {
-                t: "Pasillo de Resiliencia",
-                c: "Nuestra mayor gloria no está en no caer nunca, sino en levantarnos cada vez que caemos.",
-                r: "Reto: Identifica algo que te costó hoy y escribe o piensa en una lección que aprendiste de ello."
+            'resiliencia': {
+                t: 'Pasillo de Resiliencia',
+                c: 'No es la carga lo que te rompe, sino la forma en que la llevas.',
+                r: 'Reto: Escribe una situación difícil que superaste y agradécete por tu fuerza.'
             },
-            calma: {
-                t: "Pasillo de Calma",
-                c: "La paz no es la ausencia de caos, sino la presencia de serenidad en medio de él.",
-                r: "Reto: Tómate 2 minutos para respirar profundamente sin mirar el celular."
+            'calma': {
+                t: 'Pasillo de Calma',
+                c: 'Dentro de ti hay una quietud que puede absorberlo todo.',
+                r: 'Reto: Cierra los ojos y respira profundamente 5 veces contando cada exhalación.'
             },
-            sabiduria: {
-                t: "Pasillo de Sabiduría",
-                c: "La verdadera sabiduría está en reconocer la propia ignorancia y mantener la mente abierta.",
-                r: "Reto: Escucha con total atención a alguien hoy, sin interrumpir ni juzgar."
+            'sabiduria': {
+                t: 'Pasillo de Sabiduría',
+                c: 'El conocimiento habla, pero la sabiduría escucha.',
+                r: 'Reto: Escucha a alguien hoy sin interrumpir ni planear tu respuesta.'
             },
-            empatia: {
-                t: "Pasillo de Empatía",
-                c: "Nadie es tan pobre que no pueda dar algo, ni tan rico que no necesite nada.",
-                r: "Reto: Envía un mensaje de gratitud a una persona que haya hecho algo bueno por ti recientemente."
+            'empatia': {
+                t: 'Pasillo de Empatía',
+                c: 'La empatía es ver con los ojos de otro y sentir con su corazón.',
+                r: 'Reto: Envía un mensaje de gratitud a alguien que haya hecho algo bueno por ti.'
             }
         };
 
         function mostrarInspiracion(tipo) {
             const data = contenido[tipo];
             document.getElementById('titulo-pasillo').innerText = data.t;
-            document.getElementById('cita').innerText = '"'+data.c+'"';
-            document.getElementById('reto').innerText = data.r;
+            document.getElementById('cita').innerText = '"' + data.c + '"';
+            document.getElementById('reto').innerText = "Reto: " + data.r;
+            
+            document.getElementById('seleccion').style.display = 'none';
             document.getElementById('pantalla-inspiracion').style.display = 'block';
-            window.scrollTo(0, document.body.scrollHeight);
         }
 
         function finalizar() {
-            let racha = parseInt(localStorage.getItem('racha_market')) || 0;
-            localStorage.setItem('racha_market', racha + 1);
-            actualizarRacha();
-            alert("¡Misión cumplida! Has sumado un día más a tu crecimiento personal.");
-            document.getElementById('pantalla-inspiracion').style.display = 'none';
+            let racha = localStorage.getItem('market_racha') || 0;
+            racha = parseInt(racha) + 1;
+            localStorage.setItem('market_racha', racha);
+            location.reload();
         }
 
-        function actualizarRacha() {
-            const racha = localStorage.getItem('racha_market') || 0;
-            document.getElementById('contador').innerText = racha;
-        }
-
-        actualizarRacha();
+        document.getElementById('contador').innerText = localStorage.getItem('market_racha') || 0;
     </script>
 </body>
 </html>
-
