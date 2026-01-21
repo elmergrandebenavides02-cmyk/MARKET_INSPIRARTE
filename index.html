@@ -192,7 +192,7 @@
         function mostrarInspiracion(tipo) {
             const data = contenido[tipo];
             document.getElementById('titulo-pasillo').innerText = data.t;
-            document.getElementById('cita').innerText = "${data.c}";
+            document.getElementById('cita').innerText = '"'+data.c+'"';
             document.getElementById('reto').innerText = data.r;
             document.getElementById('pantalla-inspiracion').style.display = 'block';
             window.scrollTo(0, document.body.scrollHeight);
@@ -215,3 +215,4 @@
     </script>
 </body>
 </html>
+
