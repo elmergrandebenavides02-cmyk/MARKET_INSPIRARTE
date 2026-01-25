@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Inspirarte - Acceso Exclusivo</title>
+    <title>Market Inspirarte - Acceso Privado</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
@@ -26,7 +26,7 @@
             min-height: 100vh;
         }
 
-        /* --- ESTILOS DEL MURO DE ACCESO --- */
+        /* MURO DE SEGURIDAD */
         #muro-acceso {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -49,49 +49,27 @@
             border-top: 8px solid var(--madera);
         }
 
-        /* --- ESTILOS DEL MARKET --- */
+        /* DISEÑO DEL MARKET */
         header {
-            background-color: var(--madera);
-            color: white;
-            width: 100%;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            background-color: var(--madera); color: white;
+            width: 100%; padding: 20px; text-align: center;
         }
 
-        .container {
-            max-width: 600px;
-            width: 90%;
-            text-align: center;
-            padding: 20px;
-        }
+        .container { max-width: 600px; width: 90%; text-align: center; padding: 20px; }
 
         .racha-box {
-            background: white;
-            border: 2px solid var(--madera);
-            padding: 10px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            font-weight: bold;
+            background: white; border: 2px solid var(--madera);
+            padding: 10px; border-radius: 15px; margin-bottom: 20px; font-weight: bold;
         }
 
         .grid-pasillos {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;
         }
 
         .pasillo {
-            padding: 20px;
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
-            font-size: 1em;
-            text-transform: uppercase;
+            padding: 20px; border: none; border-radius: 10px;
+            color: white; font-weight: bold; cursor: pointer;
+            transition: transform 0.2s; text-transform: uppercase;
         }
 
         .pasillo:hover { transform: scale(1.05); }
@@ -101,47 +79,27 @@
         .empatia { background-color: var(--naranja-market); }
 
         #pantalla-inspiracion {
-            display: none;
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-top: 20px;
-            border-top: 8px solid var(--madera);
+            display: none; background: white; padding: 30px;
+            border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 20px; border-top: 8px solid var(--madera);
         }
 
         .btn-ready {
-            background-color: var(--verde-market);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 15px;
+            background-color: var(--verde-market); color: white;
+            border: none; padding: 15px; border-radius: 50px;
+            font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px;
         }
 
         .btn-whatsapp {
-            background-color: #25D366;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
+            background-color: #25D366; color: white; border: none;
+            padding: 12px; border-radius: 50px; font-weight: bold;
+            cursor: pointer; width: 100%; margin-top: 10px;
         }
 
         .btn-back {
-            background: none;
-            border: 1px solid var(--madera);
-            color: var(--madera);
-            margin-top: 20px;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 5px;
+            background: none; border: 1px solid var(--madera);
+            color: var(--madera); margin-top: 20px; cursor: pointer;
+            padding: 8px; border-radius: 5px;
         }
 
         #cita { font-size: 1.3em; font-style: italic; margin: 20px 0; }
@@ -153,26 +111,24 @@
     <div id="muro-acceso">
         <div class="caja-login">
             <h2 style="color: var(--madera);">🛒 MARKET INSPIRARTE</h2>
-            <p>Ingresa el código de activación de tu llavero para entrar a la vitrina.</p>
+            <p>Ingresa el código de activación de tu tarjeta para entrar a la vitrina.</p>
             <input type="text" id="pass-cliente" placeholder="Código de activación" 
                    style="width: 100%; padding: 12px; margin: 20px 0; border: 2px solid var(--madera); border-radius: 10px; text-align: center; box-sizing: border-box;">
-            <button onclick="validarAcceso()" style="background: var(--madera); color: white; border: none; padding: 15px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%;">ACTIVAR ACCESO</button>
-            <p id="error-pass" style="color: red; display: none; margin-top: 15px;">Código incorrecto. Revisa tu tarjeta.</p>
+            <button onclick="validarAcceso()" style="background: var(--madera); color: white; border: none; padding: 15px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%;">ACTIVAR MI ACCESO</button>
+            <p id="error-pass" style="color: red; display: none; margin-top: 15px;">Código incorrecto o vencido. Revisa tu tarjeta del mes.</p>
         </div>
     </div>
 
     <header>
         <h1>🛒 MARKET INSPIRARTE</h1>
-        <p>Una CHISPA de inspiración diaria</p>
+        <p>Tu vitrina de inspiración diaria</p>
     </header>
 
     <div class="container">
-        <div class="racha-box">
-            🔥 Mi Racha de Bienestar: <span id="contador">0</span> días
-        </div>
+        <div class="racha-box">🔥 Mi Racha: <span id="contador">0</span> días</div>
 
         <div id="seleccion">
-            <h3>¿Qué pasillo deseas visitar hoy?</h3>
+            <h3>Selecciona un pasillo:</h3>
             <div class="grid-pasillos">
                 <button class="pasillo resiliencia" onclick="mostrarInspiracion('resiliencia')">Resiliencia</button>
                 <button class="pasillo calma" onclick="mostrarInspiracion('calma')">Calma</button>
@@ -182,14 +138,14 @@
         </div>
 
         <div id="pantalla-inspiracion">
-            <h2 id="titulo-pasillo" style="text-transform: capitalize;"></h2>
+            <h2 id="titulo-pasillo"></h2>
             <p id="cita"></p>
             <div id="reto"></div>
             <p id="msg-hecho" style="color: green; font-weight: bold; display: none; margin: 15px 0;">✨ ¡LOGRADO! ✨</p>
             
             <button id="btn-finalizar" class="btn-ready" onclick="finalizar()">ENTRENAMIENTO COMPLETADO</button>
-            <button class="btn-whatsapp" onclick="compartirWhatsApp()">📱 Compartir por WhatsApp</button>
-            <button class="btn-back" onclick="regresar()">⬅ VOLVER A LA ENTRADA</button>
+            <button class="btn-whatsapp" onclick="compartirWhatsApp()">📱 Compartir Reto</button>
+            <button class="btn-back" onclick="regresar()">⬅ VOLVER</button>
         </div>
     </div>
 
@@ -197,42 +153,45 @@
         let bibliotecaFrases = {};
         let categoriaActual = "";
 
-        // --- LÓGICA DE ACCESO ---
+        // 1. LISTA DE CLAVES MENSUALES (Cambia estas palabras por las que quieras)
+        const claves2026 = [
+            "MarketEne26", "MarketFeb26", "MarketMar26", "MarketAbr26",
+            "MarketMay26", "MarketJun26", "MarketJul26", "MarketAgo26",
+            "MarketSep26", "MarketOct26", "MarketNov26", "MarketDic26"
+        ];
+
+        // 2. FUNCIÓN DE VALIDACIÓN
         function validarAcceso() {
-            const passIngresado = document.getElementById('pass-cliente').value;
-            const passCorrecto = "Inspirarte2026"; // <--- AQUÍ CAMBIAS TU CLAVE
+            const passIngresado = document.getElementById('pass-cliente').value.trim();
+            const mesActual = new Date().getMonth(); 
+            const passCorrecto = claves2026[mesActual];
 
             if (passIngresado === passCorrecto) {
-                localStorage.setItem('acceso_market_v1', 'concedido');
+                localStorage.setItem('acceso_market_v2', 'concedido');
                 document.getElementById('muro-acceso').style.display = 'none';
             } else {
                 document.getElementById('error-pass').style.display = 'block';
             }
         }
 
+        // Al cargar, verificar si ya tiene acceso guardado
         window.onload = function() {
-            if (localStorage.getItem('acceso_market_v1') === 'concedido') {
+            if (localStorage.getItem('acceso_market_v2') === 'concedido') {
                 document.getElementById('muro-acceso').style.display = 'none';
             }
             actualizarRachaInterfaz();
         };
 
-        // --- LÓGICA DEL MARKET ---
-        fetch('datos.json')
-            .then(res => res.json())
-            .then(data => { bibliotecaFrases = data; })
-            .catch(err => console.error("Error cargando frases"));
+        // 3. CARGAR FRASES
+        fetch('datos.json').then(res => res.json()).then(data => { bibliotecaFrases = data; });
 
         function mostrarInspiracion(tipo) {
             categoriaActual = tipo;
             const lista = bibliotecaFrases[tipo];
-            if (!lista) return;
-
             const azar = lista[Math.floor(Math.random() * lista.length)];
             document.getElementById('titulo-pasillo').innerText = "Pasillo de " + tipo;
             document.getElementById('cita').innerText = `"${azar.frase}"`;
             document.getElementById('reto').innerText = "Tu reto: " + azar.reto;
-            
             document.getElementById('seleccion').style.display = 'none';
             document.getElementById('pantalla-inspiracion').style.display = 'block';
             verificarEstadoBoton();
@@ -242,7 +201,6 @@
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             const hoy = new Date().toDateString();
             let registro = JSON.parse(localStorage.getItem('market_completados') || '{}');
-            
             if (registro[categoriaActual] !== hoy) {
                 registro[categoriaActual] = hoy;
                 localStorage.setItem('market_completados', JSON.stringify(registro));
@@ -253,11 +211,14 @@
             verificarEstadoBoton();
         }
 
+        // 4. COMPARTIR POR WHATSAPP (PROTEGIDO - SIN CLAVE)
         function compartirWhatsApp() {
             const frase = document.getElementById('cita').innerText;
             const reto = document.getElementById('reto').innerText;
             const url = window.location.href;
-            const mensaje = `*🛒 Market Inspirarte*\n\n"${frase}"\n\n💪 ${reto}\n\n_Consigue tu llavero para acceder:_ ${url}`;
+            
+            // El mensaje invita a comprar el llavero, pero NO da la clave
+            const mensaje = `*🛒 Market Inspirarte*\n\n"${frase}"\n\n💪 ${reto}\n\n_Consigue tu acceso exclusivo con el llavero oficial aquí:_ ${url}`;
             window.open(`https://wa.me/?text=${encodeURIComponent(mensaje)}`, '_blank');
         }
 
@@ -268,15 +229,11 @@
             const mensaje = document.getElementById('msg-hecho');
 
             if (completados[categoriaActual] === hoy) {
-                boton.disabled = true;
-                boton.innerText = "¡LOGRADO!";
-                boton.style.backgroundColor = "#ccc";
-                mensaje.style.display = "block";
+                boton.disabled = true; boton.innerText = "¡LOGRADO!";
+                boton.style.backgroundColor = "#ccc"; mensaje.style.display = "block";
             } else {
-                boton.disabled = false;
-                boton.innerText = "ENTRENAMIENTO COMPLETADO";
-                boton.style.backgroundColor = "var(--verde-market)";
-                mensaje.style.display = "none";
+                boton.disabled = false; boton.innerText = "ENTRENAMIENTO COMPLETADO";
+                boton.style.backgroundColor = "var(--verde-market)"; mensaje.style.display = "none";
             }
         }
 
@@ -291,4 +248,3 @@
     </script>
 </body>
 </html>
-
