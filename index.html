@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Inspirarte</title>
+    <title>Market Inspirarte - Acceso Exclusivo</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
@@ -26,6 +26,30 @@
             min-height: 100vh;
         }
 
+        /* --- ESTILOS DEL MURO DE ACCESO --- */
+        #muro-acceso {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--crema);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .caja-login {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 85%;
+            border-top: 8px solid var(--madera);
+        }
+
+        /* --- ESTILOS DEL MARKET --- */
         header {
             background-color: var(--madera);
             color: white;
@@ -65,12 +89,12 @@
             color: white;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s;
             font-size: 1em;
             text-transform: uppercase;
         }
 
-        .pasillo:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .pasillo:hover { transform: scale(1.05); }
         .resiliencia { background-color: var(--verde-market); }
         .calma { background-color: var(--azul-market); }
         .sabiduria { background-color: var(--madera); }
@@ -90,30 +114,24 @@
             background-color: var(--verde-market);
             color: white;
             border: none;
-            padding: 15px 25px;
+            padding: 15px;
             border-radius: 50px;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
             margin-top: 15px;
-            font-size: 1em;
         }
 
         .btn-whatsapp {
             background-color: #25D366;
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 12px;
             border-radius: 50px;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
             margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 0.9em;
         }
 
         .btn-back {
@@ -126,19 +144,22 @@
             border-radius: 5px;
         }
 
-        .mensaje-completado {
-            color: #2e7d32;
-            font-weight: bold;
-            display: none;
-            margin: 15px 0;
-            font-size: 1.1em;
-        }
-
-        #cita { font-size: 1.3em; font-style: italic; margin: 20px 0; line-height: 1.4; }
+        #cita { font-size: 1.3em; font-style: italic; margin: 20px 0; }
         #reto { background: #fffde7; padding: 15px; border-left: 5px solid var(--naranja-market); text-align: left; font-weight: bold; }
     </style>
 </head>
 <body>
+
+    <div id="muro-acceso">
+        <div class="caja-login">
+            <h2 style="color: var(--madera);">🛒 MARKET INSPIRARTE</h2>
+            <p>Ingresa el código de activación de tu llavero para entrar a la vitrina.</p>
+            <input type="text" id="pass-cliente" placeholder="Código de activación" 
+                   style="width: 100%; padding: 12px; margin: 20px 0; border: 2px solid var(--madera); border-radius: 10px; text-align: center; box-sizing: border-box;">
+            <button onclick="validarAcceso()" style="background: var(--madera); color: white; border: none; padding: 15px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%;">ACTIVAR ACCESO</button>
+            <p id="error-pass" style="color: red; display: none; margin-top: 15px;">Código incorrecto. Revisa tu tarjeta.</p>
+        </div>
+    </div>
 
     <header>
         <h1>🛒 MARKET INSPIRARTE</h1>
@@ -161,18 +182,13 @@
         </div>
 
         <div id="pantalla-inspiracion">
-            <h2 id="titulo-pasillo" style="color:var(--madera); text-transform: capitalize;"></h2>
+            <h2 id="titulo-pasillo" style="text-transform: capitalize;"></h2>
             <p id="cita"></p>
             <div id="reto"></div>
-            
-            <p id="msg-hecho" class="mensaje-completado">✨ ¡LOGRADO! ✨</p>
+            <p id="msg-hecho" style="color: green; font-weight: bold; display: none; margin: 15px 0;">✨ ¡LOGRADO! ✨</p>
             
             <button id="btn-finalizar" class="btn-ready" onclick="finalizar()">ENTRENAMIENTO COMPLETADO</button>
-            
-            <button id="btn-whatsapp" class="btn-whatsapp" onclick="compartirWhatsApp()">
-                📱 Compartir por WhatsApp
-            </button>
-
+            <button class="btn-whatsapp" onclick="compartirWhatsApp()">📱 Compartir por WhatsApp</button>
             <button class="btn-back" onclick="regresar()">⬅ VOLVER A LA ENTRADA</button>
         </div>
     </div>
@@ -181,66 +197,68 @@
         let bibliotecaFrases = {};
         let categoriaActual = "";
 
-        // Cargar el JSON
+        // --- LÓGICA DE ACCESO ---
+        function validarAcceso() {
+            const passIngresado = document.getElementById('pass-cliente').value;
+            const passCorrecto = "Inspirarte2026"; // <--- AQUÍ CAMBIAS TU CLAVE
+
+            if (passIngresado === passCorrecto) {
+                localStorage.setItem('acceso_market_v1', 'concedido');
+                document.getElementById('muro-acceso').style.display = 'none';
+            } else {
+                document.getElementById('error-pass').style.display = 'block';
+            }
+        }
+
+        window.onload = function() {
+            if (localStorage.getItem('acceso_market_v1') === 'concedido') {
+                document.getElementById('muro-acceso').style.display = 'none';
+            }
+            actualizarRachaInterfaz();
+        };
+
+        // --- LÓGICA DEL MARKET ---
         fetch('datos.json')
             .then(res => res.json())
-            .then(data => {
-                bibliotecaFrases = data;
-                actualizarRachaInterfaz();
-            })
-            .catch(err => {
-                console.error("Error cargando el inventario:", err);
-            });
+            .then(data => { bibliotecaFrases = data; })
+            .catch(err => console.error("Error cargando frases"));
 
         function mostrarInspiracion(tipo) {
             categoriaActual = tipo;
             const lista = bibliotecaFrases[tipo];
-            
             if (!lista) return;
 
             const azar = lista[Math.floor(Math.random() * lista.length)];
-
             document.getElementById('titulo-pasillo').innerText = "Pasillo de " + tipo;
             document.getElementById('cita').innerText = `"${azar.frase}"`;
             document.getElementById('reto').innerText = "Tu reto: " + azar.reto;
             
             document.getElementById('seleccion').style.display = 'none';
             document.getElementById('pantalla-inspiracion').style.display = 'block';
-
             verificarEstadoBoton();
         }
 
         function finalizar() {
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#6d4c41', '#8bc34a', '#03a9f4', '#ffc107']
-            });
-
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             const hoy = new Date().toDateString();
             let registro = JSON.parse(localStorage.getItem('market_completados') || '{}');
             
-            registro[categoriaActual] = hoy;
-            localStorage.setItem('market_completados', JSON.stringify(registro));
-
-            let racha = parseInt(localStorage.getItem('market_racha') || 0);
-            racha++;
-            localStorage.setItem('market_racha', racha);
-
-            actualizarRachaInterfaz();
+            if (registro[categoriaActual] !== hoy) {
+                registro[categoriaActual] = hoy;
+                localStorage.setItem('market_completados', JSON.stringify(registro));
+                let racha = parseInt(localStorage.getItem('market_racha') || 0);
+                localStorage.setItem('market_racha', racha + 1);
+                actualizarRachaInterfaz();
+            }
             verificarEstadoBoton();
         }
 
         function compartirWhatsApp() {
             const frase = document.getElementById('cita').innerText;
             const reto = document.getElementById('reto').innerText;
-            const pasillo = document.getElementById('titulo-pasillo').innerText;
             const url = window.location.href;
-
-            const mensaje = `*🛒 Market Inspirarte*\n\nMe llevé esto del *${pasillo}*:\n\n${frase}\n\n💪 ${reto}\n\n_¿Qué necesitas llevarte hoy? Visita el Market aquí:_ ${url}`;
-            const link = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
-            window.open(link, '_blank');
+            const mensaje = `*🛒 Market Inspirarte*\n\n"${frase}"\n\n💪 ${reto}\n\n_Consigue tu llavero para acceder:_ ${url}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(mensaje)}`, '_blank');
         }
 
         function verificarEstadoBoton() {
