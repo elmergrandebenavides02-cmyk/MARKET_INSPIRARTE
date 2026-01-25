@@ -13,6 +13,7 @@
             --azul-market: #03a9f4;
             --naranja-market: #ffc107;
             --marron-oscuro: #3e2723;
+            --gris-suave: #f4f4f4;
         }
 
         body {
@@ -41,7 +42,7 @@
 
         .caja-login {
             background: white;
-            padding: 40px;
+            padding: 35px;
             border-radius: 25px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
             max-width: 380px;
@@ -52,7 +53,7 @@
         .input-clave {
             width: 100%;
             padding: 15px;
-            margin: 20px 0;
+            margin: 15px 0;
             border: 2px solid #ddd;
             border-radius: 12px;
             text-align: center;
@@ -60,11 +61,6 @@
             font-weight: bold;
             color: var(--madera);
             box-sizing: border-box;
-        }
-
-        .input-clave:focus {
-            border-color: var(--madera);
-            outline: none;
         }
 
         /* --- ESTILOS DEL MARKET --- */
@@ -91,7 +87,6 @@
             border-radius: 20px;
             margin-bottom: 25px;
             font-weight: bold;
-            font-size: 1.1rem;
         }
 
         .grid-pasillos {
@@ -107,8 +102,7 @@
             color: white;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s, filter 0.2s;
-            font-size: 0.9rem;
+            transition: transform 0.2s;
             text-transform: uppercase;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
@@ -139,7 +133,6 @@
             cursor: pointer;
             width: 100%;
             margin-top: 20px;
-            font-size: 1rem;
         }
 
         .btn-whatsapp {
@@ -162,31 +155,38 @@
             cursor: pointer;
             padding: 10px 20px;
             border-radius: 10px;
-            font-size: 0.9rem;
         }
 
-        #cita { font-size: 1.4rem; font-style: italic; margin: 25px 0; line-height: 1.4; }
-        #reto { background: #fffde7; padding: 20px; border-left: 6px solid var(--naranja-market); text-align: left; font-size: 1rem; }
+        #cita { font-size: 1.3rem; font-style: italic; margin: 25px 0; line-height: 1.4; }
+        #reto { background: #fffde7; padding: 20px; border-left: 6px solid var(--naranja-market); text-align: left; }
     </style>
 </head>
 <body>
 
     <div id="muro-acceso">
         <div class="caja-login">
-            <h2 style="color: var(--madera); margin-bottom: 10px;">🛒 MARKET INSPIRARTE</h2>
-            <p style="color: #666; font-size: 0.9rem;">Ingresa el código de activación que acompaña a tu llavero físico.</p>
+            <h2 style="color: var(--madera); margin-bottom: 5px;">🛒 MARKET INSPIRARTE</h2>
+            <p style="color: #666; font-size: 0.85rem;">Ingresa el código de tu tarjeta de activación</p>
             
             <input type="text" id="pass-cliente" class="input-clave" placeholder="CÓDIGO AQUÍ">
             
-            <button onclick="validarAcceso()" style="background: var(--madera); color: white; border: none; padding: 18px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1rem;">ENTRAR A LA VITRINA</button>
+            <button onclick="validarAcceso()" style="background: var(--madera); color: white; border: none; padding: 18px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1rem;">ACTIVAR ACCESO</button>
             
-            <p id="error-pass" style="color: #d32f2f; display: none; margin-top: 20px; font-weight: bold; font-size: 0.85rem;">⚠️ Código incorrecto o vencido.</p>
+            <p id="error-pass" style="color: #d32f2f; display: none; margin-top: 15px; font-weight: bold; font-size: 0.85rem;">⚠️ Código incorrecto o vencido.</p>
+
+            <hr style="margin-top: 25px; border: 0; border-top: 1px solid #eee;">
+            <p style="font-size: 0.75rem; color: #999; margin-bottom: 10px;">¿No tienes un código o perdiste tu tarjeta?</p>
+            <a href="https://wa.me/573244173977?text=Hola!%20Necesito%20ayuda%20con%20el%20acceso%20al%20Market%20Inspirarte" 
+               target="_blank" 
+               style="color: var(--madera); font-weight: bold; text-decoration: none; font-size: 0.85rem; border: 1px solid var(--madera); padding: 8px 15px; border-radius: 20px;">
+               📲 Hablar con Soporte
+            </a>
         </div>
     </div>
 
     <header>
-        <h1 style="margin: 0; font-size: 1.5rem;">🛒 MARKET INSPIRARTE</h1>
-        <p style="margin: 5px 0 0 0; font-size: 0.9rem; opacity: 0.9;">Tu dosis diaria de bienestar</p>
+        <h1 style="margin: 0; font-size: 1.4rem;">🛒 MARKET INSPIRARTE</h1>
+        <p style="margin: 5px 0 0 0; font-size: 0.85rem; opacity: 0.9;">Tu dosis diaria de bienestar</p>
     </header>
 
     <div class="container">
@@ -195,7 +195,7 @@
         </div>
 
         <div id="seleccion">
-            <h3 style="margin-bottom: 20px;">¿Qué pasillo deseas visitar hoy?</h3>
+            <h3 style="margin-bottom: 20px;">Elige un pasillo para hoy:</h3>
             <div class="grid-pasillos">
                 <button class="pasillo resiliencia" onclick="mostrarInspiracion('resiliencia')">Resiliencia</button>
                 <button class="pasillo calma" onclick="mostrarInspiracion('calma')">Calma</button>
@@ -208,11 +208,11 @@
             <h2 id="titulo-pasillo" style="color: var(--madera); margin-top: 0;"></h2>
             <p id="cita"></p>
             <div id="reto"></div>
-            <p id="msg-hecho" style="color: var(--verde-market); font-weight: bold; display: none; margin: 20px 0;">✨ ¡RETO COMPLETADO! ✨</p>
+            <p id="msg-hecho" style="color: var(--verde-market); font-weight: bold; display: none; margin: 20px 0;">✨ ¡RETO LOGRADO! ✨</p>
             
-            <button id="btn-finalizar" class="btn-ready" onclick="finalizar()">MARCAR COMO LOGRADO</button>
-            <button class="btn-whatsapp" onclick="compartirWhatsApp()">📱 Compartir Reto</button>
-            <button class="btn-back" onclick="regresar()">⬅ VOLVER A LA ENTRADA</button>
+            <button id="btn-finalizar" class="btn-ready" onclick="finalizar()">COMPLETAR ENTRENAMIENTO</button>
+            <button class="btn-whatsapp" onclick="compartirWhatsApp()">📱 Compartir mi logro</button>
+            <button class="btn-back" onclick="regresar()">⬅ VOLVER</button>
         </div>
     </div>
 
@@ -221,10 +221,7 @@
         let categoriaActual = "";
 
         // --- CONFIGURACIÓN DE SEGURIDAD ---
-        // 1. LLAVE MAESTRA: Úsala para dar soporte técnico a clientes antiguos (funciona siempre).
         const LLAVE_MAESTRA = "InspirarteMasterVip"; 
-
-        // 2. CLAVES MENSUALES: Pon estas en tus tarjetas de venta.
         const claves2026 = [
             "MarketEne26", "MarketFeb26", "MarketMar26", "MarketAbr26",
             "MarketMay26", "MarketJun26", "MarketJul26", "MarketAgo26",
@@ -237,7 +234,7 @@
             const passDelMes = claves2026[mesActual];
 
             if (input === passDelMes || input === LLAVE_MAESTRA) {
-                localStorage.setItem('market_acceso_v3', 'permitido');
+                localStorage.setItem('market_acceso_v4', 'permitido');
                 document.getElementById('muro-acceso').style.display = 'none';
                 confetti({ particleCount: 100, spread: 60 });
             } else {
@@ -246,17 +243,17 @@
         }
 
         window.onload = function() {
-            if (localStorage.getItem('market_acceso_v3') === 'permitido') {
+            if (localStorage.getItem('market_acceso_v4') === 'permitido') {
                 document.getElementById('muro-acceso').style.display = 'none';
             }
             actualizarRachaInterfaz();
         };
 
-        // --- LÓGICA DEL MARKET ---
+        // --- CARGA DE DATOS ---
         fetch('datos.json')
             .then(res => res.json())
             .then(data => { bibliotecaFrases = data; })
-            .catch(err => console.error("Error cargando frases. Revisa tu archivo datos.json"));
+            .catch(err => console.error("Error cargando frases."));
 
         function mostrarInspiracion(tipo) {
             categoriaActual = tipo;
@@ -266,7 +263,7 @@
             const azar = lista[Math.floor(Math.random() * lista.length)];
             document.getElementById('titulo-pasillo').innerText = "Pasillo de " + tipo;
             document.getElementById('cita').innerText = `"${azar.frase}"`;
-            document.getElementById('reto').innerText = "💡 " + azar.reto;
+            document.getElementById('reto').innerText = "💪 RETO: " + azar.reto;
             
             document.getElementById('seleccion').style.display = 'none';
             document.getElementById('pantalla-inspiracion').style.display = 'block';
@@ -293,8 +290,9 @@
             const reto = document.getElementById('reto').innerText;
             const url = window.location.href;
             
-            // Mensaje PROTEGIDO: No incluye la clave.
-            const mensaje = `*🛒 Market Inspirarte*\n\n"${frase}"\n\n${reto}\n\n_Consigue tu acceso exclusivo con el llavero oficial aquí:_ ${url}`;
+            // Mensaje que invita a contactarte para comprar el llavero
+            const mensaje = `*🛒 Market Inspirarte*\n\n"${frase}"\n\n${reto}\n\n_Accede a tu vitrina de bienestar con tu llavero oficial aquí:_ ${url}\n\n*¿No tienes el tuyo? Pídelo aquí:* wa.me/573244173977`;
+            
             window.open(`https://wa.me/?text=${encodeURIComponent(mensaje)}`, '_blank');
         }
 
@@ -311,7 +309,7 @@
                 mensaje.style.display = "block";
             } else {
                 boton.disabled = false;
-                boton.innerText = "MARCAR COMO LOGRADO";
+                boton.innerText = "COMPLETAR ENTRENAMIENTO";
                 boton.style.backgroundColor = "var(--verde-market)";
                 mensaje.style.display = "none";
             }
