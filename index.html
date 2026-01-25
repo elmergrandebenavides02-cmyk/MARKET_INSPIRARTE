@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Inspirarte - Tu Alimento Espiritual</title>
+    <title>Market Inspirarte</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
@@ -96,6 +96,7 @@
             cursor: pointer;
             width: 100%;
             margin-top: 15px;
+            font-size: 1em;
         }
 
         .btn-whatsapp {
@@ -112,6 +113,7 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            font-size: 0.9em;
         }
 
         .btn-back {
@@ -129,17 +131,18 @@
             font-weight: bold;
             display: none;
             margin: 15px 0;
+            font-size: 1.1em;
         }
 
         #cita { font-size: 1.3em; font-style: italic; margin: 20px 0; line-height: 1.4; }
-        #reto { background: #fffde7; padding: 15px; border-left: 5px solid var(--naranja-market); text-align: left; }
+        #reto { background: #fffde7; padding: 15px; border-left: 5px solid var(--naranja-market); text-align: left; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>🛒 MARKET INSPIRARTE</h1>
-        <p>Alimento para tu mente y corazón</p>
+        <p>Tu vitrina de inspiración diaria</p>
     </header>
 
     <div class="container">
@@ -162,12 +165,12 @@
             <p id="cita"></p>
             <div id="reto"></div>
             
-            <p id="msg-hecho" class="mensaje-completado">✅ ¡Producto del día obtenido!</p>
+            <p id="msg-hecho" class="mensaje-completado">✨ ¡LOGRADO! ✨</p>
             
             <button id="btn-finalizar" class="btn-ready" onclick="finalizar()">ENTRENAMIENTO COMPLETADO</button>
             
             <button id="btn-whatsapp" class="btn-whatsapp" onclick="compartirWhatsApp()">
-                Compartir por WhatsApp
+                📱 Compartir por WhatsApp
             </button>
 
             <button class="btn-back" onclick="regresar()">⬅ VOLVER A LA ENTRADA</button>
@@ -178,7 +181,7 @@
         let bibliotecaFrases = {};
         let categoriaActual = "";
 
-        // Cargar el JSON (Asegúrate de que se llame datos.json y esté en la raíz)
+        // Cargar el JSON
         fetch('datos.json')
             .then(res => res.json())
             .then(data => {
@@ -187,23 +190,19 @@
             })
             .catch(err => {
                 console.error("Error cargando el inventario:", err);
-                alert("Error: No se pudo cargar datos.json. Revisa que el archivo exista y esté bien escrito.");
             });
 
         function mostrarInspiracion(tipo) {
             categoriaActual = tipo;
             const lista = bibliotecaFrases[tipo];
             
-            if (!lista) {
-                alert("Este pasillo está en mantenimiento. Revisa tu archivo datos.json");
-                return;
-            }
+            if (!lista) return;
 
             const azar = lista[Math.floor(Math.random() * lista.length)];
 
             document.getElementById('titulo-pasillo').innerText = "Pasillo de " + tipo;
             document.getElementById('cita').innerText = `"${azar.frase}"`;
-            document.getElementById('reto').innerText = "💪 RETO DEL DÍA: " + azar.reto;
+            document.getElementById('reto').innerText = "Tu reto: " + azar.reto;
             
             document.getElementById('seleccion').style.display = 'none';
             document.getElementById('pantalla-inspiracion').style.display = 'block';
@@ -215,17 +214,16 @@
             confetti({
                 particleCount: 150,
                 spread: 70,
-                origin: { y: 0.6 }
+                origin: { y: 0.6 },
+                colors: ['#6d4c41', '#8bc34a', '#03a9f4', '#ffc107']
             });
 
             const hoy = new Date().toDateString();
             let registro = JSON.parse(localStorage.getItem('market_completados') || '{}');
             
-            // Guardar registro
             registro[categoriaActual] = hoy;
             localStorage.setItem('market_completados', JSON.stringify(registro));
 
-            // Lógica de racha
             let racha = parseInt(localStorage.getItem('market_racha') || 0);
             racha++;
             localStorage.setItem('market_racha', racha);
@@ -240,7 +238,7 @@
             const pasillo = document.getElementById('titulo-pasillo').innerText;
             const url = window.location.href;
 
-            const mensaje = `*🛒 Market Inspirarte*\n\nMe llevé esto del *${pasillo}*:\n\n${frase}\n\n${reto}\n\n_Visita el Market aquí:_ ${url}`;
+            const mensaje = `*🛒 Market Inspirarte*\n\nMe llevé esto del *${pasillo}*:\n\n${frase}\n\n💪 ${reto}\n\n_¿Qué necesitas llevarte hoy? Visita el Market aquí:_ ${url}`;
             const link = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
             window.open(link, '_blank');
         }
@@ -253,7 +251,7 @@
 
             if (completados[categoriaActual] === hoy) {
                 boton.disabled = true;
-                boton.innerText = "¡PRODUCTO ADQUIRIDO!";
+                boton.innerText = "¡LOGRADO!";
                 boton.style.backgroundColor = "#ccc";
                 mensaje.style.display = "block";
             } else {
