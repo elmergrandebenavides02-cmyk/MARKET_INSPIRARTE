@@ -3,26 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MARKET_inspirARTE</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f1ea; color: #4a3728; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
-        .header { text-align: center; margin-bottom: 30px; background-color: #6d4c41; color: white; padding: 20px; width: 100%; border-radius: 0 0 20px 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); cursor: pointer; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 400px; }
-        .card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); cursor: pointer; border: 2px solid transparent; transition: all 0.3s; }
-        .card:active { transform: scale(0.95); background-color: #efebe9; }
-        .resiliencia { border-color: #8bc34a; }
-        .calma { border-color: #03a9f4; }
-        .sabiduria { border-color: #9c27b0; }
-        .empatia { border-color: #ffc107; }
-        .icon { font-size: 30px; margin-bottom: 10px; display: block; }
-        #pantalla-inspiracion { display: none; background: white; width: 100%; max-width: 400px; padding: 30px; border-radius: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-top: 20px; border-top: 10px solid #6d4c41; }
-        .btn-
-[9:54 p. m., 20/1/2026] Elmer Grande Benavides: <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MARKET_INSPIRARTE</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f1ea; color: #4a3728; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
         .header { text-align: center; margin-bottom: 30px; background-color: #6d4c41; color: white; padding: 20px; width: 100%; border-radius: 0 0 20px 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); cursor: pointer; }
@@ -35,9 +18,11 @@
         .empatia { border-color: #ffc107; }
         .icon { font-size: 30px; margin-bottom: 10px; display: block; }
         #pantalla-inspiracion { display: none; background: white; width: 100%; max-width: 400px; padding: 30px; border-radius: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-top: 20px; border-top: 10px solid #6d4c41; }
-        .btn-ready { background: #3e2723; color: white; border: none; padding: 15px 30px; border-radius: 25px; font-weight: bold; margin-top: 20px; cursor: pointer; width: 100%; }
+        .btn-ready { background: #3e2723; color: white; border: none; padding: 15px 30px; border-radius: 25px; font-weight: bold; margin-top: 20px; cursor: pointer; width: 100%; transition: 0.3s; }
+        .btn-ready:disabled { background: #bdbdbd; cursor: not-allowed; transform: scale(1) !important; }
         .btn-back { background: none; border: 2px solid #6d4c41; color: #6d4c41; padding: 12px; border-radius: 25px; font-weight: bold; margin-top: 15px; cursor: pointer; width: 100%; }
         .racha { margin-top: 30px; font-size: 0.9em; color: #8d6e63; font-weight: bold; }
+        .mensaje-completado { color: #2e7d32; font-weight: bold; margin-top: 10px; display: none; font-size: 0.9em; }
     </style>
 </head>
 <body>
@@ -66,12 +51,14 @@
     </div>
 
     <div id="pantalla-inspiracion">
-        <h2 id="titulo-pasillo" style="color:#6d4c41"></h2>
+        <h2 id="titulo-pasillo" style="color:#6d4c41; text-transform: capitalize;"></h2>
         <p id="cita" style="font-style: italic; font-size: 1.2em; margin: 20px 0;"></p>
-        <p id="reto" style="background: #fdf5e6; padding: 15px; border-radius: 10px; font-weight: bold;"></p>
+        <p id="reto" style="background: #fdf5e6; padding: 15px; border-radius: 10px; font-weight: bold; color: #5d4037;"></p>
         
+        <p id="msg-hecho" class="mensaje-completado">✨ ¡Has completado este entrenamiento por hoy! ✨</p>
+        
+        <button id="btn-finalizar" class="btn-ready" onclick="finalizar()">ENTRENAMIENTO COMPLETADO</button>
         <button class="btn-back" onclick="regresar()">⬅ VOLVER A LOS PASILLOS</button>
-        <button class="btn-ready" onclick="finalizar()">ENTRENAMIENTO COMPLETADO</button>
     </div>
 
     <div class="racha">
@@ -79,54 +66,85 @@
     </div>
 
     <script>
-        const contenido = {
-            'resiliencia': {
-                t: 'Pasillo de Resiliencia',
-                c: 'No es la carga lo que te rompe, sino la forma en que la llevas.',
-                r: 'Reto: Escribe una situación difícil que superaste y agradécete por tu fuerza.'
-            },
-            'calma': {
-                t: 'Pasillo de Calma',
-                c: 'Dentro de ti hay una quietud que puede absorberlo todo.',
-                r: 'Reto: Cierra los ojos y respira profundamente 5 veces contando cada exhalación.'
-            },
-            'sabiduria': {
-                t: 'Pasillo de Sabiduría',
-                c: 'El conocimiento habla, pero la sabiduría escucha.',
-                r: 'Reto: Escucha a alguien hoy sin interrumpir ni planear tu respuesta.'
-            },
-            'empatia': {
-                t: 'Pasillo de Empatía',
-                c: 'La empatía es ver con los ojos de otro y sentir con su corazón.',
-                r: 'Reto: Envía un mensaje de gratitud a alguien que haya hecho algo bueno por ti.'
-            }
-        };
+        let bibliotecaFrases = {};
+        let categoriaActual = "";
+
+        // Cargar el JSON desde tu archivo datos.json
+        fetch('datos.json')
+            .then(res => res.json())
+            .then(data => {
+                bibliotecaFrases = data;
+                actualizarRachaInterfaz();
+            })
+            .catch(err => console.error("Error cargando frases:", err));
 
         function mostrarInspiracion(tipo) {
-            const data = contenido[tipo];
-            document.getElementById('titulo-pasillo').innerText = data.t;
-            document.getElementById('cita').innerText = '"' + data.c + '"';
-            document.getElementById('reto').innerText = data.r;
+            categoriaActual = tipo;
+            const lista = bibliotecaFrases[tipo];
+            
+            // Selección aleatoria
+            const azar = lista[Math.floor(Math.random() * lista.length)];
+
+            document.getElementById('titulo-pasillo').innerText = "Pasillo de " + tipo;
+            document.getElementById('cita').innerText = `"${azar.frase}"`;
+            document.getElementById('reto').innerText = "Tu reto: " + azar.reto;
             
             document.getElementById('seleccion').style.display = 'none';
             document.getElementById('pantalla-inspiracion').style.display = 'block';
+
+            verificarEstadoBoton();
+        }
+
+        function verificarEstadoBoton() {
+            const hoy = new Date().toDateString();
+            const completados = JSON.parse(localStorage.getItem('market_completados') || '{}');
+            const boton = document.getElementById('btn-finalizar');
+            const mensaje = document.getElementById('msg-hecho');
+
+            if (completados[categoriaActual] === hoy) {
+                boton.disabled = true;
+                boton.innerText = "¡LOGRADO!";
+                mensaje.style.display = "block";
+            } else {
+                boton.disabled = false;
+                boton.innerText = "ENTRENAMIENTO COMPLETADO";
+                mensaje.style.display = "none";
+            }
+        }
+
+        function finalizar() {
+            // LANZAR CONFETI 🎉
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#6d4c41', '#8bc34a', '#03a9f4', '#ffc107']
+            });
+
+            const hoy = new Date().toDateString();
+            let registro = JSON.parse(localStorage.getItem('market_completados') || '{}');
+            
+            // Guardar progreso diario por categoría
+            registro[categoriaActual] = hoy;
+            localStorage.setItem('market_completados', JSON.stringify(registro));
+
+            // Aumentar racha
+            let racha = parseInt(localStorage.getItem('market_racha') || 0);
+            racha++;
+            localStorage.setItem('market_racha', racha);
+
+            actualizarRachaInterfaz();
+            verificarEstadoBoton();
+        }
+
+        function actualizarRachaInterfaz() {
+            document.getElementById('contador').innerText = localStorage.getItem('market_racha') || 0;
         }
 
         function regresar() {
             document.getElementById('pantalla-inspiracion').style.display = 'none';
             document.getElementById('seleccion').style.display = 'block';
         }
-
-        function finalizar() {
-            let racha = localStorage.getItem('market_racha') || 0;
-            racha = parseInt(racha) + 1;
-            localStorage.setItem('market_racha', racha);
-            location.reload();
-        }
-
-            document.getElementById('contador').innerText = localStorage.getItem('market_racha') || 0;
     </script>
 </body>
 </html>
-
-
