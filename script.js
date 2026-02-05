@@ -107,5 +107,6 @@ function completarReto() {
 
 // 6. Sistema de Recompensas (5% y 10%)
 function revisarInsignias(totalDias) {
-    if (totalDias === 18) { 
+    if (totalDias === 1) { 
         mostrarModalInsignia("🎖️", "Hábito
+
