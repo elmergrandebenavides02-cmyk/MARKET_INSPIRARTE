@@ -1,100 +1,90 @@
-[2:18 p. m., 5/2/2026] Elmer Grande Benavides: let pasilloActual = 'calma'; 
-let db = {
-    // Frases de respaldo por si el archivo datos.json falla
-    "calma": [{"frase": "Respira hondo, todo fluye.", "reto": "Haz 3 respiraciones profundas ahora."}],
-    "resiliencia": [{"frase": "Eres más fuerte de lo que crees.", "reto": "Escribe una victoria de ayer."}],
-    "sabiduria": [{"frase": "Aprender es crecer.", "reto": "Lee 5 minutos de un libro."}],
-    "empatia": [{"frase": "Conecta con el corazón.", "reto": "Envía un mensaje amable a alguien."}]
-};
-
-const colores = {
-    'resiliencia': '#4caf50',
-    'sabiduria': '#0288d1',
-    'calma': '#ff7043',
-    'empatia': '#fbc02d'
-};
-
-window.onload = async () => {
-    try {
-        const res = await fetch('datos.json');
-        if (res.ok) {
-            const da…
-[2:28 p. m., 5/2/2026] Elmer Grande Benavides: // 1. LAS FRASES VAN AQUÍ ADENTRO (Eliminamos el fetch para evitar errores)
+// --- BLOQUE DE TUS FRASES ---
+// Asegúrate de que empiece con { y termine con }
 const frasesDB = {
     "calma": [
-        { "frase": "El silencio no está vacío, está lleno de respuestas.", "reto": "Permanece en silencio 10 min al despertar." },
-        { "frase": "Tu paz vale más que tener la razón.", "reto": "En una discusión, elige dejar de discutir aunque creas tener la razón." }
+        { "frase": "El silencio es el lenguaje de las respuestas.", "reto": "5 minutos de meditación." }
+        // Aquí siguen todas tus demás frases...
     ],
     "resiliencia": [
-        { "frase": "Nunca es tarde para ser lo que podrías haber sido.", "reto": "Dedica 15 min a un sueño que habías abandonado." }
+        { "frase": "Tu fuerza es mayor que cualquier reto.", "reto": "Escribe un logro de hoy." }
     ],
     "sabiduria": [
-        { "frase": "La duda es el principio de la sabiduría.", "reto": "Investiga hoy algo que siempre te haya causado curiosidad." }
+        { "frase": "Saber es recordar.", "reto": "Lee 3 páginas de algo nuevo." }
     ],
     "empatia": [
-        { "frase": "Nadie sabe las batallas que otros están librando.", "reto": "Haz un cumplido sincero a alguien que te caiga difícil." }
+        { "frase": "Mira con los ojos del otro.", "reto": "Haz un cumplido a un desconocido." }
     ]
 };
 
+// --- LÓGICA DE LA APLICACIÓN (No tocar nada de aquí abajo) ---
 let pasilloActual = 'calma';
-const colores = {
-    'resiliencia': '#4caf50',
-    'sabiduria': '#0288d1',
-    'calma': '#ff7043',
-    'empatia': '#fbc02d'
-};
+const colores = { 'resiliencia': '#4caf50', 'sabiduria': '#0288d1', 'calma': '#ff7043', 'empatia': '#fbc02d' };
 
-// 2. Iniciar la aplicación
 window.onload = () => {
-    // Detectar si viene de un pasillo específico por URL (?p=calma)
-    const params = new URLSearchParams(window.location.search);
-    const p = params.get('p');
-    if (p && frasesDB[p.toLowerCase()]) {
-        pasilloActual = p.toLowerCase();
+    console.log("Aplicación Iniciada");
+    try {
+        actualizarInterfaz();
+    } catch (error) {
+        console.error("Error crítico al cargar interfaz:", error);
+        document.getElementById('frase-display').innerText = "Error al leer las frases. Revisa las comas y corchetes.";
     }
-    actualizarInterfaz();
 };
-
-function obtenerDiaDelAnio() {
-    const ahora = new Date();
-    const inicio = new Date(ahora.getFullYear(), 0, 0);
-    const dif = ahora - inicio;
-    return Math.floor(dif / (1000 * 60 * 60 * 24));
-}
 
 function cambiarPasillo(nuevo) {
     pasilloActual = nuevo;
     actualizarInterfaz();
 }
 
+function obtenerDiaDelAnio() {
+    const ahora = new Date();
+    const inicio = new Date(ahora.getFullYear(), 0, 0);
+    return Math.floor((ahora - inicio) / 86400000);
+}
+
 function actualizarInterfaz() {
-    const datos = frasesDB[pasilloActual];
+    // 1. Validar que existan datos
+    const pasilloKey = pasilloActual.toLowerCase();
+    const datos = frasesDB[pasilloKey];
+
+    if (!datos || datos.length === 0) {
+        document.getElementById('frase-display').innerText = "No se encontraron frases para este pasillo.";
+        return;
+    }
+
+    // 2. Seleccionar frase por día
     const diaIndex = obtenerDiaDelAnio() % datos.length;
     const hoy = datos[diaIndex];
 
-    // Actualizar Textos
-    document.getElementById('titulo-pasillo').innerText = Pasillo de ${pasilloActual};
-    document.getElementById('frase-display').innerText = "${hoy.frase}";
-    document.getElementById('reto-display').innerText = hoy.reto;
-    document.getElementById('pasillo-nombre').innerText = pasilloActual.charAt(0).toUpperCase() + pasilloActual.slice(1);
+    // 3. Pintar en pantalla (Asegúrate que estos IDs existan en tu HTML)
+    if(document.getElementById('titulo-pasillo')) 
+        document.getElementById('titulo-pasillo').innerText = Pasillo de ${pasilloActual};
+    
+    if(document.getElementById('frase-display')) 
+        document.getElementById('frase-display').innerText = hoy.frase;
+    
+    if(document.getElementById('reto-display')) 
+        document.getElementById('reto-display').innerText = hoy.reto;
 
-    // Lógica de Progreso
+    // 4. Actualizar Barra y Racha
+    actualizarProgresoVisual();
+}
+
+function actualizarProgresoVisual() {
     const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     const listaDias = progreso[pasilloActual] || [];
     const numDias = listaDias.length;
     const porc = ((numDias / 365) * 100).toFixed(1);
 
-    document.getElementById('porcentaje-valor').innerText = numDias;
-    document.getElementById('porcentaje-txt').innerText = porc + "%";
+    if(document.getElementById('porcentaje-valor')) document.getElementById('porcentaje-valor').innerText = numDias;
+    if(document.getElementById('porcentaje-txt')) document.getElementById('porcentaje-txt').innerText = porc + "%";
     
-    // Mover barra y color
     const barra = document.getElementById('bar-progreso');
     if(barra) {
         barra.style.width = porc + "%";
-        barra.style.backgroundColor = colores[pasilloActual];
+        barra.style.backgroundColor = colores[pasilloActual] || '#6d4c41';
     }
 
-    // Estado del botón
+    // Botón Logrado
     const fechaHoy = new Date().toISOString().split('T')[0];
     const btn = document.getElementById('btn-logrado');
     if(btn) {
@@ -114,16 +104,8 @@ function actualizarInterfaz() {
 function completarReto() {
     let progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     if (!progreso[pasilloActual]) progreso[pasilloActual] = [];
-    
     const fechaHoy = new Date().toISOString().split('T')[0];
+
     if (!progreso[pasilloActual].includes(fechaHoy)) {
         progreso[pasilloActual].push(fechaHoy);
-        localStorage.setItem('progreso_market', JSON.stringify(progreso));
-        actualizarInterfaz();
-        
-        // Mostrar medalla al instante
-        lanzarMedalla("🎖️", "¡Reto Logrado!", Has sumado un día más en el pasillo de ${pasilloActual}.);
-    }
-}
-
-function lanzarMedalla(ico, tit, ms
+        localSt
