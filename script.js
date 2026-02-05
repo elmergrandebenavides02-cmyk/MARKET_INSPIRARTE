@@ -18,6 +18,14 @@ const frasesDB = {
     ]
 };
 
+// Variable para guardar la frase seleccionada en la sesión actual
+let fraseAsignada = {
+    resiliencia: null,
+    sabiduria: null,
+    calma: null,
+    empatia: null
+};
+
 let pasilloActual = '';
 const colores = { 'resiliencia': '#4caf50', 'sabiduria': '#0288d1', 'calma': '#ff7043', 'empatia': '#fbc02d' };
 
@@ -29,7 +37,25 @@ function irAPasillo(nombre) {
     pasilloActual = nombre;
     document.getElementById('menu-principal').style.display = 'none';
     document.getElementById('pantalla-reto').style.display = 'block';
+    
+    // Si no hay una frase asignada para este pasillo en esta sesión, elegimos una
+    if (!fraseAsignada[pasilloActual]) {
+        seleccionarFraseNueva();
+    }
+    
     actualizarInterfaz();
+}
+
+function seleccionarFraseNueva() {
+    const lista = frasesDB[pasilloActual];
+    let nuevaFrase;
+    
+    // Si hay más de una frase, intentamos que no repita la anterior (si existiera)
+    do {
+        nuevaFrase = lista[Math.floor(Math.random() * lista.length)];
+    } while (lista.length > 1 && fraseAsignada[pasilloActual] && nuevaFrase.frase === fraseAsignada[pasilloActual].frase);
+    
+    fraseAsignada[pasilloActual] = nuevaFrase;
 }
 
 function mostrarMenu() {
@@ -59,18 +85,13 @@ function actualizarMenuPrincipal() {
 }
 
 function actualizarInterfaz() {
-    const datos = frasesDB[pasilloActual];
-    
-    // Selección Aleatoria
-    const randomIndex = Math.floor(Math.random() * datos.length);
-    const hoy = datos[randomIndex];
+    const hoy = fraseAsignada[pasilloActual];
 
     document.getElementById('titulo-pasillo').innerText = "Pasillo de " + pasilloActual;
     document.getElementById('nombre-pasillo-txt').innerText = pasilloActual;
     document.getElementById('frase-display').innerText = '"' + hoy.frase + '"';
     document.getElementById('reto-display').innerText = hoy.reto;
 
-    // Racha y Barra de Reto
     const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     const listaDias = progreso[pasilloActual] || [];
     const numDias = listaDias.length;
@@ -86,7 +107,6 @@ function actualizarInterfaz() {
     const btn = document.getElementById('btn-logrado');
     btn.style.backgroundColor = colores[pasilloActual];
     
-    // Estado del botón hoy
     const fechaHoy = new Date().toISOString().split('T')[0];
     if (listaDias.includes(fechaHoy)) {
         btn.disabled = true;
@@ -109,7 +129,6 @@ function completarReto() {
         localStorage.setItem('progreso_market', JSON.stringify(progreso));
         actualizarInterfaz();
         
-        // Medalla al primer día para probar
         if(progreso[pasilloActual].length === 1) {
             lanzarMedalla("🎖️", "¡Buen inicio!", "Has comenzado tu camino en este pasillo.");
         }
