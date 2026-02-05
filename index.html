@@ -7,14 +7,13 @@
     <style>
         :root {
             --cafe: #6d4c41;
-            --fondo: #f8f9fa;
+            --fondo: #fdfaf5;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background-color: var(--fondo);
             margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
         }
@@ -23,21 +22,20 @@
             width: 100%;
             max-width: 400px;
             min-height: 100vh;
-            padding: 15px;
-            box-sizing: border-box;
         }
 
         header {
+            background-color: var(--cafe);
+            color: white;
             text-align: center;
-            padding: 10px 0;
-            color: var(--cafe);
+            padding: 25px 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         /* --- MENÚ PRINCIPAL --- */
         #menu-principal {
-            display: block; /* Se muestra al inicio */
+            padding: 20px;
             text-align: center;
-            animation: fadeIn 0.5s;
         }
 
         .grid-pasillos {
@@ -47,37 +45,63 @@
             margin-top: 20px;
         }
 
-        .btn-pasillo {
-            padding: 25px 10px;
-            border: none;
+        .card-menu {
+            background: white;
             border-radius: 20px;
-            color: white;
-            font-weight: bold;
-            font-size: 0.9rem;
+            padding: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             transition: transform 0.2s;
         }
 
-        .btn-pasillo:active { transform: scale(0.95); }
+        .card-menu:active { transform: scale(0.96); }
+
+        .btn-pasillo {
+            width: 100%;
+            padding: 15px 5px;
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            pointer-events: none;
+        }
+
+        .mini-bar-bg {
+            width: 100%;
+            background: #eee;
+            height: 6px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .mini-bar {
+            width: 0%;
+            height: 100%;
+            transition: width 0.5s;
+        }
+
+        .mini-txt {
+            font-size: 0.7rem;
+            margin: 5px 0 0;
+            color: #777;
+            font-weight: bold;
+        }
 
         /* --- PANTALLA DE RETO --- */
         #pantalla-reto {
-            display: none; /* Oculto al inicio */
-            animation: fadeIn 0.5s;
+            display: none;
+            padding: 15px;
         }
 
         .card-stats {
             background: white;
             border: 2px solid var(--cafe);
-            border-radius: 15px;
-            padding: 10px;
+            border-radius: 20px;
+            padding: 15px;
             text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .progress-wrapper {
-            margin: 15px 0;
+            margin: 10px 0 20px 0;
         }
 
         .progress-bg {
@@ -86,69 +110,54 @@
             height: 12px;
             border-radius: 10px;
             overflow: hidden;
-            border: 1px solid #ccc;
         }
 
         .progress-bar {
             width: 0%;
             height: 100%;
-            transition: width 1s ease-in-out, background-color 0.5s;
+            transition: width 0.8s ease;
         }
 
         .reto-box {
             background: white;
-            border-radius: 25px;
-            padding: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-radius: 30px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
             text-align: center;
-        }
-
-        .frase-texto {
-            font-style: italic;
-            font-size: 1.1rem;
-            margin: 15px 0;
-            color: #333;
-            min-height: 50px;
         }
 
         .reto-detalle {
             background: #fff9c4;
-            padding: 12px;
-            border-left: 5px solid #fbc02d;
+            padding: 15px;
+            border-left: 6px solid #fbc02d;
             text-align: left;
-            margin: 15px 0;
-            font-size: 0.9rem;
-            border-radius: 0 10px 10px 0;
+            margin: 20px 0;
+            border-radius: 0 15px 15px 0;
         }
 
         .btn-logrado {
             width: 100%;
-            padding: 15px;
-            border-radius: 30px;
+            padding: 18px;
+            border-radius: 35px;
             border: none;
             color: white;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
-            margin-bottom: 10px;
         }
 
         .btn-volver {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            background: white;
-            border-radius: 30px;
-            color: #666;
+            padding: 12px;
+            border: 1px solid #ddd;
+            background: none;
+            border-radius: 35px;
+            color: #888;
+            margin-top: 15px;
             cursor: pointer;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* Modal Medallas */
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -164,48 +173,57 @@
 
 <div class="container">
     <header>
-        <h2 style="margin: 0; letter-spacing: 1px;">MARKET INSPIRARTE</h2>
-        <p style="margin: 5px 0; font-size: 0.8rem;">BIENESTAR DIARIO</p>
+        <h1 style="margin: 0; font-size: 1.6rem;">MARKET INSPIRARTE</h1>
+        <p style="margin: 5px 0; opacity: 0.9; font-size: 0.8rem;">BIENESTAR DIARIO</p>
     </header>
 
     <div id="menu-principal">
-        <h3 style="color: var(--cafe); margin-top: 20px;">Elige tu pasillo de hoy:</h3>
+        <h3 style="color: var(--cafe); margin-top: 20px;">Tu avance por pasillo:</h3>
         <div class="grid-pasillos">
-            <button onclick="irAPasillo('resiliencia')" class="btn-pasillo" style="background: #4caf50;">🌿<br>RESILIENCIA</button>
-            <button onclick="irAPasillo('sabiduria')" class="btn-pasillo" style="background: #0288d1;">📖<br>SABIDURÍA</button>
-            <button onclick="irAPasillo('calma')" class="btn-pasillo" style="background: #ff7043;">🧘<br>CALMA</button>
-            <button onclick="irAPasillo('empatia')" class="btn-pasillo" style="background: #fbc02d;">🤝<br>EMPATÍA</button>
+            <div onclick="irAPasillo('resiliencia')" class="card-menu">
+                <button class="btn-pasillo" style="background: #4caf50;">🌿 RESILIENCIA</button>
+                <div class="mini-bar-bg"><div id="mini-bar-resiliencia" class="mini-bar"></div></div>
+                <p class="mini-txt"><span id="mini-dias-resiliencia">0</span> días</p>
+            </div>
+            <div onclick="irAPasillo('sabiduria')" class="card-menu">
+                <button class="btn-pasillo" style="background: #0288d1;">📖 SABIDURÍA</button>
+                <div class="mini-bar-bg"><div id="mini-bar-sabiduria" class="mini-bar"></div></div>
+                <p class="mini-txt"><span id="mini-dias-sabiduria">0</span> días</p>
+            </div>
+            <div onclick="irAPasillo('calma')" class="card-menu">
+                <button class="btn-pasillo" style="background: #ff7043;">🧘 CALMA</button>
+                <div class="mini-bar-bg"><div id="mini-bar-calma" class="mini-bar"></div></div>
+                <p class="mini-txt"><span id="mini-dias-calma">0</span> días</p>
+            </div>
+            <div onclick="irAPasillo('empatia')" class="card-menu">
+                <button class="btn-pasillo" style="background: #fbc02d;">🤝 EMPATÍA</button>
+                <div class="mini-bar-bg"><div id="mini-bar-empatia" class="mini-bar"></div></div>
+                <p class="mini-txt"><span id="mini-dias-empatia">0</span> días</p>
+            </div>
         </div>
     </div>
 
     <div id="pantalla-reto">
         <div class="card-stats">
-            <span style="font-weight: bold; color: var(--cafe);">🔥 Racha <span id="nombre-pasillo-txt"></span>:</span>
-            <span id="porcentaje-valor" style="font-size: 1.2rem; font-weight: bold;">0</span> días
+            <span style="font-weight: bold; color: var(--cafe);">🔥 Racha en <span id="nombre-pasillo-txt"></span>:</span>
+            <span id="porcentaje-valor" style="font-size: 1.3rem; font-weight: bold;">0</span> días
         </div>
 
-        <div class="progress-wrapper">
-            <div class="progress-bg">
-                <div id="bar-progreso" class="progress-bar"></div>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 0.7rem; font-weight: bold; color: #666; margin-top: 4px;">
-                <span>META ANUAL</span>
-                <span id="porcentaje-txt">0%</span>
-            </div>
+        <div class="progress-bg">
+            <div id="bar-progreso" class="progress-bar"></div>
         </div>
+        <p style="text-align: right; font-size: 0.7rem; color: #999; margin-top: 5px; font-weight: bold;">META ANUAL: <span id="porcentaje-txt">0%</span></p>
 
         <div class="reto-box">
-            <h2 id="titulo-pasillo" style="margin: 0; color: var(--cafe); text-transform: capitalize;">Pasillo</h2>
-            <p id="frase-display" class="frase-texto">"Cargando inspiración..."</p>
+            <h2 id="titulo-pasillo" style="color: var(--cafe); margin-top: 0; text-transform: capitalize;"></h2>
+            <p id="frase-display" style="font-style: italic; font-size: 1.2rem; min-height: 60px;">"..."</p>
             
             <div class="reto-detalle">
                 <strong>💪 EL RETO:</strong><br>
-                <span id="reto-display">Cargando reto...</span>
+                <span id="reto-display">...</span>
             </div>
 
             <button id="btn-logrado" onclick="completarReto()" class="btn-logrado">¡LOGRADO!</button>
-            <p id="confirmacion-texto" style="display:none; color: green; font-weight: bold; margin-bottom: 10px;">✨ ¡Reto cumplido hoy! ✨</p>
-            
             <button onclick="mostrarMenu()" class="btn-volver">← VOLVER AL MENÚ</button>
         </div>
     </div>
@@ -213,10 +231,10 @@
 
 <div id="modal-insignia" class="modal" onclick="this.style.display='none'">
     <div style="background: white; padding: 30px; border-radius: 20px; text-align: center; max-width: 280px;">
-        <div id="insignia-icon" style="font-size: 4rem;">🎖️</div>
-        <h3 id="insignia-titulo" style="color: var(--cafe);"></h3>
-        <p id="insignia-msj" style="color: #666;"></p>
-        <button style="background: var(--cafe); color: white; border: none; padding: 10px 20px; border-radius: 15px; margin-top: 10px;">¡Súper!</button>
+        <div id="insignia-icon" style="font-size: 3rem;">🎖️</div>
+        <h3 id="insignia-titulo" style="color: var(--cafe); margin: 10px 0;"></h3>
+        <p id="insignia-msj" style="color: #666; font-size: 0.9rem;"></p>
+        <button style="background: var(--cafe); color: white; border: none; padding: 10px 20px; border-radius: 15px; margin-top: 15px;">¡Entendido!</button>
     </div>
 </div>
 
