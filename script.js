@@ -27,8 +27,10 @@ function obtenerDiaDelAnio() {
     return Math.floor(dif / (1000 * 60 * 60 * 24));
 }
 
-// 4. Actualizar toda la pantalla
+// 4. Actualizar toda la pantalla (Interfaz, Barra y Racha)
 function actualizarInterfaz() {
+    if (!db[pasilloActual]) return;
+
     // Mostrar frase y reto según el día
     const diaIndex = obtenerDiaDelAnio() % db[pasilloActual].length;
     const dataHoy = db[pasilloActual][diaIndex];
@@ -38,16 +40,32 @@ function actualizarInterfaz() {
     document.getElementById('reto-display').innerText = dataHoy.reto;
     document.getElementById('pasillo-nombre').innerText = pasilloActual.charAt(0).toUpperCase() + pasilloActual.slice(1);
 
-    // Calcular y mostrar avance progresivo por pasillo
+    // --- LÓGICA DE AVANCE Y BARRA ---
     const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     const diasCompletados = progreso[pasilloActual] ? progreso[pasilloActual].length : 0;
+    
+    // Cálculo de porcentaje sobre meta de 365 días
     const porcentaje = ((diasCompletados / 365) * 100).toFixed(1);
     
-    document.getElementById('porcentaje-valor').innerText = ${porcentaje}% de constancia;
+    // Actualizar Texto de Días (Racha)
+    if(document.getElementById('porcentaje-valor')) {
+        document.getElementById('porcentaje-valor').innerText = ${diasCompletados} Días;
+    }
 
-    // Estado del botón "Logrado"
+    // Actualizar Texto de Porcentaje debajo de la barra
+    if(document.getElementById('porcentaje-txt')) {
+        document.getElementById('porcentaje-txt').innerText = ${porcentaje}%;
+    }
+
+    // Mover la Barra de Progreso físicamente
+    if(document.getElementById('bar-progreso')) {
+        document.getElementById('bar-progreso').style.width = ${porcentaje}%;
+    }
+
+    // --- ESTADO DEL BOTÓN "LOGRADO" ---
     const hoy = new Date().toISOString().split('T')[0];
     const btn = document.getElementById('btn-logrado');
+    
     if (progreso[pasilloActual]?.includes(hoy)) {
         btn.disabled = true;
         btn.innerText = "¡YA CUMPLIDO!";
@@ -72,32 +90,18 @@ function completarReto() {
         
         actualizarInterfaz();
         
-        // Revisar si merece medalla por este pasillo
+        // Revisar si merece medalla por los días acumulados en este pasillo
         revisarInsignias(progreso[pasilloActual].length);
     }
 }
 
 // 6. Sistema de Recompensas (5% y 10%)
 function revisarInsignias(totalDias) {
-    if (totalDias === 18) { // 5% de 365
+    // 5% es aprox día 18 | 10% es aprox día 36
+    if (totalDias === 18) { 
         mostrarModalInsignia("🎖️", "Hábito Iniciado (5%)", "¡Felicidades! Estás construyendo una nueva versión de ti mismo.");
     } 
-    else if (totalDias === 36) { // 10% de 365
+    else if (totalDias === 36) { 
         const mensajes10 = {
             'calma': "Maestro de la Pausa: En un mundo que corre, tú has elegido respirar. Tu mente ahora es un refugio.",
-            'resiliencia': "Corazón de Roble: Has transformado la madera de tu llavero en una armadura mental.",
-            'sabiduria': "Mente Clara: La sabiduría se construye con la reflexión diaria que has practicado.",
-            'empatia': "Arquitecto de Conexiones: Eres el puente que el mundo necesita. ¡Sigue construyendo!"
-        };
-        mostrarModalInsignia("✨", "Disciplina de Acero (10%)", mensajes10[pasilloActual]);
-    }
-}
-
-function mostrarModalInsignia(icono, titulo, msj) {
-    // Asegúrate de tener estos IDs en tu HTML para el modal
-    document.getElementById('insignia-icon').innerText = icono;
-    document.getElementById('insignia-titulo').innerText = titulo;
-    document.getEgetElementById('pantalla-inspiracion').style.display = 'none';
-    document.getElementById('seleccion').style.display = 'block';
-
-}
+            'resiliencia': "Corazón de Roble: Has transformado
