@@ -1,135 +1,118 @@
-// --- CONFIGURACIÓN GLOBAL ---
-let pasilloActual = 'calma';
-let frasesDB = {}; // Se llenará con el archivo datos.json
-
-// Colores oficiales para cada pasillo
-const colores = {
-    'resiliencia': '#4caf50', // Verde
-    'sabiduria': '#0288d1',    // Azul
-    'calma': '#ff7043',        // Naranja
-    'empatia': '#fbc02d'       // Amarillo
+const frasesDB = {
+    "calma": [
+        { "frase": "El silencio no está vacío, está lleno de respuestas.", "reto": "Permanece en silencio 10 min al despertar hoy." },
+        { "frase": "Tu paz vale más que tener la razón.", "reto": "No entres en discusiones innecesarias hoy." },
+        { "frase": "La calma es el superpoder del alma.", "reto": "Haz 5 respiraciones profundas antes de cada comida." }
+    ],
+    "resiliencia": [
+        { "frase": "Nunca es tarde para ser lo que podrías haber sido.", "reto": "Dedica 15 min a un sueño que habías dejado de lado." },
+        { "frase": "Los robles más fuertes crecen contra el viento.", "reto": "Escribe una meta pequeña y cúmplela hoy mismo." }
+    ],
+    "sabiduria": [
+        { "frase": "La duda es el principio de la sabiduría.", "reto": "Lee 5 páginas de un libro que te enseñe algo nuevo." },
+        { "frase": "Saber que no se sabe es la mayor sabiduría.", "reto": "Pregúntale a alguien experto sobre un tema que desconozcas." }
+    ],
+    "empatia": [
+        { "frase": "Mira con los ojos de otro.", "reto": "Haz un cumplido sincero a alguien que no conozcas bien." },
+        { "frase": "La empatía es escuchar sin juzgar.", "reto": "Escucha a un compañero sin interrumpir durante 5 minutos." }
+    ]
 };
 
-// 1. CARGA INICIAL
-window.onload = async () => {
-    try {
-        const res = await fetch('datos.json');
-        if (!res.ok) throw new Error("No se pudo cargar datos.json");
-        frasesDB = await res.json();
-        console.log("Base de datos de frases cargada con éxito.");
-    } catch (e) {
-        console.error("Error crítico:", e);
-        alert("Atención: No se pudieron cargar las frases. Revisa el archivo datos.json");
-    }
+let pasilloActual = '';
+const colores = { 'resiliencia': '#4caf50', 'sabiduria': '#0288d1', 'calma': '#ff7043', 'empatia': '#fbc02d' };
+
+window.onload = () => {
+    actualizarMenuPrincipal();
 };
 
-// 2. NAVEGACIÓN
 function irAPasillo(nombre) {
-    pasilloActual = nombre.toLowerCase();
-    
-    // Cambiar pantallas
+    pasilloActual = nombre;
     document.getElementById('menu-principal').style.display = 'none';
     document.getElementById('pantalla-reto').style.display = 'block';
-    
     actualizarInterfaz();
 }
 
 function mostrarMenu() {
     document.getElementById('menu-principal').style.display = 'block';
     document.getElementById('pantalla-reto').style.display = 'none';
+    actualizarMenuPrincipal();
 }
 
-// 3. LÓGICA DE TIEMPO (1 frase por día del año)
-function obtenerDiaDelAnio() {
-    const ahora = new Date();
-    const inicio = new Date(ahora.getFullYear(), 0, 0);
-    const dif = ahora - inicio;
-    return Math.floor(dif / (1000 * 60 * 60 * 24));
+function actualizarMenuPrincipal() {
+    const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
+    const pasillos = ['resiliencia', 'sabiduria', 'calma', 'empatia'];
+
+    pasillos.forEach(p => {
+        const lista = progreso[p] || [];
+        const numDias = lista.length;
+        const porc = ((numDias / 365) * 100).toFixed(1);
+
+        if (document.getElementById(`mini-dias-${p}`)) 
+            document.getElementById(`mini-dias-${p}`).innerText = numDias;
+
+        const barra = document.getElementById(`mini-bar-${p}`);
+        if (barra) {
+            barra.style.width = porc + "%";
+            barra.style.backgroundColor = colores[p];
+        }
+    });
 }
 
-// 4. ACTUALIZACIÓN VISUAL
 function actualizarInterfaz() {
-    const datosPasillo = frasesDB[pasilloActual];
+    const datos = frasesDB[pasilloActual];
     
-    if (!datosPasillo || datosPasillo.length === 0) {
-        console.error("No hay frases para el pasillo:", pasilloActual);
-        return;
-    }
+    // Selección Aleatoria
+    const randomIndex = Math.floor(Math.random() * datos.length);
+    const hoy = datos[randomIndex];
 
-    // Seleccionar frase basada en el día actual
-    const diaIndex = obtenerDiaDelAnio() % datosPasillo.length;
-    const hoy = datosPasillo[diaIndex];
-
-    // Llenar textos en el HTML
     document.getElementById('titulo-pasillo').innerText = "Pasillo de " + pasilloActual;
     document.getElementById('nombre-pasillo-txt').innerText = pasilloActual;
-    document.getElementById('frase-display').innerText = `"${hoy.frase}"`;
+    document.getElementById('frase-display').innerText = '"' + hoy.frase + '"';
     document.getElementById('reto-display').innerText = hoy.reto;
 
-    // --- MANEJO DE PROGRESO ---
+    // Racha y Barra de Reto
     const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     const listaDias = progreso[pasilloActual] || [];
     const numDias = listaDias.length;
-    
-    // Calcular porcentaje sobre meta de 365 días
     const porc = ((numDias / 365) * 100).toFixed(1);
 
-    // Actualizar racha y porcentaje
     document.getElementById('porcentaje-valor').innerText = numDias;
     document.getElementById('porcentaje-txt').innerText = porc + "%";
     
-    // Mover barra y cambiar su color
     const barra = document.getElementById('bar-progreso');
-    if (barra) {
-        barra.style.width = porc + "%";
-        barra.style.backgroundColor = colores[pasilloActual];
-    }
+    barra.style.width = porc + "%";
+    barra.style.backgroundColor = colores[pasilloActual];
 
-    // --- ESTADO DEL BOTÓN ---
     const btn = document.getElementById('btn-logrado');
-    const confirmacion = document.getElementById('confirmacion-texto');
+    btn.style.backgroundColor = colores[pasilloActual];
+    
+    // Estado del botón hoy
     const fechaHoy = new Date().toISOString().split('T')[0];
-
-    if (btn) {
-        btn.style.backgroundColor = colores[pasilloActual];
-        if (listaDias.includes(fechaHoy)) {
-            btn.disabled = true;
-            btn.innerText = "¡YA CUMPLIDO!";
-            confirmacion.style.display = 'block';
-        } else {
-            btn.disabled = false;
-            btn.innerText = "¡LOGRADO!";
-            confirmacion.style.display = 'none';
-        }
+    if (listaDias.includes(fechaHoy)) {
+        btn.disabled = true;
+        btn.innerText = "¡YA CUMPLIDO!";
+        btn.style.opacity = "0.6";
+    } else {
+        btn.disabled = false;
+        btn.innerText = "¡LOGRADO!";
+        btn.style.opacity = "1";
     }
 }
 
-// 5. REGISTRAR EL LOGRO
 function completarReto() {
     let progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     if (!progreso[pasilloActual]) progreso[pasilloActual] = [];
     
     const hoy = new Date().toISOString().split('T')[0];
-
     if (!progreso[pasilloActual].includes(hoy)) {
         progreso[pasilloActual].push(hoy);
         localStorage.setItem('progreso_market', JSON.stringify(progreso));
-        
         actualizarInterfaz();
         
-        // Sistema de Medallas
-        revisarMedallas(progreso[pasilloActual].length);
-    }
-}
-
-// 6. SISTEMA DE RECOMPENSAS
-function revisarMedallas(total) {
-    if (total === 1) {
-        lanzarMedalla("🎖️", "¡Primer Gran Paso!", "Has iniciado oficialmente tu camino en el pasillo de " + pasilloActual + ".");
-    } else if (total === 18) {
-        lanzarMedalla("🥉", "Hábito Iniciado (5%)", "¡Felicidades! Estás construyendo una disciplina imparable.");
-    } else if (total === 36) {
-        lanzarMedalla("✨", "Disciplina de Hierro (10%)", "Has completado el 10% del año. ¡Tu mente está en otro nivel!");
+        // Medalla al primer día para probar
+        if(progreso[pasilloActual].length === 1) {
+            lanzarMedalla("🎖️", "¡Buen inicio!", "Has comenzado tu camino en este pasillo.");
+        }
     }
 }
 
