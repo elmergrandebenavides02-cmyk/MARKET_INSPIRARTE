@@ -25,6 +25,14 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            <div id="modal-insignia" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center;" onclick="this.style.display='none'">
+    <div style="background:white; padding:30px; border-radius:20px; text-align:center; max-width:300px; border:3px solid #d4a373;">
+        <div id="insignia-icon" style="font-size:3rem; margin-bottom:10px;"></div>
+        <h3 id="insignia-titulo" style="color:#a98467; margin-bottom:10px;"></h3>
+        <p id="insignia-msj" style="font-size:0.9rem; color:#666;"></p>
+        <p style="margin-top:15px; font-size:0.7rem; color:#aaa;">(Toca en cualquier parte para cerrar)</p>
+    </div>
+</div>
         }
 
         /* --- MURO DE ACCESO SEGURO --- */
@@ -326,6 +334,7 @@
     </script>
 </body>
 </html>
+
 
 
 
