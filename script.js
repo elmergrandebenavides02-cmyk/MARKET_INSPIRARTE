@@ -1,33 +1,38 @@
-let pasilloActual = 'calma'; // Pasillo inicial
-let db = {};
-const pasillos = ['resiliencia', 'sabiduria', 'calma', 'empatia'];
-
-// Configuración de colores por pasillo (Ajustados a tu diseño)
-const coloresPasillos = {
-    'resiliencia': '#84a59d', // Verde suave
-    'sabiduria': '#006d77',    // Azul petróleo
-    'calma': '#f28482',        // Naranja/Coral
-    'empatia': '#f6bd60'       // Amarillo/Naranja cálido
+let pasilloActual = 'calma'; 
+let db = {
+    // Frases de respaldo por si el archivo datos.json falla
+    "calma": [{"frase": "Respira hondo, todo fluye.", "reto": "Haz 3 respiraciones profundas ahora."}],
+    "resiliencia": [{"frase": "Eres más fuerte de lo que crees.", "reto": "Escribe una victoria de ayer."}],
+    "sabiduria": [{"frase": "Aprender es crecer.", "reto": "Lee 5 minutos de un libro."}],
+    "empatia": [{"frase": "Conecta con el corazón.", "reto": "Envía un mensaje amable a alguien."}]
 };
 
-// 1. Cargar frases y actualizar interfaz al iniciar
+const colores = {
+    'resiliencia': '#4caf50',
+    'sabiduria': '#0288d1',
+    'calma': '#ff7043',
+    'empatia': '#fbc02d'
+};
+
 window.onload = async () => {
     try {
         const res = await fetch('datos.json');
-        db = await res.json();
-        actualizarInterfaz();
-    } catch (e) { 
-        console.error("Error cargando base de datos", e); 
+        if (res.ok) {
+            const data = await res.json();
+            db = data; // Si el archivo existe y es válido, usa tus 400 frases
+            console.log("Frases cargadas con éxito");
+        }
+    } catch (e) {
+        console.warn("Usando frases de respaldo. Revisa tu archivo datos.json", e);
     }
+    actualizarInterfaz();
 };
 
-// 2. Cambiar entre pasillos
-function cambiarPasillo(nuevoPasillo) {
-    pasilloActual = nuevoPasillo;
+function cambiarPasillo(nuevo) {
+    pasilloActual = nuevo;
     actualizarInterfaz();
 }
 
-// 3. Lógica para mostrar la frase del día (1 de 365)
 function obtenerDiaDelAnio() {
     const ahora = new Date();
     const inicio = new Date(ahora.getFullYear(), 0, 0);
@@ -35,78 +40,71 @@ function obtenerDiaDelAnio() {
     return Math.floor(dif / (1000 * 60 * 60 * 24));
 }
 
-// 4. Actualizar toda la pantalla (Interfaz, Barra y Racha)
 function actualizarInterfaz() {
-    if (!db[pasilloActual]) return;
+    const pasilloKey = pasilloActual.toLowerCase(); // Asegura minúsculas
+    if (!db[pasilloKey]) return;
 
-    // Mostrar frase y reto según el día
-    const diaIndex = obtenerDiaDelAnio() % db[pasilloActual].length;
-    const dataHoy = db[pasilloActual][diaIndex];
+    // Seleccionar frase
+    const frasesPasillo = db[pasilloKey];
+    const diaIndex = obtenerDiaDelAnio() % frasesPasillo.length;
+    const hoy = frasesPasillo[diaIndex];
 
+    // Actualizar Textos
     document.getElementById('titulo-pasillo').innerText = Pasillo de ${pasilloActual};
-    document.getElementById('frase-display').innerText = "${dataHoy.frase}";
-    document.getElementById('reto-display').innerText = dataHoy.reto;
+    document.getElementById('frase-display').innerText = hoy.frase;
+    document.getElementById('reto-display').innerText = hoy.reto;
     document.getElementById('pasillo-nombre').innerText = pasilloActual.charAt(0).toUpperCase() + pasilloActual.slice(1);
+    document.getElementById('nombre-pasillo-stats').innerText = pasilloActual;
 
-    // --- LÓGICA DE AVANCE Y BARRA ---
+    // Lógica de Progreso
     const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
-    const diasCompletados = progreso[pasilloActual] ? progreso[pasilloActual].length : 0;
-    
-    // Cálculo de porcentaje sobre meta de 365 días
-    const porcentaje = ((diasCompletados / 365) * 100).toFixed(1);
-    
-    // Actualizar Texto de Días (Racha)
-    if(document.getElementById('porcentaje-valor')) {
-        document.getElementById('porcentaje-valor').innerText = ${diasCompletados} Días;
-    }
+    const listaDias = progreso[pasilloKey] || [];
+    const numDias = listaDias.length;
+    const porc = ((numDias / 365) * 100).toFixed(1);
 
-    // Actualizar Texto de Porcentaje debajo de la barra
-    if(document.getElementById('porcentaje-txt')) {
-        document.getElementById('porcentaje-txt').innerText = ${porcentaje}%;
-    }
-
-    // --- CAMBIO DE COLOR Y MOVIMIENTO DE BARRA ---
+    document.getElementById('porcentaje-valor').innerText = numDias;
+    document.getElementById('porcentaje-txt').innerText = porc + "%";
+    
     const barra = document.getElementById('bar-progreso');
     if(barra) {
-        barra.style.width = ${porcentaje}%;
-        barra.style.backgroundColor = coloresPasillos[pasilloActual]; // Aplica el color del pasillo
+        barra.style.width = porc + "%";
+        barra.style.backgroundColor = colores[pasilloKey];
     }
 
-    // --- ESTADO DEL BOTÓN "LOGRADO" ---
-    const hoy = new Date().toISOString().split('T')[0];
+    // Botón
+    const fechaHoy = new Date().toISOString().split('T')[0];
     const btn = document.getElementById('btn-logrado');
-    
-    if (progreso[pasilloActual]?.includes(hoy)) {
-        btn.disabled = true;
-        btn.innerText = "¡YA CUMPLIDO!";
-        document.getElementById('logro-confirmacion').style.display = 'block';
-    } else {
-        btn.disabled = false;
-        btn.innerText = "¡LOGRADO!";
-        document.getElementById('logro-confirmacion').style.display = 'none';
+    if(btn) {
+        btn.style.backgroundColor = colores[pasilloKey];
+        if (listaDias.includes(fechaHoy)) {
+            btn.disabled = true;
+            btn.innerText = "¡YA CUMPLIDO!";
+            document.getElementById('logro-confirmacion').style.display = 'block';
+        } else {
+            btn.disabled = false;
+            btn.innerText = "¡LOGRADO!";
+            document.getElementById('logro-confirmacion').style.display = 'none';
+        }
     }
 }
 
-// 5. Registrar el logro y revisar recompensas
 function completarReto() {
     let progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
-    const hoy = new Date().toISOString().split('T')[0];
-
-    if (!progreso[pasilloActual]) progreso[pasilloActual] = [];
+    const pasilloKey = pasilloActual.toLowerCase();
+    if (!progreso[pasilloKey]) progreso[pasilloKey] = [];
     
-    if (!progreso[pasilloActual].includes(hoy)) {
-        progreso[pasilloActual].push(hoy);
+    const fechaHoy = new Date().toISOString().split('T')[0];
+    if (!progreso[pasilloKey].includes(fechaHoy)) {
+        progreso[pasilloKey].push(fechaHoy);
         localStorage.setItem('progreso_market', JSON.stringify(progreso));
-        
         actualizarInterfaz();
         
-        // Revisar si merece medalla por los días acumulados en este pasillo
-        revisarInsignias(progreso[pasilloActual].length);
+        // Medalla al completar el primer día (luego cambia a 18)
+        if(progreso[pasilloKey].length === 1) {
+            lanzarMedalla("🎖️", "¡Buen inicio!", "Has comenzado tu camino en este pasillo.");
+        }
     }
 }
 
-// 6. Sistema de Recompensas (5% y 10%)
-function revisarInsignias(totalDias) {
-    if (totalDias === 1) { 
-        mostrarModalInsignia("🎖️", "Hábito
-
+function lanzarMedalla(ico, tit, msg) {
+    document.getEle
