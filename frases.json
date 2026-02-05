@@ -1,4 +1,4 @@
-{
+const frasesDB = {
   "resiliencia": [
     {"id": 1, "frase": "No es la carga lo que te rompe, sino la forma en que la llevas.", "reto": "Hoy, identifica una responsabilidad pesada y decide afrontarla con una sonrisa."},
     {"id": 2, "frase": "La caída es un accidente, mantenerse en el suelo es una elección.", "reto": "Levántate 5 minutos antes de lo habitual para demostrarte que tienes el control."},
@@ -807,7 +807,8 @@
     {"id": 200, "frase": "La empatía es el puente hacia la paz.", "reto": "Llama a un amigo del que no hayas sabido en meses solo para saber cómo está."}
   ]
 
-}
+};
+
 
 
 
