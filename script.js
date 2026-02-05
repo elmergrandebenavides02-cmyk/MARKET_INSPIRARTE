@@ -2,6 +2,14 @@ let pasilloActual = 'calma'; // Pasillo inicial
 let db = {};
 const pasillos = ['resiliencia', 'sabiduria', 'calma', 'empatia'];
 
+// Configuración de colores por pasillo (Ajustados a tu diseño)
+const coloresPasillos = {
+    'resiliencia': '#84a59d', // Verde suave
+    'sabiduria': '#006d77',    // Azul petróleo
+    'calma': '#f28482',        // Naranja/Coral
+    'empatia': '#f6bd60'       // Amarillo/Naranja cálido
+};
+
 // 1. Cargar frases y actualizar interfaz al iniciar
 window.onload = async () => {
     try {
@@ -57,9 +65,11 @@ function actualizarInterfaz() {
         document.getElementById('porcentaje-txt').innerText = ${porcentaje}%;
     }
 
-    // Mover la Barra de Progreso físicamente
-    if(document.getElementById('bar-progreso')) {
-        document.getElementById('bar-progreso').style.width = ${porcentaje}%;
+    // --- CAMBIO DE COLOR Y MOVIMIENTO DE BARRA ---
+    const barra = document.getElementById('bar-progreso');
+    if(barra) {
+        barra.style.width = ${porcentaje}%;
+        barra.style.backgroundColor = coloresPasillos[pasilloActual]; // Aplica el color del pasillo
     }
 
     // --- ESTADO DEL BOTÓN "LOGRADO" ---
@@ -97,11 +107,5 @@ function completarReto() {
 
 // 6. Sistema de Recompensas (5% y 10%)
 function revisarInsignias(totalDias) {
-    // 5% es aprox día 18 | 10% es aprox día 36
     if (totalDias === 18) { 
-        mostrarModalInsignia("🎖️", "Hábito Iniciado (5%)", "¡Felicidades! Estás construyendo una nueva versión de ti mismo.");
-    } 
-    else if (totalDias === 36) { 
-        const mensajes10 = {
-            'calma': "Maestro de la Pausa: En un mundo que corre, tú has elegido respirar. Tu mente ahora es un refugio.",
-            'resiliencia': "Corazón de Roble: Has transformado
+        mostrarModalInsignia("🎖️", "Hábito
