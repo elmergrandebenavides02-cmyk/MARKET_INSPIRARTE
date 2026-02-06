@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Inspirarte - Pro</title>
+    <title>Market Inspirarte - Bienestar Pro</title>
     <style>
         :root {
             --cafe: #6d4c41;
@@ -13,49 +13,54 @@
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--fondo);
             margin: 0;
             display: flex;
             justify-content: center;
+            color: #333;
         }
 
         .container {
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             min-height: 100vh;
             background: white;
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
         }
 
         header {
             background-color: var(--cafe);
             color: white;
             text-align: center;
-            padding: 25px 15px;
+            padding: 30px 15px;
+            border-bottom: 5px solid var(--oro);
         }
 
         /* --- MENÚ PRINCIPAL --- */
         #menu-principal {
             padding: 20px;
-            text-align: center;
+            flex-grow: 1;
         }
 
         .card-vip {
-            display: none; 
+            display: none; /* Se activa vía JS */
             background: linear-gradient(145deg, #ffffff, #fff9e6);
             border: 2px solid var(--oro);
             border-radius: 20px;
             padding: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
             animation: pulse-vip 2s infinite;
         }
 
         @keyframes pulse-vip {
             0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
+            50% { transform: scale(1.03); }
             100% { transform: scale(1); }
         }
 
@@ -68,80 +73,95 @@
         .card-menu {
             background: white;
             border-radius: 20px;
-            padding: 12px;
+            padding: 15px;
             border: 1px solid #eee;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             cursor: pointer;
+            transition: transform 0.2s;
         }
+
+        .card-menu:active { transform: scale(0.95); }
 
         .btn-pasillo {
             width: 100%;
-            padding: 15px 5px;
+            padding: 12px 5px;
             border: none;
-            border-radius: 15px;
+            border-radius: 12px;
             color: white;
             font-weight: bold;
-            font-size: 0.8rem;
-            margin-bottom: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
             pointer-events: none;
         }
 
         .mini-bar-bg {
             width: 100%;
             background: #eee;
-            height: 6px;
-            border-radius: 5px;
+            height: 8px;
+            border-radius: 10px;
             overflow: hidden;
         }
 
         .mini-bar {
             width: 0%;
             height: 100%;
-            transition: width 0.5s;
+            transition: width 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .mini-txt {
-            font-size: 0.7rem;
-            margin: 5px 0 0;
-            color: #777;
+            font-size: 0.75rem;
+            margin: 8px 0 0;
+            color: #666;
         }
 
         /* --- PANTALLA RETO --- */
         #pantalla-reto {
             display: none;
-            padding: 15px;
+            padding: 20px;
+            animation: fadeIn 0.4s;
         }
 
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
         .card-stats {
-            background: white;
-            border: 2px solid var(--cafe);
-            border-radius: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
             padding: 15px;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .progress-bg {
             width: 100%;
-            background: #e0e0e0;
-            height: 12px;
+            background: #e9ecef;
+            height: 14px;
             border-radius: 10px;
-            overflow: hidden;
+            margin: 10px 0;
         }
 
         .progress-bar {
             width: 0%;
             height: 100%;
-            transition: width 0.8s ease;
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
         }
 
         .reto-box {
             background: white;
             border-radius: 30px;
             padding: 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
             text-align: center;
-            border: 1px solid #eee;
+            border: 1px solid #f0f0f0;
+        }
+
+        .frase-texto {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: #444;
+            margin-bottom: 20px;
+            min-height: 60px;
+            line-height: 1.4;
         }
 
         .btn-share-wa {
@@ -151,9 +171,9 @@
             padding: 10px 20px;
             border-radius: 25px;
             font-weight: bold;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             cursor: pointer;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             display: inline-flex;
             align-items: center;
             gap: 8px;
@@ -162,11 +182,12 @@
 
         .reto-detalle {
             background: #fff9c4;
-            padding: 15px;
+            padding: 20px;
             border-left: 6px solid #fbc02d;
             text-align: left;
-            margin: 15px 0;
+            margin-bottom: 25px;
             border-radius: 0 15px 15px 0;
+            font-size: 1rem;
         }
 
         .btn-logrado {
@@ -175,32 +196,32 @@
             border-radius: 35px;
             border: none;
             color: white;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .btn-cambiar {
             width: 100%;
-            padding: 10px;
-            border-radius: 35px;
-            border: 1px solid var(--cafe);
+            padding: 12px;
             background: white;
-            color: var(--cafe);
+            border: 2px solid #ddd;
+            border-radius: 35px;
+            color: #666;
             font-weight: bold;
-            margin-top: 10px;
+            margin-top: 15px;
             cursor: pointer;
         }
 
         .btn-volver {
-            width: 100%;
-            padding: 12px;
+            margin-top: 20px;
             background: none;
             border: none;
-            color: #888;
-            margin-top: 15px;
-            cursor: pointer;
+            color: #999;
             font-weight: bold;
+            cursor: pointer;
+            text-decoration: underline;
         }
 
         /* Modal */
@@ -208,10 +229,19 @@
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.8);
             z-index: 1000;
             justify-content: center;
             align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px 20px;
+            border-radius: 30px;
+            text-align: center;
+            max-width: 300px;
+            position: relative;
         }
     </style>
 </head>
@@ -219,27 +249,86 @@
 
 <div class="container">
     <header>
-        <h1 style="margin: 0; font-size: 1.5rem;">MARKET INSPIRARTE</h1>
-        <p style="margin: 5px 0; opacity: 0.8; font-size: 0.8rem;">BIENESTAR DIARIO</p>
+        <h1 style="margin: 0; letter-spacing: 2px;">MARKET INSPIRARTE</h1>
+        <p style="margin: 5px 0 0; opacity: 0.9; font-size: 0.9rem;">TU RUTA HACIA LA MAESTRÍA</p>
     </header>
 
     <div id="menu-principal">
         <div id="card-vip" class="card-vip" onclick="irAPasillo('vip')">
-            <button class="btn-pasillo" style="background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728); color: #5d4037;">
+            <button class="btn-pasillo" style="background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728); color: #5d4037; font-size: 1rem;">
                 ✨ PASILLO VIP: MAESTRÍA
             </button>
-            <p style="margin: 5px 0 0; font-size: 0.75rem; color: #b38728; font-weight: bold;">¡RETO ESPECIAL DESBLOQUEADO!</p>
+            <p style="margin: 8px 0 0; font-size: 0.8rem; color: #b38728; font-weight: bold;">¡LOGRASTE EL EQUILIBRIO HOY!</p>
         </div>
 
-        <h3 style="color: var(--cafe); margin-top: 10px;">Tu avance por pasillo:</h3>
+        <h3 style="color: var(--cafe); margin-bottom: 20px; font-size: 1.1rem; text-align: left;">Mis Pasillos de Bienestar:</h3>
         
         <div class="grid-pasillos">
             <div onclick="irAPasillo('resiliencia')" class="card-menu">
                 <button class="btn-pasillo" style="background: #4caf50;">🌿 RESILIENCIA</button>
                 <div class="mini-bar-bg"><div id="mini-bar-resiliencia" class="mini-bar"></div></div>
-                <p class="mini-txt"><span id="mini-dias-resiliencia">0</span> días</p>
+                <p class="mini-txt"><span id="mini-dias-resiliencia">0</span> / 365 días</p>
             </div>
             <div onclick="irAPasillo('sabiduria')" class="card-menu">
                 <button class="btn-pasillo" style="background: #0288d1;">📖 SABIDURÍA</button>
                 <div class="mini-bar-bg"><div id="mini-bar-sabiduria" class="mini-bar"></div></div>
-                <p class="mini-txt"><span id="mini-dias-sab
+                <p class="mini-txt"><span id="mini-dias-sabiduria">0</span> / 365 días</p>
+            </div>
+            <div onclick="irAPasillo('calma')" class="card-menu">
+                <button class="btn-pasillo" style="background: #ff7043;">🧘 CALMA</button>
+                <div class="mini-bar-bg"><div id="mini-bar-calma" class="mini-bar"></div></div>
+                <p class="mini-txt"><span id="mini-dias-calma">0</span> / 365 días</p>
+            </div>
+            <div onclick="irAPasillo('empatia')" class="card-menu">
+                <button class="btn-pasillo" style="background: #fbc02d;">🤝 EMPATÍA</button>
+                <div class="mini-bar-bg"><div id="mini-bar-empatia" class="mini-bar"></div></div>
+                <p class="mini-txt"><span id="mini-dias-empatia">0</span> / 365 días</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="pantalla-reto">
+        <div class="card-stats">
+            <span style="color: #666; font-size: 0.9rem;">Pasillo de <b id="nombre-pasillo-txt" style="text-transform: uppercase; color: var(--cafe);"></b></span>
+            <div class="progress-bg"><div id="bar-progreso" class="progress-bar"></div></div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: bold;">
+                <span>Progreso: <span id="porcentaje-txt">0%</span></span>
+                <span><span id="porcentaje-valor">0</span> días logrados</span>
+            </div>
+        </div>
+
+        <div class="reto-box">
+            <div id="frase-display" class="frase-texto">"Cargando inspiración..."</div>
+            
+            <button onclick="compartirWhatsApp()" class="btn-share-wa">
+                <span>📱</span> Compartir Frase
+            </button>
+            
+            <div class="reto-detalle">
+                <strong style="color: #d8a000;">⚡ EL RETO DE HOY:</strong><br>
+                <span id="reto-display">...</span>
+            </div>
+
+            <button id="btn-logrado" onclick="completarReto()" class="btn-logrado">¡LOGRADO!</button>
+            <button id="btn-cambiar-frase" onclick="seleccionarFraseNueva(); actualizarInterfaz();" class="btn-cambiar">🔄 Ver otra opción</button>
+            <br>
+            <button onclick="mostrarMenu()" class="btn-volver">Volver al mapa de pasillos</button>
+        </div>
+    </div>
+</div>
+
+<div id="modal-insignia" class="modal" onclick="this.style.display='none'">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <div id="insignia-icon" style="font-size: 5rem; margin-bottom: 20px;">🏆</div>
+        <h2 id="insignia-titulo" style="color: var(--cafe); margin: 0;"></h2>
+        <p id="insignia-msj" style="color: #666; font-size: 1rem; margin: 15px 0 25px;"></p>
+        <button onclick="document.getElementById('modal-insignia').style.display='none'" style="background: var(--cafe); color: white; border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; cursor: pointer; width: 100%;">¡VAMOS POR MÁS!</button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="frases.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
