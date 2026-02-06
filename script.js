@@ -187,13 +187,16 @@ function compartirWhatsApp() {
     const frase = document.getElementById('frase-display').innerText;
     const reto = document.getElementById('reto-display').innerText;
     
-    // Construimos un mensaje estructurado y atractivo
+    // Construimos el mensaje con tu firma personalizada
     const mensaje = encodeURIComponent(
         `🚀 *MI CHISPA DIARIA - MARKET INSPIRARTE* 🚀\n\n` +
         `📍 *Pasillo:* ${titulo}\n\n` +
         `✨ *La frase de hoy:* \n${frase}\n\n` +
         `⚡ *Mi reto:* \n${reto}\n\n` +
-        `🔑 _Inicia tu día con propósito._`
+        `🔑 _Inicia tu día con propósito._\n\n` +
+        `--- \n` +
+        `🎁 Adquiere tu llave en *Enkanta2 Arte Manual*\n` +
+        `📲 WhatsApp: 3244173977`
     );
     
     // Abrimos WhatsApp con el mensaje listo
@@ -221,5 +224,6 @@ function cerrarInfo() {
     localStorage.setItem('guia_leida', 'true'); 
     actualizarMenuPrincipal(); // Al cerrar, mostramos el menú
 }
+
 
 
