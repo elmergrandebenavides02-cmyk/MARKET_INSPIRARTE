@@ -116,20 +116,24 @@ function completarReto() {
         
         const totalDias = progreso[pasilloActual].length;
 
+        // 1. Efectos visuales de celebración
         if (totalDias === 14) {
-            var duration = 5 * 1000;
+            var duration = 4 * 1000;
             var end = Date.now() + duration;
             (function frame() {
               confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#d4af37', '#fcf6ba'] });
               confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#d4af37', '#fcf6ba'] });
               if (Date.now() < end) requestAnimationFrame(frame);
             }());
-            lanzarMedalla("👑", "¡NIVEL PRACTICANTE!", "14 días cumplidos. ¡Hábito instalado!");
         } else {
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: [colores[pasilloActual], '#fff'] });
-            lanzarMedalla("🏆", "¡Día logrado!", "Sigue así.");
         }
-        actualizarInterfaz();
+
+        // 2. Pequeña pausa (800ms) para que el usuario sienta el éxito y luego regreso automático
+        setTimeout(() => {
+            actualizarInterfaz(); // Actualiza el botón internamente
+            mostrarMenu();        // Vuelve al menú principal automáticamente
+        }, 800); 
     }
 }
 
@@ -168,3 +172,4 @@ function lanzarMedalla(ico, tit, msg) {
     document.getElementById('insignia-msj').innerText = msg;
     document.getElementById('modal-insignia').style.display = 'flex';
 }
+
