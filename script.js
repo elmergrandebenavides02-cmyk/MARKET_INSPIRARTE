@@ -8,6 +8,7 @@ const clavesMensuales = {
     8: "MarketSep26", 9: "MarketOct26", 10: "MarketNov26", 11: "MarketDic26"
 };
 
+// --- ACCESO PERMANENTE ---
 function verificarAcceso() {
     const passIngresada = document.getElementById('input-password').value.trim();
     const clavesValidas = Object.values(clavesMensuales);
@@ -15,24 +16,29 @@ function verificarAcceso() {
     if (clavesValidas.includes(passIngresada)) {
         confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         document.getElementById('pantalla-login').style.display = 'none';
-        
-        // CAMBIO: Ahora usamos localStorage para que sea permanente
-        localStorage.setItem('acceso_market', 'true'); 
-        
+        localStorage.setItem('acceso_market', 'true'); // Guarda para siempre
         actualizarMenuPrincipal();
     } else {
         document.getElementById('error-login').style.display = 'block';
     }
 }
 
+function contactarSoporte() {
+    const telefonoSoporte = "573244173977"; 
+    const mesActualNombre = new Intl.DateTimeFormat('es-ES', { month: 'long' }).format(new Date());
+    const mensaje = `Hola! 👋 Necesito soporte con mi llave del Market Inspirarte. No puedo acceder con mi código de ${mesActualNombre}.`;
+    window.open(`https://wa.me/${telefonoSoporte}?text=${encodeURIComponent(mensaje)}`, '_blank');
+}
+
 window.onload = () => {
-    // CAMBIO: Ahora revisa en localStorage si ya había entrado antes
+    // Revisa si ya tenía acceso guardado
     if (localStorage.getItem('acceso_market') === 'true') {
         document.getElementById('pantalla-login').style.display = 'none';
         actualizarMenuPrincipal();
     }
-}
+};
 
+// --- NAVEGACIÓN ---
 function irAPasillo(nombre) {
     pasilloActual = nombre;
     document.getElementById('menu-principal').style.display = 'none';
@@ -52,6 +58,7 @@ function seleccionarFraseNueva() {
     if (lista) fraseAsignada[pasilloActual] = lista[Math.floor(Math.random() * lista.length)];
 }
 
+// --- INTERFAZ Y NIVELES ---
 function actualizarInterfaz() {
     const hoyFrase = fraseAsignada[pasilloActual];
     if (!hoyFrase) return;
@@ -64,21 +71,14 @@ function actualizarInterfaz() {
     const lista = progreso[pasilloActual] || [];
     const numDias = lista.length;
     
-    // LÓGICA DE 14 DÍAS
     let porcentaje = Math.min((numDias / 14) * 100, 100).toFixed(0);
     
     let nivelTexto = "";
     let iconoNivel = "";
-
-    if (numDias < 7) {
-        nivelTexto = "Iniciado"; iconoNivel = "🌱";
-    } else if (numDias < 14) {
-        nivelTexto = "Aprendiz"; iconoNivel = "🌿";
-    } else if (numDias < 21) {
-        nivelTexto = "Practicante"; iconoNivel = "🌳";
-    } else {
-        nivelTexto = "Maestro"; iconoNivel = "👑";
-    }
+    if (numDias < 7) { nivelTexto = "Iniciado"; iconoNivel = "🌱"; }
+    else if (numDias < 14) { nivelTexto = "Aprendiz"; iconoNivel = "🌿"; }
+    else if (numDias < 21) { nivelTexto = "Practicante"; iconoNivel = "🌳"; }
+    else { nivelTexto = "Maestro"; iconoNivel = "👑"; }
 
     document.getElementById('porcentaje-valor').innerText = numDias;
     document.getElementById('porcentaje-txt').innerText = `${nivelTexto} ${iconoNivel} (${porcentaje}%)`;
@@ -96,7 +96,6 @@ function actualizarInterfaz() {
         btn.disabled = true;
         btn.innerText = "¡RETO CUMPLIDO HOY!";
         btn.style.opacity = "0.5";
-        btn.style.backgroundColor = "#ccc";
     } else {
         btn.disabled = false;
         btn.innerText = "¡LOGRADO!";
@@ -105,48 +104,7 @@ function actualizarInterfaz() {
     }
 }
 
-    // 1. Mostrar textos
-    document.getElementById('titulo-pasillo').innerText = pasilloActual;
-    document.getElementById('frase-display').innerText = `"${hoyFrase.frase}"`;
-    document.getElementById('reto-display').innerText = hoyFrase.reto;
-
-    // 2. Calcular progreso
-    const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
-    const lista = progreso[pasilloActual] || [];
-    const numDias = lista.length;
-    const porcentaje = Math.min((numDias / 365) * 100, 100).toFixed(1);
-
-    // 3. Actualizar elementos visuales (Barra y números)
-    document.getElementById('porcentaje-valor').innerText = numDias;
-    document.getElementById('porcentaje-txt').innerText = porcentaje + "%";
-    const barraDetalle = document.getElementById('bar-reto-detalle');
-    if(barraDetalle) {
-        barraDetalle.style.width = porcentaje + "%";
-        barraDetalle.style.backgroundColor = colores[pasilloActual];
-    }
-
-    // 4. LÓGICA DEL BOTÓN (Día 2, 3, etc.)
-    const btn = document.getElementById('btn-logrado');
-    // Obtenemos la fecha de hoy en formato local YYYY-MM-DD
-    const fechaHoy = new Date().toLocaleDateString('en-CA'); // Esto da "2026-02-06"
-    
-    // Si la lista de días logrados YA incluye la fecha de hoy...
-    if (lista.includes(fechaHoy)) {
-        btn.disabled = true;
-        btn.innerText = "¡RETO CUMPLIDO HOY!";
-        btn.style.opacity = "0.5";
-        btn.style.cursor = "not-allowed";
-        btn.style.backgroundColor = "#ccc"; // Color gris de bloqueado
-    } else {
-        // Si es un nuevo día, el botón vuelve a la vida
-        btn.disabled = false;
-        btn.innerText = "¡LOGRADO!";
-        btn.style.opacity = "1";
-        btn.style.cursor = "pointer";
-        btn.className = "btn-principal color-" + pasilloActual;
-    }
-}
-
+// --- LOGRADO ---
 function completarReto() {
     let progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     if (!progreso[pasilloActual]) progreso[pasilloActual] = [];
@@ -158,46 +116,39 @@ function completarReto() {
         
         const totalDias = progreso[pasilloActual].length;
 
-        // CELEBRACIÓN ESPECIAL DÍA 14
         if (totalDias === 14) {
-            // Lluvia de confeti dorado y plateado
             var duration = 5 * 1000;
             var end = Date.now() + duration;
-
             (function frame() {
-              confetti({ particleCount: 10, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#d4af37', '#ffffff', '#fcf6ba'] });
-              confetti({ particleCount: 10, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#d4af37', '#ffffff', '#fcf6ba'] });
-              if (Date.now() < end) { requestAnimationFrame(frame); }
+              confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#d4af37', '#fcf6ba'] });
+              confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#d4af37', '#fcf6ba'] });
+              if (Date.now() < end) requestAnimationFrame(frame);
             }());
-            
-            lanzarMedalla("👑", "¡NIVEL PRACTICANTE!", "¡Increíble! Has completado los 14 días. Tu hábito está instalado.");
+            lanzarMedalla("👑", "¡NIVEL PRACTICANTE!", "14 días cumplidos. ¡Hábito instalado!");
         } else {
-            // Confeti normal de color
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: [colores[pasilloActual], '#fff'] });
-            lanzarMedalla("🏆", "¡Logrado!", "Sigue así, cada día cuenta.");
+            lanzarMedalla("🏆", "¡Día logrado!", "Sigue así.");
         }
-        
         actualizarInterfaz();
     }
 }
+
 function actualizarMenuPrincipal() {
     const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     const pasillos = ['resiliencia', 'sabiduria', 'calma', 'empatia'];
     let completadosHoy = 0;
-    const hoy = new Date().toISOString().split('T')[0];
+    const hoy = new Date().toLocaleDateString('en-CA');
 
     pasillos.forEach(p => {
         const lista = progreso[p] || [];
         if (lista.includes(hoy)) completadosHoy++;
         
-        // Actualizar número de días
         const contador = document.getElementById(`mini-dias-${p}`);
         if (contador) contador.innerText = lista.length;
         
-        // Actualizar barra de progreso del menú
         const barraMenu = document.getElementById(`bar-menu-${p}`);
         if (barraMenu) {
-            const porc = Math.min((lista.length / 365) * 100, 100);
+            const porc = Math.min((lista.length / 14) * 100, 100);
             barraMenu.style.width = porc + "%";
         }
     });
@@ -208,7 +159,7 @@ function actualizarMenuPrincipal() {
 
 function compartirWhatsApp() {
     const frase = document.getElementById('frase-display').innerText;
-    window.open(`https://wa.me/?text=Mi reto de hoy en Inspirarte Market: ${frase}`, '_blank');
+    window.open(`https://wa.me/?text=Mi reto: ${frase}`, '_blank');
 }
 
 function lanzarMedalla(ico, tit, msg) {
@@ -217,16 +168,3 @@ function lanzarMedalla(ico, tit, msg) {
     document.getElementById('insignia-msj').innerText = msg;
     document.getElementById('modal-insignia').style.display = 'flex';
 }
-function contactarSoporte() {
-    const telefonoSoporte = "573244173977"; // Tu número con código de país (57 para Colombia)
-    const mesActualNombre = new Intl.DateTimeFormat('es-ES', { month: 'long' }).format(new Date());
-    
-    const mensaje = `Hola! 👋 Necesito soporte con mi llave del Market Inspirarte. No puedo acceder con mi código de ${mesActualNombre}.`;
-    
-    const url = `https://wa.me/${telefonoSoporte}?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, '_blank');
-}
-
-
-
-
