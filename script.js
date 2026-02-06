@@ -4,7 +4,7 @@ const colores = {
     'resiliencia': '#4caf50', 
     'sabiduria': '#0288d1', 
     'calma': '#ff7043', 
-    'empatia': '#fbc02d',
+    'empatia': '#fbc02d', 
     'vip': '#d4af37' 
 };
 
@@ -38,13 +38,13 @@ function seleccionarFraseNueva() {
 
 function actualizarMenuPrincipal() {
     const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
-    const pasillosBasicos = ['resiliencia', 'sabiduria', 'calma', 'empatia'];
-    const fechaHoy = new Date().toISOString().split('T')[0];
-    let completadosHoyCount = 0;
+    const pasillos = ['resiliencia', 'sabiduria', 'calma', 'empatia'];
+    let completadosHoy = 0;
+    const hoy = new Date().toISOString().split('T')[0];
 
-    pasillosBasicos.forEach(p => {
+    pasillos.forEach(p => {
         const lista = progreso[p] || [];
-        if (lista.includes(fechaHoy)) completadosHoyCount++;
+        if (lista.includes(hoy)) completadosHoy++;
         const numDias = lista.length;
         const porc = ((numDias / 365) * 100).toFixed(1);
         if (document.getElementById(`mini-dias-${p}`)) document.getElementById(`mini-dias-${p}`).innerText = numDias;
@@ -53,7 +53,7 @@ function actualizarMenuPrincipal() {
     });
 
     const cardVip = document.getElementById('card-vip');
-    if (cardVip) cardVip.style.display = (completadosHoyCount === 4) ? "block" : "none";
+    if (cardVip) cardVip.style.display = (completadosHoy === 4) ? "block" : "none";
 }
 
 function actualizarInterfaz() {
@@ -63,24 +63,30 @@ function actualizarInterfaz() {
     document.getElementById('nombre-pasillo-txt').innerText = pasilloActual;
     document.getElementById('frase-display').innerText = '"' + hoy.frase + '"';
     document.getElementById('reto-display').innerText = hoy.reto;
+    
     const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
-    const listaDias = progreso[pasilloActual] || [];
-    const numDias = listaDias.length;
-    const porc = ((numDias / 365) * 100).toFixed(1);
-    document.getElementById('porcentaje-valor').innerText = numDias;
+    const lista = progreso[pasilloActual] || [];
+    const porc = ((lista.length / 365) * 100).toFixed(1);
+    
+    document.getElementById('porcentaje-valor').innerText = lista.length;
     document.getElementById('porcentaje-txt').innerText = porc + "%";
-    const barra = document.getElementById('bar-progreso');
-    if (barra) { barra.style.width = porc + "%"; barra.style.backgroundColor = colores[pasilloActual]; }
-    const btnLogrado = document.getElementById('btn-logrado');
-    const btnCambiar = document.getElementById('btn-cambiar-frase');
-    btnLogrado.style.backgroundColor = colores[pasilloActual];
+    document.getElementById('bar-progreso').style.width = porc + "%";
+    document.getElementById('bar-progreso').style.backgroundColor = colores[pasilloActual];
+
+    const btn = document.getElementById('btn-logrado');
+    btn.style.backgroundColor = colores[pasilloActual];
+    
     const fechaHoy = new Date().toISOString().split('T')[0];
-    if (listaDias.includes(fechaHoy)) {
-        btnLogrado.disabled = true; btnLogrado.innerText = "¡RETO CUMPLIDO!"; btnLogrado.style.opacity = "0.6";
-        if (btnCambiar) btnCambiar.style.display = "none";
+    if (lista.includes(fechaHoy)) {
+        btn.disabled = true;
+        btn.innerText = "¡RETO CUMPLIDO!";
+        btn.style.opacity = "0.6";
+        document.getElementById('btn-cambiar-frase').style.display = "none";
     } else {
-        btnLogrado.disabled = false; btnLogrado.innerText = "¡LOGRADO!"; btnLogrado.style.opacity = "1";
-        if (btnCambiar) btnCambiar.style.display = "block";
+        btn.disabled = false;
+        btn.innerText = "¡LOGRADO!";
+        btn.style.opacity = "1";
+        document.getElementById('btn-cambiar-frase').style.display = "block";
     }
 }
 
@@ -88,13 +94,30 @@ function completarReto() {
     let progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     if (!progreso[pasilloActual]) progreso[pasilloActual] = [];
     const hoy = new Date().toISOString().split('T')[0];
+    
     if (!progreso[pasilloActual].includes(hoy)) {
         progreso[pasilloActual].push(hoy);
         localStorage.setItem('progreso_market', JSON.stringify(progreso));
+        
+        // EFECTO CONFETI
+        confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: [colores[pasilloActual], '#ffffff', '#ffd700']
+        });
+
         actualizarInterfaz();
         if(progreso[pasilloActual].length === 1) lanzarMedalla("🎖️", "¡Buen inicio!", "Has comenzado en " + pasilloActual);
-        if(pasilloActual === 'vip') lanzarMedalla("💎", "¡MAESTRÍA!", "¡Día redondo completado!");
+        if(pasilloActual === 'vip') lanzarMedalla("💎", "¡MAESTRÍA!", "¡Has completado todos los pasillos de hoy!");
     }
+}
+
+function compartirWhatsApp() {
+    const frase = document.getElementById('frase-display').innerText;
+    const pasillo = pasilloActual.toUpperCase();
+    const texto = `*Market Inspirarte*%0A%0AMi frase de hoy en el pasillo de *${pasillo}* es:%0A%0A${frase}%0A%0A_¡Cuidar nuestro bienestar es el mejor negocio!_ ✨`;
+    window.open(`https://wa.me/?text=${texto}`, '_blank');
 }
 
 function lanzarMedalla(ico, tit, msg) {
