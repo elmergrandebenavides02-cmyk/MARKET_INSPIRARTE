@@ -15,29 +15,36 @@ function verificarAcceso() {
     
     if (clavesValidas.includes(passIngresada)) {
         confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        
+        // Guardamos el acceso permanente
+        localStorage.setItem('acceso_market', 'true');
+        
+        // Ocultamos login
         document.getElementById('pantalla-login').style.display = 'none';
-        localStorage.setItem('acceso_market', 'true'); // Guarda para siempre
-        actualizarMenuPrincipal();
+        
+        // REVISAMOS SI YA VIO LA GUÍA
+        if (localStorage.getItem('guia_leida') !== 'true') {
+            abrirInfo(); // Muestra el mensaje que redactamos
+        } else {
+            actualizarMenuPrincipal(); // Va directo al menú
+        }
     } else {
         document.getElementById('error-login').style.display = 'block';
     }
 }
-
 function contactarSoporte() {
     const telefonoSoporte = "573244173977"; 
     const mesActualNombre = new Intl.DateTimeFormat('es-ES', { month: 'long' }).format(new Date());
     const mensaje = `Hola! 👋 Necesito soporte con mi llave del Market Inspirarte. No puedo acceder con mi código de ${mesActualNombre}.`;
     window.open(`https://wa.me/${telefonoSoporte}?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
-
+// Actualizamos la carga inicial también
 window.onload = () => {
-    // Revisa si ya tenía acceso guardado
     if (localStorage.getItem('acceso_market') === 'true') {
         document.getElementById('pantalla-login').style.display = 'none';
         actualizarMenuPrincipal();
     }
 };
-
 // --- NAVEGACIÓN ---
 function irAPasillo(nombre) {
     pasilloActual = nombre;
@@ -188,5 +195,16 @@ function lanzarMedalla(ico, tit, msg) {
 function cerrarModalYMenu() {
     document.getElementById('modal-insignia').style.display = 'none';
     mostrarMenu();
+}
+// --- 2. FUNCIONES DE LA GUÍA ---
+function abrirInfo() {
+    document.getElementById('modal-info').style.display = 'flex';
+}
+
+function cerrarInfo() {
+    document.getElementById('modal-info').style.display = 'none';
+    // Marcamos que ya leyó la guía para que no salga siempre
+    localStorage.setItem('guia_leida', 'true'); 
+    actualizarMenuPrincipal(); // Al cerrar, mostramos el menú
 }
 
