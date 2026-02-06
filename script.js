@@ -116,24 +116,37 @@ function completarReto() {
         
         const totalDias = progreso[pasilloActual].length;
 
-        // 1. Efectos visuales de celebración
+        // --- ESCENARIO A: EL GRAN HITO (DÍA 14) ---
         if (totalDias === 14) {
-            var duration = 4 * 1000;
+            // Lluvia Dorada Larga
+            var duration = 5 * 1000;
             var end = Date.now() + duration;
             (function frame() {
-              confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#d4af37', '#fcf6ba'] });
-              confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#d4af37', '#fcf6ba'] });
+              confetti({ particleCount: 10, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#d4af37', '#fcf6ba', '#ffffff'] });
+              confetti({ particleCount: 10, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#d4af37', '#fcf6ba', '#ffffff'] });
               if (Date.now() < end) requestAnimationFrame(frame);
             }());
-        } else {
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: [colores[pasilloActual], '#fff'] });
-        }
 
-        // 2. Pequeña pausa (800ms) para que el usuario sienta el éxito y luego regreso automático
-        setTimeout(() => {
-            actualizarInterfaz(); // Actualiza el botón internamente
-            mostrarMenu();        // Vuelve al menú principal automáticamente
-        }, 800); 
+            // Mostramos el mensaje de nivel y motivación
+            lanzarMedalla(
+                "👑", 
+                "¡NIVEL PRACTICANTE!", 
+                "¡Increíble logro! Has mantenido tu constancia por 14 días. El hábito ya es parte de ti. ¡Sigue adelante hasta alcanzar la MAESTRÍA total! 🌳"
+            );
+            
+            // En este caso NO volvemos al menú automáticamente para que lean su logro
+            actualizarInterfaz();
+        } 
+        // --- ESCENARIO B: DÍA NORMAL ---
+        else {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: [colores[pasilloActual], '#fff'] });
+            
+            // Pausa breve y regreso automático
+            setTimeout(() => {
+                actualizarInterfaz();
+                mostrarMenu();
+            }, 1000);
+        }
     }
 }
 
@@ -171,5 +184,9 @@ function lanzarMedalla(ico, tit, msg) {
     document.getElementById('insignia-titulo').innerText = tit;
     document.getElementById('insignia-msj').innerText = msg;
     document.getElementById('modal-insignia').style.display = 'flex';
+}
+function cerrarModalYMenu() {
+    document.getElementById('modal-insignia').style.display = 'none';
+    mostrarMenu();
 }
 
