@@ -182,8 +182,22 @@ function actualizarMenuPrincipal() {
 }
 
 function compartirWhatsApp() {
+    // Obtenemos los textos actuales de la pantalla
+    const titulo = pasilloActual.toUpperCase();
     const frase = document.getElementById('frase-display').innerText;
-    window.open(`https://wa.me/?text=Mi reto: ${frase}`, '_blank');
+    const reto = document.getElementById('reto-display').innerText;
+    
+    // Construimos un mensaje estructurado y atractivo
+    const mensaje = encodeURIComponent(
+        `🚀 *MI CHISPA DIARIA - MARKET INSPIRARTE* 🚀\n\n` +
+        `📍 *Pasillo:* ${titulo}\n\n` +
+        `✨ *La frase de hoy:* \n${frase}\n\n` +
+        `⚡ *Mi reto:* \n${reto}\n\n` +
+        `🔑 _Inicia tu día con propósito._`
+    );
+    
+    // Abrimos WhatsApp con el mensaje listo
+    window.open(`https://wa.me/?text=${mensaje}`, '_blank');
 }
 
 function lanzarMedalla(ico, tit, msg) {
@@ -207,4 +221,5 @@ function cerrarInfo() {
     localStorage.setItem('guia_leida', 'true'); 
     actualizarMenuPrincipal(); // Al cerrar, mostramos el menú
 }
+
 
