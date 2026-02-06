@@ -5,180 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Market Inspirarte</title>
     <style>
-        :root {
-            --cafe: #6d4c41;
-            --fondo: #fdfaf5;
-        }
-
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: var(--fondo);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 400px;
-            min-height: 100vh;
-        }
-
-        header {
-            background-color: var(--cafe);
-            color: white;
-            text-align: center;
-            padding: 25px 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        /* --- MENÚ PRINCIPAL --- */
-        #menu-principal {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .grid-pasillos {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .card-menu {
-            background: white;
-            border-radius: 20px;
-            padding: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
+        :root { --cafe: #6d4c41; --fondo: #fdfaf5; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--fondo); margin: 0; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 400px; min-height: 100vh; }
+        header { background-color: var(--cafe); color: white; text-align: center; padding: 25px 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        
+        /* Menú Principal */
+        #menu-principal { padding: 20px; text-align: center; }
+        .grid-pasillos { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .card-menu { background: white; border-radius: 20px; padding: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; transition: transform 0.2s; }
         .card-menu:active { transform: scale(0.96); }
+        .btn-pasillo { width: 100%; padding: 15px 5px; border: none; border-radius: 15px; color: white; font-weight: bold; font-size: 0.8rem; margin-bottom: 8px; pointer-events: none; }
+        .mini-bar-bg { width: 100%; background: #eee; height: 6px; border-radius: 5px; overflow: hidden; }
+        .mini-bar { width: 0%; height: 100%; transition: width 0.5s; }
+        .mini-txt { font-size: 0.7rem; margin: 5px 0 0; color: #777; font-weight: bold; }
 
-        .btn-pasillo {
-            width: 100%;
-            padding: 15px 5px;
-            border: none;
-            border-radius: 15px;
-            color: white;
-            font-weight: bold;
-            font-size: 0.8rem;
-            margin-bottom: 8px;
-            pointer-events: none;
-        }
-
-        .mini-bar-bg {
-            width: 100%;
-            background: #eee;
-            height: 6px;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .mini-bar {
-            width: 0%;
-            height: 100%;
-            transition: width 0.5s;
-        }
-
-        .mini-txt {
-            font-size: 0.7rem;
-            margin: 5px 0 0;
-            color: #777;
-            font-weight: bold;
-        }
-
-        /* --- PANTALLA DE RETO --- */
-        #pantalla-reto {
-            display: none;
-            padding: 15px;
-        }
-
-        .card-stats {
-            background: white;
-            border: 2px solid var(--cafe);
-            border-radius: 20px;
-            padding: 15px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .progress-bg {
-            width: 100%;
-            background: #e0e0e0;
-            height: 12px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            width: 0%;
-            height: 100%;
-            transition: width 0.8s ease;
-        }
-
-        .reto-box {
-            background: white;
-            border-radius: 30px;
-            padding: 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            text-align: center;
-        }
-
-        .reto-detalle {
-            background: #fff9c4;
-            padding: 15px;
-            border-left: 6px solid #fbc02d;
-            text-align: left;
-            margin: 20px 0;
-            border-radius: 0 15px 15px 0;
-        }
-
-        .btn-logrado {
-            width: 100%;
-            padding: 18px;
-            border-radius: 35px;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .btn-cambiar {
-            width: 100%;
-            padding: 10px;
-            border-radius: 35px;
-            border: 1px solid var(--cafe);
-            background: white;
-            color: var(--cafe);
-            font-weight: bold;
-            margin-top: 10px;
-            cursor: pointer;
-        }
-
-        .btn-volver {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            background: none;
-            border-radius: 35px;
-            color: #888;
-            margin-top: 15px;
-            cursor: pointer;
-        }
+        /* Pantalla Reto */
+        #pantalla-reto { display: none; padding: 15px; }
+        .card-stats { background: white; border: 2px solid var(--cafe); border-radius: 20px; padding: 15px; text-align: center; margin-bottom: 20px; }
+        .progress-bg { width: 100%; background: #e0e0e0; height: 12px; border-radius: 10px; overflow: hidden; }
+        .progress-bar { width: 0%; height: 100%; transition: width 0.8s ease; }
+        .reto-box { background: white; border-radius: 30px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); text-align: center; }
+        .reto-detalle { background: #fff9c4; padding: 15px; border-left: 6px solid #fbc02d; text-align: left; margin: 20px 0; border-radius: 0 15px 15px 0; }
+        .btn-logrado { width: 100%; padding: 18px; border-radius: 35px; border: none; color: white; font-size: 1.2rem; font-weight: bold; cursor: pointer; }
+        .btn-cambiar { width: 100%; padding: 10px; border-radius: 35px; border: 1px solid var(--cafe); background: white; color: var(--cafe); font-weight: bold; margin-top: 10px; cursor: pointer; }
+        .btn-volver { width: 100%; padding: 12px; border: 1px solid #ddd; background: none; border-radius: 35px; color: #888; margin-top: 15px; cursor: pointer; }
 
         /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
@@ -220,25 +74,17 @@
             <span style="font-weight: bold; color: var(--cafe);">🔥 Racha en <span id="nombre-pasillo-txt"></span>:</span>
             <span id="porcentaje-valor" style="font-size: 1.3rem; font-weight: bold;">0</span> días
         </div>
-
         <div class="progress-bg">
             <div id="bar-progreso" class="progress-bar"></div>
         </div>
-        <p style="text-align: right; font-size: 0.7rem; color: #999; margin-top: 5px; font-weight: bold;">META ANUAL: <span id="porcentaje-txt">0%</span></p>
+        <p style="text-align: right; font-size: 0.7rem; color: #999; margin-top: 5px;">META ANUAL: <span id="porcentaje-txt">0%</span></p>
 
         <div class="reto-box">
             <h2 id="titulo-pasillo" style="color: var(--cafe); margin-top: 0; text-transform: capitalize;"></h2>
             <p id="frase-display" style="font-style: italic; font-size: 1.1rem; min-height: 60px;">"..."</p>
-            
-            <div class="reto-detalle">
-                <strong>💪 EL RETO:</strong><br>
-                <span id="reto-display">...</span>
-            </div>
-
+            <div class="reto-detalle"><strong>💪 EL RETO:</strong><br><span id="reto-display">...</span></div>
             <button id="btn-logrado" onclick="completarReto()" class="btn-logrado">¡LOGRADO!</button>
-            
             <button id="btn-cambiar-frase" onclick="seleccionarFraseNueva(); actualizarInterfaz();" class="btn-cambiar">🔄 VER OTRA OPCIÓN</button>
-            
             <button onclick="mostrarMenu()" class="btn-volver">← VOLVER AL MENÚ</button>
         </div>
     </div>
@@ -249,12 +95,11 @@
         <div id="insignia-icon" style="font-size: 3rem;">🎖️</div>
         <h3 id="insignia-titulo" style="color: var(--cafe); margin: 10px 0;"></h3>
         <p id="insignia-msj" style="color: #666; font-size: 0.9rem;"></p>
-        <button style="background: var(--cafe); color: white; border: none; padding: 10px 20px; border-radius: 15px; margin-top: 15px;">¡Excelente!</button>
+        <button style="background: var(--cafe); color: white; border: none; padding: 10px 20px; border-radius: 15px; margin-top: 15px;">¡Vamos!</button>
     </div>
 </div>
 
 <script src="frases.js"></script>
 <script src="script.js"></script>
-
 </body>
 </html>
