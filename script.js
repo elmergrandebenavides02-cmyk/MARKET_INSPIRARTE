@@ -11,9 +11,14 @@ const clavesMensuales = {
 function verificarAcceso() {
     const passIngresada = document.getElementById('input-password').value.trim();
     const clavesValidas = Object.values(clavesMensuales);
+    
     if (clavesValidas.includes(passIngresada)) {
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         document.getElementById('pantalla-login').style.display = 'none';
-        sessionStorage.setItem('acceso_market', 'true');
+        
+        // CAMBIO: Ahora usamos localStorage para que sea permanente
+        localStorage.setItem('acceso_market', 'true'); 
+        
         actualizarMenuPrincipal();
     } else {
         document.getElementById('error-login').style.display = 'block';
@@ -21,7 +26,8 @@ function verificarAcceso() {
 }
 
 window.onload = () => {
-    if (sessionStorage.getItem('acceso_market') === 'true') {
+    // CAMBIO: Ahora revisa en localStorage si ya había entrado antes
+    if (localStorage.getItem('acceso_market') === 'true') {
         document.getElementById('pantalla-login').style.display = 'none';
         actualizarMenuPrincipal();
     }
@@ -220,5 +226,6 @@ function contactarSoporte() {
     const url = `https://wa.me/${telefonoSoporte}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
 }
+
 
 
