@@ -47,31 +47,47 @@ function seleccionarFraseNueva() {
 }
 
 function actualizarInterfaz() {
-    const hoy = fraseAsignada[pasilloActual];
-    if (!hoy) return;
+    const hoyFrase = fraseAsignada[pasilloActual];
+    if (!hoyFrase) return;
 
+    // 1. Mostrar textos
     document.getElementById('titulo-pasillo').innerText = pasilloActual;
-    document.getElementById('frase-display').innerText = `"${hoy.frase}"`;
-    document.getElementById('reto-display').innerText = hoy.reto;
+    document.getElementById('frase-display').innerText = `"${hoyFrase.frase}"`;
+    document.getElementById('reto-display').innerText = hoyFrase.reto;
 
+    // 2. Calcular progreso
     const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     const lista = progreso[pasilloActual] || [];
     const numDias = lista.length;
     const porcentaje = Math.min((numDias / 365) * 100, 100).toFixed(1);
 
-    // Actualizar barra y textos del reto
+    // 3. Actualizar elementos visuales (Barra y números)
     document.getElementById('porcentaje-valor').innerText = numDias;
     document.getElementById('porcentaje-txt').innerText = porcentaje + "%";
     const barraDetalle = document.getElementById('bar-reto-detalle');
-    barraDetalle.style.width = porcentaje + "%";
-    barraDetalle.style.backgroundColor = colores[pasilloActual];
+    if(barraDetalle) {
+        barraDetalle.style.width = porcentaje + "%";
+        barraDetalle.style.backgroundColor = colores[pasilloActual];
+    }
 
+    // 4. LÓGICA DEL BOTÓN (Día 2, 3, etc.)
     const btn = document.getElementById('btn-logrado');
-    const fechaHoy = new Date().toISOString().split('T')[0];
+    // Obtenemos la fecha de hoy en formato local YYYY-MM-DD
+    const fechaHoy = new Date().toLocaleDateString('en-CA'); // Esto da "2026-02-06"
+    
+    // Si la lista de días logrados YA incluye la fecha de hoy...
     if (lista.includes(fechaHoy)) {
-        btn.disabled = true; btn.innerText = "¡RETO CUMPLIDO!"; btn.style.opacity = "0.5";
+        btn.disabled = true;
+        btn.innerText = "¡RETO CUMPLIDO HOY!";
+        btn.style.opacity = "0.5";
+        btn.style.cursor = "not-allowed";
+        btn.style.backgroundColor = "#ccc"; // Color gris de bloqueado
     } else {
-        btn.disabled = false; btn.innerText = "¡LOGRADO!"; btn.style.opacity = "1";
+        // Si es un nuevo día, el botón vuelve a la vida
+        btn.disabled = false;
+        btn.innerText = "¡LOGRADO!";
+        btn.style.opacity = "1";
+        btn.style.cursor = "pointer";
         btn.className = "btn-principal color-" + pasilloActual;
     }
 }
@@ -136,3 +152,4 @@ function contactarSoporte() {
     const url = `https://wa.me/${telefonoSoporte}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
 }
+
