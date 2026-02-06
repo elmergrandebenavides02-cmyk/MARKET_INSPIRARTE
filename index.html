@@ -121,8 +121,12 @@
     <h2>LLAVE DEL MARKET</h2>
     <p>Ingresa el código de tu llavero físico</p>
     <input type="text" id="input-password" placeholder="Ej: MarketFeb26">
-    <button onclick="verificarAcceso()" style="background: var(--oro); color: var(--cafe); border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; cursor: pointer;">ENTRAR</button>
-    <p id="error-login" style="color: #ff8a80; margin-top: 15px; display: none;">⚠️ Clave incorrecta</p>
+    
+    <button onclick="verificarAcceso()" style="background: var(--oro); color: var(--cafe); border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; cursor: pointer; width: 100%; max-width: 280px; margin-bottom: 20px;">ENTRAR</button>
+    
+    <p id="error-login" style="color: #ff8a80; margin-top: 0; margin-bottom: 15px; display: none; font-weight: bold;">⚠️ Clave incorrecta</p>
+
+    <a href="javascript:void(0)" onclick="contactarSoporte()" style="color: white; font-size: 0.8rem; text-decoration: underline; opacity: 0.7;">¿Perdiste tu llave o la clave no funciona?</a>
 </div>
 
 <div class="container">
@@ -200,3 +204,4 @@
 <script src="script.js"></script>
 </body>
 </html>
+
