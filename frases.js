@@ -805,9 +805,29 @@ const frasesDB = {
     {"id": 198, "frase": "La empatía es la base de la justicia.", "reto": "Defiende a alguien que esté siendo tratado injustamente o ignorado."},
     {"id": 199, "frase": "Tu luz puede encender la luz de otros.", "reto": "Desea un 'feliz día' con mucha energía a la próxima persona que veas."},
     {"id": 200, "frase": "La empatía es el puente hacia la paz.", "reto": "Llama a un amigo del que no hayas sabido en meses solo para saber cómo está."}
-  ]
+  ],
+  "vip": [
+        { "id": 1, "frase": "La maestría no es un destino, es un camino continuo.", "reto": "Dedica 5 minutos a escribir qué aprendiste hoy de los 4 pasillos anteriores." },
+        { "id": 2, "frase": "El liderazgo es el arte de dar a la gente una plataforma para difundir ideas que funcionan.", "reto": "Reconoce el trabajo de un compañero de otra área enviándole un mensaje positivo." },
+        { "id": 3, "frase": "La verdadera sabiduría está en reconocer la propia ignorancia.", "reto": "Hoy, en una conversación, escucha el doble de lo que hablas." },
+        { "id": 4, "frase": "Tu ejemplo tiene más fuerza que tus palabras.", "reto": "Realiza un acto de servicio anónimo en la oficina o en casa (ordenar algo que no sea tuyo)." },
+        { "id": 5, "frase": "La excelencia es un hábito, no un acto.", "reto": "Identifica un proceso que puedas mejorar y compártelo con alguien que pueda ejecutarlo." },
+        { "id": 6, "frase": "Solo quien se arriesga a caer puede llegar más alto.", "reto": "Haz esa llamada o envía ese correo que has estado postergando por miedo." },
+        { "id": 7, "frase": "La gratitud convierte lo que tenemos en suficiente.", "reto": "Haz una lista de 5 personas que han impactado tu carrera y diles 'gracias' mentalmente (o por chat)." },
+        { "id": 8, "frase": "El éxito es la suma de pequeños esfuerzos repetidos día tras día.", "reto": "Enseña a un colega una función o truco que le ahorre tiempo en su trabajo." },
+        { "id": 9, "frase": "La paz mental no es la ausencia de conflictos, sino la capacidad de manejarlos.", "reto": "Si alguien te irrita hoy, respira y responde con una pregunta en lugar de un juicio." },
+        { "id": 10, "frase": "Para liderar a otros, primero debes liderarte a ti mismo.", "reto": "Cumple hoy esa promesa personal que te hiciste el lunes (ej. hacer ejercicio o leer)." },
+        // ... (puedes seguir agregando los de abajo siguiendo este formato)
+        { "id": 11, "frase": "La empatía es ver con los ojos de otro y sentir con el corazón de otro.", "reto": "Pregúntale a alguien '¿Cómo te sientes realmente?' y escucha sin interrumpir." },
+        { "id": 12, "frase": "Un pequeño acto de amabilidad es una semilla que crece.", "reto": "Regala un cumplido genuino a la persona que menos esperas hoy." },
+        { "id": 13, "frase": "La claridad es poder.", "reto": "Define tu prioridad #1 para mañana antes de terminar tu jornada hoy." },
+        { "id": 14, "frase": "El cambio comienza al final de tu zona de confort.", "reto": "Pide feedback (retroalimentación) a alguien sobre algo que hiciste esta semana." },
+        { "id": 15, "frase": "La resiliencia es la belleza de la madera que no se quiebra ante la tormenta.", "reto": "Escribe una situación difícil que superaste y qué habilidad 'pro' ganaste gracias a ella." }
+        // Agrega aquí los retos de la lista de abajo siguiendo el mismo formato de llaves y comas
+    ]
 
 };
+
 
 
 
