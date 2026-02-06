@@ -31,7 +31,7 @@ window.onload = () => {
         document.getElementById('pantalla-login').style.display = 'none';
         actualizarMenuPrincipal();
     }
-};
+}
 
 function irAPasillo(nombre) {
     pasilloActual = nombre;
@@ -226,6 +226,7 @@ function contactarSoporte() {
     const url = `https://wa.me/${telefonoSoporte}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
 }
+
 
 
 
