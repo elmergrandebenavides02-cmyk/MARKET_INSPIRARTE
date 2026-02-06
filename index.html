@@ -178,13 +178,15 @@
     </div>
 </div>
     <div id="pantalla-reto">
-        <div style="text-align:center; margin-bottom:15px;">
-            <h2 id="titulo-pasillo" style="margin:0; color: var(--cafe); font-size: 1.2rem; text-transform: uppercase;"></h2>
-            <div class="progress-container" style="height: 12px; max-width: 80%; margin: 10px auto;">
-                <div id="bar-reto-detalle" class="progress-fill"></div>
-            </div>
-            <p style="font-size: 0.8rem; color: #888;"><span id="porcentaje-txt">0%</span> - <span id="porcentaje-valor">0</span> días logrados</p>
+    <div class="reto-main-card">
+        <div id="frase-display" class="frase-quote">"..."</div>
+
+        <a href="javascript:void(0)" onclick="compartirWhatsApp()" class="btn-whatsapp">
+            📱 Compartir frase y reto
+        </a>
+        
         </div>
+</div>
 
         <div class="reto-main-card">
             <div id="frase-display" class="frase-quote">"..."</div>
@@ -243,6 +245,7 @@
 </div>
 </body>
 </html>
+
 
 
 
