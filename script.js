@@ -127,3 +127,12 @@ function lanzarMedalla(ico, tit, msg) {
     document.getElementById('insignia-msj').innerText = msg;
     document.getElementById('modal-insignia').style.display = 'flex';
 }
+function contactarSoporte() {
+    const telefonoSoporte = "573244173977"; // Tu número con código de país (57 para Colombia)
+    const mesActualNombre = new Intl.DateTimeFormat('es-ES', { month: 'long' }).format(new Date());
+    
+    const mensaje = `Hola! 👋 Necesito soporte con mi llave del Market Inspirarte. No puedo acceder con mi código de ${mesActualNombre}.`;
+    
+    const url = `https://wa.me/${telefonoSoporte}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank');
+}
