@@ -136,36 +136,47 @@
     </header>
 
     <div id="menu-principal">
-        <div id="card-vip" class="card-vip" onclick="irAPasillo('vip')">
-            <h3 style="margin:0; color: #b38728;">✨ PASILLO VIP: MAESTRÍA ✨</h3>
-            <p style="font-size: 0.8rem; margin: 5px 0 0;">¡LOGRASTE EL EQUILIBRIO HOY!</p>
-            </div>
-       </div>
+    <div style="text-align: right; padding: 0 0 15px 0;">
+        <button onclick="abrirInfo()" style="background: none; border: 1px solid #ccc; border-radius: 50%; width: 32px; height: 32px; color: #888; font-weight: bold; cursor: pointer; font-family: serif; font-style: italic; font-size: 1.1rem;">i</button>
+    </div>
 
-        <div class="grid-pasillos">
-            <div class="card-menu" onclick="irAPasillo('resiliencia')">
-                <div class="btn-categoria color-resiliencia">RESILIENCIA</div>
-                <div class="progress-container"><div id="bar-menu-resiliencia" class="progress-fill color-resiliencia"></div></div>
-                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-resiliencia">0</span> días logrados</p>
-            </div>
-            <div class="card-menu" onclick="irAPasillo('sabiduria')">
-                <div class="btn-categoria color-sabiduria">SABIDURÍA</div>
-                <div class="progress-container"><div id="bar-menu-sabiduria" class="progress-fill color-sabiduria"></div></div>
-                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-sabiduria">0</span> días logrados</p>
-            </div>
-            <div class="card-menu" onclick="irAPasillo('calma')">
-                <div class="btn-categoria color-calma">CALMA</div>
-                <div class="progress-container"><div id="bar-menu-calma" class="progress-fill color-calma"></div></div>
-                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-calma">0</span> días logrados</p>
-            </div>
-            <div class="card-menu" onclick="irAPasillo('empatia')">
-                <div class="btn-categoria color-empatia">EMPATÍA</div>
-                <div class="progress-container"><div id="bar-menu-empatia" class="progress-fill color-empatia"></div></div>
-                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-empatia">0</span> días logrados</p>
-            </div>
+    <div id="card-vip" class="card-vip" onclick="irAPasillo('vip')">
+        <h3 style="margin:0; color: #b38728;">✨ PASILLO VIP: MAESTRÍA ✨</h3>
+        <p style="font-size: 0.8rem; margin: 5px 0 0;">¡LOGRASTE EL EQUILIBRIO HOY!</p>
+    </div>
+
+    <div class="grid-pasillos">
+        <div class="card-menu" onclick="irAPasillo('resiliencia')">
+            <div class="btn-categoria color-resiliencia">RESILIENCIA</div>
+            <div class="progress-container"><div id="bar-menu-resiliencia" class="progress-fill color-resiliencia"></div></div>
+            <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-resiliencia">0</span> días logrados</p>
+        </div>
+        <div class="card-menu" onclick="irAPasillo('sabiduria')">
+            <div class="btn-categoria color-sabiduria">SABIDURÍA</div>
+            <div class="progress-container"><div id="bar-menu-sabiduria" class="progress-fill color-sabiduria"></div></div>
+            <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-sabiduria">0</span> días logrados</p>
+        </div>
+        <div class="card-menu" onclick="irAPasillo('calma')">
+            <div class="btn-categoria color-calma">CALMA</div>
+            <div class="progress-container"><div id="bar-menu-calma" class="progress-fill color-calma"></div></div>
+            <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-calma">0</span> días logrados</p>
+        </div>
+        <div class="card-menu" onclick="irAPasillo('empatia')">
+            <div class="btn-categoria color-empatia">EMPATÍA</div>
+            <div class="progress-container"><div id="bar-menu-empatia" class="progress-fill color-empatia"></div></div>
+            <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-empatia">0</span> días logrados</p>
         </div>
     </div>
 
+    <div style="margin-top: 35px; text-align: center; border-top: 1px solid #eee; padding-top: 25px; padding-bottom: 20px;">
+        <p style="font-size: 0.8rem; color: #888; margin-bottom: 12px; font-style: italic;">
+            ¿Dudas con tu llave física o tu progreso?
+        </p>
+        <button onclick="contactarSoporte()" style="background-color: #fdfaf5; border: 2px solid var(--cafe); color: var(--cafe); padding: 12px 25px; border-radius: 25px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0 auto;">
+            <span style="font-size: 1.2rem;">💬</span> SOPORTE TÉCNICO
+        </button>
+    </div>
+</div>
     <div id="pantalla-reto">
         <div style="text-align:center; margin-bottom:15px;">
             <h2 id="titulo-pasillo" style="margin:0; color: var(--cafe); font-size: 1.2rem; text-transform: uppercase;"></h2>
@@ -204,8 +215,35 @@
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script src="frases.js"></script>
 <script src="script.js"></script>
+    <div id="modal-info" class="modal" style="padding: 20px; box-sizing: border-box;">
+    <div style="background: white; padding: 25px; border-radius: 20px; max-width: 400px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; font-family: sans-serif; line-height: 1.5; text-align: left;">
+        <h2 style="color: var(--cafe); margin-top: 0; text-align: center;">🚀 Tu Chispa Diaria</h2>
+        
+        <p><strong>Bienvenidos al Market Inspirarte</strong>. Este es el gimnasio de tu mentalidad, diseñado para que seas el arquitecto de tu propio bienestar.</p>
+        
+        <h3 style="font-size: 1rem; color: #444; margin-bottom: 5px;">🛡️ Privacidad y Progreso</h3>
+        <p style="font-size: 0.9rem; color: #666; margin-top: 0;">
+            Esta aplicación <strong>no recoge datos personales</strong>. Tu avance y clave se guardan solo en la memoria local (Local Storage) de tu celular.
+        </p>
+        <div style="background: #fff3cd; padding: 10px; border-radius: 10px; border-left: 5px solid #ffecb5; font-size: 0.85rem; margin-bottom: 15px;">
+            ⚠️ <strong>¡Importante!</strong> Si borras el historial de navegación o los datos de tu navegador, perderás tu racha y tus niveles.
+        </div>
+
+        <h3 style="font-size: 1rem; color: #444; margin-bottom: 5px;">🎯 Niveles de Hábito</h3>
+        <ul style="font-size: 0.9rem; color: #666; padding-left: 20px; margin-top: 0;">
+            <li><strong>Aprendiz:</strong> (Día 1-13) Instalando el hábito. 🌱</li>
+            <li><strong>Practicante:</strong> (Día 14) Hábito sólido. 🌳</li>
+            <li><strong>Maestro:</strong> (Día 21+) Transformación total. 👑</li>
+        </ul>
+
+        <button onclick="cerrarInfo()" style="background: var(--cafe); color: white; border: none; padding: 15px; width: 100%; border-radius: 12px; font-weight: bold; margin-top: 15px; cursor: pointer; font-size: 1rem;">
+            ¡LISTO PARA EMPEZAR!
+        </button>
+    </div>
+</div>
 </body>
 </html>
+
 
 
 
