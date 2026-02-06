@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Inspirarte - Bienestar </title>
+    <title>Market Inspirarte - Bienestar Corporativo</title>
     <style>
-        /* --- ESTILOS PREMIUM --- */
         :root {
             --cafe: #6d4c41;
             --cafe-claro: #8d6e63;
@@ -16,7 +15,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #e0e0e0;
             margin: 0;
             display: flex;
@@ -33,236 +32,152 @@
             flex-direction: column;
         }
 
+        /* --- PANTALLA LOGIN (LLAVE FÍSICA) --- */
+        #pantalla-login {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--cafe); z-index: 5000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: white; padding: 30px; text-align: center;
+        }
+
+        #input-password {
+            width: 100%; max-width: 280px; padding: 15px; border-radius: 10px;
+            border: none; text-align: center; font-size: 1.2rem; margin-bottom: 20px;
+        }
+
+        /* --- DISEÑO APP --- */
         header {
             background: linear-gradient(135deg, var(--cafe), var(--cafe-claro));
-            color: white;
-            text-align: center;
-            padding: 40px 20px;
+            color: white; text-align: center; padding: 30px 20px;
             border-bottom: 6px solid var(--oro);
         }
 
-        /* --- MENÚ PRINCIPAL --- */
-        #menu-principal { padding: 25px; }
+        #menu-principal { padding: 20px; }
 
         .card-vip {
-            display: none;
-            background: linear-gradient(145deg, #ffffff, #fff9e6);
-            border: 2px solid var(--oro);
-            border-radius: 25px;
-            padding: 20px;
-            margin-bottom: 30px;
-            cursor: pointer;
-            text-align: center;
-            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+            display: none; background: linear-gradient(145deg, #fff, #fff9e6);
+            border: 2px solid var(--oro); border-radius: 20px; padding: 20px;
+            margin-bottom: 25px; text-align: center; cursor: pointer;
             animation: pulse 2s infinite;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.03); }
-            100% { transform: scale(1); }
-        }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
 
-        .grid-pasillos {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
+        .grid-pasillos { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
         .card-menu {
-            background: var(--blanco);
-            border-radius: 20px;
-            padding: 18px;
-            border: 1px solid #eee;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.05);
-            cursor: pointer;
-            text-align: center;
-        }
-
-        .btn-categoria {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        /* --- PANTALLA RETO --- */
-        #pantalla-reto { display: none; padding: 20px; background-color: var(--fondo); flex-grow: 1; }
-
-        .card-header-reto {
-            background: var(--blanco);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 20px;
+            background: white; border-radius: 15px; padding: 15px;
+            border: 1px solid #eee; text-align: center; cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        .main-bar-bg {
-            width: 100%;
-            background: #e0e0e0;
-            height: 15px;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 15px 0;
+        .btn-categoria {
+            width: 100%; padding: 10px; border: none; border-radius: 10px;
+            color: white; font-weight: bold; margin-bottom: 8px;
         }
 
-        .main-bar { width: 0%; height: 100%; transition: width 1s ease; }
+        #pantalla-reto { display: none; padding: 20px; background: var(--fondo); flex-grow: 1; }
 
         .reto-main-card {
-            background: var(--blanco);
-            border-radius: 30px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            text-align: center;
+            background: white; border-radius: 25px; padding: 25px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1); text-align: center;
         }
 
-        .frase-quote { font-size: 1.3rem; font-style: italic; margin-bottom: 25px; min-height: 80px; }
+        .frase-quote { font-size: 1.2rem; font-style: italic; margin-bottom: 20px; min-height: 70px; display: flex; align-items: center; justify-content: center; }
 
         .btn-whatsapp {
-            background-color: var(--whatsapp);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 30px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: bold;
-            margin-bottom: 20px;
+            background: var(--whatsapp); color: white; padding: 10px 20px;
+            border-radius: 20px; text-decoration: none; font-weight: bold;
+            display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px;
         }
 
-        .reto-instruccion {
-            background: #fff9c4;
-            padding: 20px;
-            border-left: 6px solid #fbc02d;
-            text-align: left;
-            margin-bottom: 30px;
-            border-radius: 0 15px 15px 0;
-        }
+        .reto-instruccion { background: #fff9c4; padding: 15px; border-left: 5px solid #fbc02d; text-align: left; margin-bottom: 20px; border-radius: 0 10px 10px 0; }
 
-        .btn-principal {
-            width: 100%;
-            padding: 20px;
-            border-radius: 40px;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-        }
+        .btn-principal { width: 100%; padding: 18px; border-radius: 30px; border: none; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
 
-        .btn-secundario {
-            width: 100%;
-            padding: 15px;
-            background: none;
-            border: 2px solid #ddd;
-            border-radius: 40px;
-            color: #888;
-            margin-top: 15px;
-            cursor: pointer;
-        }
+        .btn-secundario { width: 100%; padding: 12px; background: none; border: 2px solid #ddd; border-radius: 30px; color: #888; margin-top: 10px; cursor: pointer; }
 
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 40px;
-            border-radius: 30px;
-            text-align: center;
-            max-width: 300px;
-        }
-
-        /* Clases de apoyo */
         .color-resiliencia { background-color: #4caf50; }
         .color-sabiduria { background-color: #0288d1; }
         .color-calma { background-color: #ff7043; }
         .color-empatia { background-color: #fbc02d; }
         .color-vip { background-color: var(--oro); }
 
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:6000; justify-content: center; align-items: center; }
+        .modal-content { background:white; padding:30px; border-radius:20px; text-align:center; max-width:300px; }
     </style>
 </head>
 <body>
 
+<div id="pantalla-login">
+    <div style="font-size: 4rem; margin-bottom: 10px;">🔑</div>
+    <h2>LLAVE DEL MARKET</h2>
+    <p>Ingresa el código de tu llavero físico</p>
+    <input type="text" id="input-password" placeholder="Ej: MarketFeb26">
+    <button onclick="verificarAcceso()" style="background: var(--oro); color: var(--cafe); border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; cursor: pointer;">ENTRAR</button>
+    <p id="error-login" style="color: #ff8a80; margin-top: 15px; display: none;">⚠️ Clave incorrecta</p>
+</div>
+
 <div class="container">
     <header>
         <h1>MARKET INSPIRARTE</h1>
-        <p>La CHISPA para tu día</p>
+        <p>Tu Ruta hacia la Maestría</p>
     </header>
 
     <div id="menu-principal">
         <div id="card-vip" class="card-vip" onclick="irAPasillo('vip')">
             <h3 style="margin:0; color: #b38728;">✨ PASILLO VIP: MAESTRÍA ✨</h3>
-            <p style="font-size: 0.8rem;">¡RETO ESPECIAL DESBLOQUEADO!</p>
+            <p style="font-size: 0.8rem; margin: 5px 0 0;">¡RETO ESPECIAL DESBLOQUEADO!</p>
         </div>
 
         <div class="grid-pasillos">
             <div class="card-menu" onclick="irAPasillo('resiliencia')">
                 <div class="btn-categoria color-resiliencia">RESILIENCIA</div>
-                <p style="font-size: 0.7rem;"><span id="mini-dias-resiliencia">0</span> días logrados</p>
+                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-resiliencia">0</span> días</p>
             </div>
             <div class="card-menu" onclick="irAPasillo('sabiduria')">
                 <div class="btn-categoria color-sabiduria">SABIDURÍA</div>
-                <p style="font-size: 0.7rem;"><span id="mini-dias-sabiduria">0</span> días logrados</p>
+                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-sabiduria">0</span> días</p>
             </div>
             <div class="card-menu" onclick="irAPasillo('calma')">
                 <div class="btn-categoria color-calma">CALMA</div>
-                <p style="font-size: 0.7rem;"><span id="mini-dias-calma">0</span> días logrados</p>
+                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-calma">0</span> días</p>
             </div>
             <div class="card-menu" onclick="irAPasillo('empatia')">
                 <div class="btn-categoria color-empatia">EMPATÍA</div>
-                <p style="font-size: 0.7rem;"><span id="mini-dias-empatia">0</span> días logrados</p>
+                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-empatia">0</span> días</p>
             </div>
         </div>
     </div>
 
     <div id="pantalla-reto">
-        <div class="card-header-reto">
-            <h2 id="titulo-pasillo" style="text-transform: uppercase;"></h2>
-            <div class="main-bar-bg"><div id="bar-progreso" class="main-bar"></div></div>
-            <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
-                <span id="porcentaje-txt">0% completado</span>
-                <span><span id="porcentaje-valor">0</span> días</span>
-            </div>
+        <div style="text-align:center; margin-bottom:15px;">
+            <h2 id="titulo-pasillo" style="margin:0; color: var(--cafe); font-size: 1.2rem;"></h2>
+            <p style="font-size: 0.8rem; color: #888;">Días logrados: <span id="porcentaje-valor">0</span></p>
         </div>
 
         <div class="reto-main-card">
             <div id="frase-display" class="frase-quote">"..."</div>
+            <a href="javascript:void(0)" onclick="compartirWhatsApp()" class="btn-whatsapp">📱 Compartir</a>
             
-            <a href="javascript:void(0)" onclick="compartirWhatsApp()" class="btn-whatsapp">
-                📱 Compartir con mi equipo
-            </a>
-
             <div class="reto-instruccion">
-                <strong>⚡ RETO DEL DÍA:</strong>
-                <p id="reto-display" style="margin-top:10px;"></p>
+                <strong style="font-size: 0.8rem; color: #af8600;">⚡ RETO DE HOY:</strong>
+                <p id="reto-display" style="margin: 5px 0 0; font-size: 0.95rem;"></p>
             </div>
 
-            <button id="btn-logrado" onclick="completarReto()" class="btn-principal color-resiliencia">¡LOGRADO!</button>
-            <button id="btn-cambiar-frase" class="btn-secundario" onclick="seleccionarFraseNueva(); actualizarInterfaz();">🔄 Ver otra opción</button>
-            <button class="btn-secundario" onclick="mostrarMenu()" style="border:none;">← Volver al menú</button>
+            <button id="btn-logrado" onclick="completarReto()" class="btn-principal">¡LOGRADO!</button>
+            <button id="btn-cambiar-frase" class="btn-secundario" onclick="seleccionarFraseNueva(); actualizarInterfaz();">🔄 Otra frase</button>
+            <button class="btn-secundario" onclick="mostrarMenu()" style="border:none;">Volver</button>
         </div>
     </div>
 </div>
 
-<div id="modal-insignia" class="modal">
+<div id="modal-insignia" class="modal" onclick="this.style.display='none'">
     <div class="modal-content">
         <div id="insignia-icon" style="font-size: 4rem;">🏆</div>
         <h2 id="insignia-titulo"></h2>
         <p id="insignia-msj"></p>
-        <button onclick="document.getElementById('modal-insignia').style.display='none'" class="btn-principal color-cafe">CONTINUAR</button>
+        <button class="btn-principal color-cafe">CONTINUAR</button>
     </div>
 </div>
 
@@ -272,4 +187,3 @@
 
 </body>
 </html>
-
