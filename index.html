@@ -32,7 +32,7 @@
             flex-direction: column;
         }
 
-        /* --- PANTALLA LOGIN (LLAVE FÍSICA) --- */
+        /* --- LOGIN --- */
         #pantalla-login {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--cafe); z-index: 5000;
@@ -45,7 +45,6 @@
             border: none; text-align: center; font-size: 1.2rem; margin-bottom: 20px;
         }
 
-        /* --- DISEÑO APP --- */
         header {
             background: linear-gradient(135deg, var(--cafe), var(--cafe-claro));
             color: white; text-align: center; padding: 30px 20px;
@@ -75,6 +74,14 @@
             width: 100%; padding: 10px; border: none; border-radius: 10px;
             color: white; font-weight: bold; margin-bottom: 8px;
         }
+
+        /* BARRAS DE PROGRESO */
+        .progress-container {
+            width: 100%; background: #eee; height: 8px; border-radius: 10px;
+            overflow: hidden; margin: 10px 0;
+        }
+
+        .progress-fill { width: 0%; height: 100%; transition: width 0.8s ease; }
 
         #pantalla-reto { display: none; padding: 20px; background: var(--fondo); flex-grow: 1; }
 
@@ -127,38 +134,45 @@
     <div id="menu-principal">
         <div id="card-vip" class="card-vip" onclick="irAPasillo('vip')">
             <h3 style="margin:0; color: #b38728;">✨ PASILLO VIP: MAESTRÍA ✨</h3>
-            <p style="font-size: 0.8rem; margin: 5px 0 0;">¡RETO ESPECIAL DESBLOQUEADO!</p>
+            <p style="font-size: 0.8rem; margin: 5px 0 0;">¡LOGRASTE EL EQUILIBRIO HOY!</p>
         </div>
 
         <div class="grid-pasillos">
             <div class="card-menu" onclick="irAPasillo('resiliencia')">
                 <div class="btn-categoria color-resiliencia">RESILIENCIA</div>
-                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-resiliencia">0</span> días</p>
+                <div class="progress-container"><div id="bar-menu-resiliencia" class="progress-fill color-resiliencia"></div></div>
+                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-resiliencia">0</span> días logrados</p>
             </div>
             <div class="card-menu" onclick="irAPasillo('sabiduria')">
                 <div class="btn-categoria color-sabiduria">SABIDURÍA</div>
-                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-sabiduria">0</span> días</p>
+                <div class="progress-container"><div id="bar-menu-sabiduria" class="progress-fill color-sabiduria"></div></div>
+                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-sabiduria">0</span> días logrados</p>
             </div>
             <div class="card-menu" onclick="irAPasillo('calma')">
                 <div class="btn-categoria color-calma">CALMA</div>
-                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-calma">0</span> días</p>
+                <div class="progress-container"><div id="bar-menu-calma" class="progress-fill color-calma"></div></div>
+                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-calma">0</span> días logrados</p>
             </div>
             <div class="card-menu" onclick="irAPasillo('empatia')">
                 <div class="btn-categoria color-empatia">EMPATÍA</div>
-                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-empatia">0</span> días</p>
+                <div class="progress-container"><div id="bar-menu-empatia" class="progress-fill color-empatia"></div></div>
+                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-empatia">0</span> días logrados</p>
             </div>
         </div>
     </div>
 
     <div id="pantalla-reto">
         <div style="text-align:center; margin-bottom:15px;">
-            <h2 id="titulo-pasillo" style="margin:0; color: var(--cafe); font-size: 1.2rem;"></h2>
-            <p style="font-size: 0.8rem; color: #888;">Días logrados: <span id="porcentaje-valor">0</span></p>
+            <h2 id="titulo-pasillo" style="margin:0; color: var(--cafe); font-size: 1.2rem; text-transform: uppercase;"></h2>
+            <div class="progress-container" style="height: 12px; max-width: 80%; margin: 10px auto;">
+                <div id="bar-reto-detalle" class="progress-fill"></div>
+            </div>
+            <p style="font-size: 0.8rem; color: #888;"><span id="porcentaje-txt">0%</span> - <span id="porcentaje-valor">0</span> días logrados</p>
         </div>
 
         <div class="reto-main-card">
             <div id="frase-display" class="frase-quote">"..."</div>
-            <a href="javascript:void(0)" onclick="compartirWhatsApp()" class="btn-whatsapp">📱 Compartir</a>
+            <a href="javascript:void(0)" onclick="compartirWhatsApp()" class="btn-whatsapp">📱 Compartir reto</a>
             
             <div class="reto-instruccion">
                 <strong style="font-size: 0.8rem; color: #af8600;">⚡ RETO DE HOY:</strong>
@@ -166,8 +180,8 @@
             </div>
 
             <button id="btn-logrado" onclick="completarReto()" class="btn-principal">¡LOGRADO!</button>
-            <button id="btn-cambiar-frase" class="btn-secundario" onclick="seleccionarFraseNueva(); actualizarInterfaz();">🔄 Otra frase</button>
-            <button class="btn-secundario" onclick="mostrarMenu()" style="border:none;">Volver</button>
+            <button id="btn-cambiar-frase" class="btn-secundario" onclick="seleccionarFraseNueva(); actualizarInterfaz();">🔄 Otra opción</button>
+            <button class="btn-secundario" onclick="mostrarMenu()" style="border:none;">← Volver al mapa</button>
         </div>
     </div>
 </div>
@@ -184,6 +198,5 @@
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script src="frases.js"></script>
 <script src="script.js"></script>
-
 </body>
 </html>
