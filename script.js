@@ -1,32 +1,6 @@
-const frasesDB = {
-    "calma": [
-        { "frase": "El silencio no está vacío, está lleno de respuestas.", "reto": "Permanece en silencio 10 min al despertar hoy." },
-        { "frase": "Tu paz vale más que tener la razón.", "reto": "No entres en discusiones innecesarias hoy." },
-        { "frase": "La calma es el superpoder del alma.", "reto": "Haz 5 respiraciones profundas antes de cada comida." }
-    ],
-    "resiliencia": [
-        { "frase": "Nunca es tarde para ser lo que podrías haber sido.", "reto": "Dedica 15 min a un sueño que habías dejado de lado." },
-        { "frase": "Los robles más fuertes crecen contra el viento.", "reto": "Escribe una meta pequeña y cúmplela hoy mismo." }
-    ],
-    "sabiduria": [
-        { "frase": "La duda es el principio de la sabiduría.", "reto": "Lee 5 páginas de un libro que te enseñe algo nuevo." },
-        { "frase": "Saber que no se sabe es la mayor sabiduría.", "reto": "Pregúntale a alguien experto sobre un tema que desconozcas." }
-    ],
-    "empatia": [
-        { "frase": "Mira con los ojos de otro.", "reto": "Haz un cumplido sincero a alguien que no conozcas bien." },
-        { "frase": "La empatía es escuchar sin juzgar.", "reto": "Escucha a un compañero sin interrumpir durante 5 minutos." }
-    ]
-};
-
-// Variable para guardar la frase seleccionada en la sesión actual
-let fraseAsignada = {
-    resiliencia: null,
-    sabiduria: null,
-    calma: null,
-    empatia: null
-};
-
+// VARIABLES GLOBALES (frasesDB viene del archivo frases.js cargado previamente)
 let pasilloActual = '';
+let fraseAsignada = { resiliencia: null, sabiduria: null, calma: null, empatia: null };
 const colores = { 'resiliencia': '#4caf50', 'sabiduria': '#0288d1', 'calma': '#ff7043', 'empatia': '#fbc02d' };
 
 window.onload = () => {
@@ -38,30 +12,30 @@ function irAPasillo(nombre) {
     document.getElementById('menu-principal').style.display = 'none';
     document.getElementById('pantalla-reto').style.display = 'block';
     
-    // Si no hay una frase asignada para este pasillo en esta sesión, elegimos una
+    // Si no hay una frase elegida en esta sesión para este pasillo, elegimos una.
     if (!fraseAsignada[pasilloActual]) {
         seleccionarFraseNueva();
     }
-    
     actualizarInterfaz();
-}
-
-function seleccionarFraseNueva() {
-    const lista = frasesDB[pasilloActual];
-    let nuevaFrase;
-    
-    // Si hay más de una frase, intentamos que no repita la anterior (si existiera)
-    do {
-        nuevaFrase = lista[Math.floor(Math.random() * lista.length)];
-    } while (lista.length > 1 && fraseAsignada[pasilloActual] && nuevaFrase.frase === fraseAsignada[pasilloActual].frase);
-    
-    fraseAsignada[pasilloActual] = nuevaFrase;
 }
 
 function mostrarMenu() {
     document.getElementById('menu-principal').style.display = 'block';
     document.getElementById('pantalla-reto').style.display = 'none';
     actualizarMenuPrincipal();
+}
+
+function seleccionarFraseNueva() {
+    const lista = frasesDB[pasilloActual];
+    if (!lista || lista.length === 0) return;
+
+    let nuevaFrase;
+    // Evita repetir la misma frase si hay más opciones disponibles
+    do {
+        nuevaFrase = lista[Math.floor(Math.random() * lista.length)];
+    } while (lista.length > 1 && fraseAsignada[pasilloActual] && nuevaFrase.frase === fraseAsignada[pasilloActual].frase);
+    
+    fraseAsignada[pasilloActual] = nuevaFrase;
 }
 
 function actualizarMenuPrincipal() {
@@ -86,8 +60,9 @@ function actualizarMenuPrincipal() {
 
 function actualizarInterfaz() {
     const hoy = fraseAsignada[pasilloActual];
+    if (!hoy) return;
 
-    document.getElementById('titulo-pasillo').innerText = "Pasillo de " + pasilloActual;
+    document.getElementById('titulo-pasillo').innerText = pasilloActual;
     document.getElementById('nombre-pasillo-txt').innerText = pasilloActual;
     document.getElementById('frase-display').innerText = '"' + hoy.frase + '"';
     document.getElementById('reto-display').innerText = hoy.reto;
@@ -101,10 +76,13 @@ function actualizarInterfaz() {
     document.getElementById('porcentaje-txt').innerText = porc + "%";
     
     const barra = document.getElementById('bar-progreso');
-    barra.style.width = porc + "%";
-    barra.style.backgroundColor = colores[pasilloActual];
+    if (barra) {
+        barra.style.width = porc + "%";
+        barra.style.backgroundColor = colores[pasilloActual];
+    }
 
     const btn = document.getElementById('btn-logrado');
+    const btnCambiar = document.getElementById('btn-cambiar-frase');
     btn.style.backgroundColor = colores[pasilloActual];
     
     const fechaHoy = new Date().toISOString().split('T')[0];
@@ -112,25 +90,26 @@ function actualizarInterfaz() {
         btn.disabled = true;
         btn.innerText = "¡YA CUMPLIDO!";
         btn.style.opacity = "0.6";
+        if (btnCambiar) btnCambiar.style.display = "none";
     } else {
         btn.disabled = false;
         btn.innerText = "¡LOGRADO!";
         btn.style.opacity = "1";
+        if (btnCambiar) btnCambiar.style.display = "block";
     }
 }
 
 function completarReto() {
     let progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     if (!progreso[pasilloActual]) progreso[pasilloActual] = [];
-    
     const hoy = new Date().toISOString().split('T')[0];
+    
     if (!progreso[pasilloActual].includes(hoy)) {
         progreso[pasilloActual].push(hoy);
         localStorage.setItem('progreso_market', JSON.stringify(progreso));
         actualizarInterfaz();
-        
         if(progreso[pasilloActual].length === 1) {
-            lanzarMedalla("🎖️", "¡Buen inicio!", "Has comenzado tu camino en este pasillo.");
+            lanzarMedalla("🎖️", "¡Buen inicio!", "Has comenzado tu racha en " + pasilloActual);
         }
     }
 }
