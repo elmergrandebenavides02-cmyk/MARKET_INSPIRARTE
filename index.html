@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Inspirarte</title>
+    <title>Market Inspirarte - Pro</title>
     <style>
         :root {
             --cafe: #6d4c41;
             --fondo: #fdfaf5;
             --oro: #d4af37;
+            --whatsapp: #25D366;
         }
 
         body {
@@ -41,7 +42,7 @@
         }
 
         .card-vip {
-            display: none; /* Se activa por JS si completa los 4 */
+            display: none; 
             background: linear-gradient(145deg, #ffffff, #fff9e6);
             border: 2px solid var(--oro);
             border-radius: 20px;
@@ -49,6 +50,13 @@
             margin-bottom: 20px;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+            animation: pulse-vip 2s infinite;
+        }
+
+        @keyframes pulse-vip {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
         }
 
         .grid-pasillos {
@@ -136,12 +144,28 @@
             border: 1px solid #eee;
         }
 
+        .btn-share-wa {
+            background-color: var(--whatsapp);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-bottom: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
         .reto-detalle {
             background: #fff9c4;
             padding: 15px;
             border-left: 6px solid #fbc02d;
             text-align: left;
-            margin: 20px 0;
+            margin: 15px 0;
             border-radius: 0 15px 15px 0;
         }
 
@@ -218,59 +242,4 @@
             <div onclick="irAPasillo('sabiduria')" class="card-menu">
                 <button class="btn-pasillo" style="background: #0288d1;">📖 SABIDURÍA</button>
                 <div class="mini-bar-bg"><div id="mini-bar-sabiduria" class="mini-bar"></div></div>
-                <p class="mini-txt"><span id="mini-dias-sabiduria">0</span> días</p>
-            </div>
-            <div onclick="irAPasillo('calma')" class="card-menu">
-                <button class="btn-pasillo" style="background: #ff7043;">🧘 CALMA</button>
-                <div class="mini-bar-bg"><div id="mini-bar-calma" class="mini-bar"></div></div>
-                <p class="mini-txt"><span id="mini-dias-calma">0</span> días</p>
-            </div>
-            <div onclick="irAPasillo('empatia')" class="card-menu">
-                <button class="btn-pasillo" style="background: #fbc02d;">🤝 EMPATÍA</button>
-                <div class="mini-bar-bg"><div id="mini-bar-empatia" class="mini-bar"></div></div>
-                <p class="mini-txt"><span id="mini-dias-empatia">0</span> días</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="pantalla-reto">
-        <div class="card-stats">
-            <span style="font-weight: bold; color: var(--cafe);">🔥 Racha en <span id="nombre-pasillo-txt" style="text-transform: capitalize;"></span>:</span>
-            <span id="porcentaje-valor" style="font-size: 1.3rem; font-weight: bold;">0</span> días
-        </div>
-
-        <div class="progress-bg">
-            <div id="bar-progreso" class="progress-bar"></div>
-        </div>
-        <p style="text-align: right; font-size: 0.7rem; color: #999; margin-top: 5px; font-weight: bold;">META ANUAL: <span id="porcentaje-txt">0%</span></p>
-
-        <div class="reto-box">
-            <h2 id="titulo-pasillo" style="color: var(--cafe); margin-top: 0; text-transform: capitalize; font-size: 1.2rem;"></h2>
-            <p id="frase-display" style="font-style: italic; font-size: 1.1rem; min-height: 60px; color: #444;">"..."</p>
-            
-            <div class="reto-detalle">
-                <strong>💪 EL RETO:</strong><br>
-                <span id="reto-display">...</span>
-            </div>
-
-            <button id="btn-logrado" onclick="completarReto()" class="btn-logrado">¡LOGRADO!</button>
-            <button id="btn-cambiar-frase" onclick="seleccionarFraseNueva(); actualizarInterfaz();" class="btn-cambiar">🔄 VER OTRA OPCIÓN</button>
-            <button onclick="mostrarMenu()" class="btn-volver">← VOLVER AL MENÚ</button>
-        </div>
-    </div>
-</div>
-
-<div id="modal-insignia" class="modal" onclick="this.style.display='none'">
-    <div style="background: white; padding: 30px; border-radius: 20px; text-align: center; max-width: 280px;" onclick="event.stopPropagation()">
-        <div id="insignia-icon" style="font-size: 3.5rem; margin-bottom: 10px;">🎖️</div>
-        <h3 id="insignia-titulo" style="color: var(--cafe); margin: 10px 0;"></h3>
-        <p id="insignia-msj" style="color: #666; font-size: 0.9rem; line-height: 1.4;"></p>
-        <button style="background: var(--cafe); color: white; border: none; padding: 12px 25px; border-radius: 20px; margin-top: 15px; cursor: pointer; font-weight: bold;">¡GENIAL!</button>
-    </div>
-</div>
-
-<script src="frases.js"></script>
-<script src="script.js"></script>
-
-</body>
-</html>
+                <p class="mini-txt"><span id="mini-dias-sab
