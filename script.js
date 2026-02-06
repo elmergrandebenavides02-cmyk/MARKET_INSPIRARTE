@@ -50,6 +50,55 @@ function actualizarInterfaz() {
     const hoyFrase = fraseAsignada[pasilloActual];
     if (!hoyFrase) return;
 
+    document.getElementById('titulo-pasillo').innerText = pasilloActual;
+    document.getElementById('frase-display').innerText = `"${hoyFrase.frase}"`;
+    document.getElementById('reto-display').innerText = hoyFrase.reto;
+
+    const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
+    const lista = progreso[pasilloActual] || [];
+    const numDias = lista.length;
+    
+    // LÓGICA DE 14 DÍAS
+    let porcentaje = Math.min((numDias / 14) * 100, 100).toFixed(0);
+    
+    let nivelTexto = "";
+    let iconoNivel = "";
+
+    if (numDias < 7) {
+        nivelTexto = "Iniciado"; iconoNivel = "🌱";
+    } else if (numDias < 14) {
+        nivelTexto = "Aprendiz"; iconoNivel = "🌿";
+    } else if (numDias < 21) {
+        nivelTexto = "Practicante"; iconoNivel = "🌳";
+    } else {
+        nivelTexto = "Maestro"; iconoNivel = "👑";
+    }
+
+    document.getElementById('porcentaje-valor').innerText = numDias;
+    document.getElementById('porcentaje-txt').innerText = `${nivelTexto} ${iconoNivel} (${porcentaje}%)`;
+    
+    const barraDetalle = document.getElementById('bar-reto-detalle');
+    if(barraDetalle) {
+        barraDetalle.style.width = porcentaje + "%";
+        barraDetalle.style.backgroundColor = colores[pasilloActual];
+    }
+
+    const btn = document.getElementById('btn-logrado');
+    const fechaHoy = new Date().toLocaleDateString('en-CA'); 
+    
+    if (lista.includes(fechaHoy)) {
+        btn.disabled = true;
+        btn.innerText = "¡RETO CUMPLIDO HOY!";
+        btn.style.opacity = "0.5";
+        btn.style.backgroundColor = "#ccc";
+    } else {
+        btn.disabled = false;
+        btn.innerText = "¡LOGRADO!";
+        btn.style.opacity = "1";
+        btn.className = "btn-principal color-" + pasilloActual;
+    }
+}
+
     // 1. Mostrar textos
     document.getElementById('titulo-pasillo').innerText = pasilloActual;
     document.getElementById('frase-display').innerText = `"${hoyFrase.frase}"`;
@@ -95,17 +144,36 @@ function actualizarInterfaz() {
 function completarReto() {
     let progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     if (!progreso[pasilloActual]) progreso[pasilloActual] = [];
-    const hoy = new Date().toISOString().split('T')[0];
+    const hoy = new Date().toLocaleDateString('en-CA');
     
     if (!progreso[pasilloActual].includes(hoy)) {
         progreso[pasilloActual].push(hoy);
         localStorage.setItem('progreso_market', JSON.stringify(progreso));
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: [colores[pasilloActual], '#fff'] });
+        
+        const totalDias = progreso[pasilloActual].length;
+
+        // CELEBRACIÓN ESPECIAL DÍA 14
+        if (totalDias === 14) {
+            // Lluvia de confeti dorado y plateado
+            var duration = 5 * 1000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+              confetti({ particleCount: 10, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#d4af37', '#ffffff', '#fcf6ba'] });
+              confetti({ particleCount: 10, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#d4af37', '#ffffff', '#fcf6ba'] });
+              if (Date.now() < end) { requestAnimationFrame(frame); }
+            }());
+            
+            lanzarMedalla("👑", "¡NIVEL PRACTICANTE!", "¡Increíble! Has completado los 14 días. Tu hábito está instalado.");
+        } else {
+            // Confeti normal de color
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: [colores[pasilloActual], '#fff'] });
+            lanzarMedalla("🏆", "¡Logrado!", "Sigue así, cada día cuenta.");
+        }
+        
         actualizarInterfaz();
-        lanzarMedalla(pasilloActual === 'vip' ? "💎" : "🏆", "¡Logrado!", "Has avanzado en tu camino de bienestar.");
     }
 }
-
 function actualizarMenuPrincipal() {
     const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     const pasillos = ['resiliencia', 'sabiduria', 'calma', 'empatia'];
@@ -152,4 +220,5 @@ function contactarSoporte() {
     const url = `https://wa.me/${telefonoSoporte}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
 }
+
 
