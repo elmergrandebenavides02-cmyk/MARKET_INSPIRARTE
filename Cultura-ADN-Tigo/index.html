@@ -167,7 +167,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<script src="datos.js"></script>
+<script src="frasesDB.js"></script>
 <script>
     let capacidadActual = '';
     // Cargar progreso inicial
@@ -209,7 +209,7 @@
     }
 
     function cargarFraseAleatoria() {
-        const lista = datosCultura[capacidadActual];
+        const lista = frasesDBCultura[capacidadActual];
         const random = lista[Math.floor(Math.random() * lista.length)];
         document.getElementById('frase-display').innerText = `"${random.frase}"`;
         document.getElementById('reto-display').innerText = random.reto;
