@@ -209,7 +209,7 @@
     }
 
     function cargarFraseAleatoria() {
-        const lista = frasesDBCultura[capacidadActual];
+        const lista = frasesDB[capacidadActual];
         const random = lista[Math.floor(Math.random() * lista.length)];
         document.getElementById('frase-display').innerText = `"${random.frase}"`;
         document.getElementById('reto-display').innerText = random.reto;
