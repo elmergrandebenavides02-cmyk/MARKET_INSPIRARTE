@@ -166,9 +166,14 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<script src="frasesDB.js"></script>
+<script src="frases.js"></script>
+
 <script>
+  function cambiarFrase() {
+      // Usar frasesDB con f minúscula tal cual está en tu imagen
+      const lista = frasesDB[capacidadActualGlobal]; 
+        }
+</script>
     let capacidadActual = '';
     // Cargar progreso inicial
     const progreso = JSON.parse(localStorage.getItem('progresoTigo')) || { agilidad:0, colaboracion:0, enfoque:0, integridad:0, talento:0 };
