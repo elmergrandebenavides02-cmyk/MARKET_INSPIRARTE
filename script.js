@@ -1,5 +1,6 @@
 let pasilloActual = '';
 let fraseAsignada = { resiliencia: null, sabiduria: null, calma: null, empatia: null, vip: null };
+
 const colores = { 
     'resiliencia': '#4caf50', 
     'sabiduria': '#0288d1', 
@@ -14,21 +15,16 @@ const clavesMensuales = {
     8: "MarketSep26", 9: "MarketOct26", 10: "MarketNov26", 11: "MarketDic26"
 };
 
-// --- ACCESO PERMANENTE ---
+// --- SISTEMA DE ACCESO ---
 function verificarAcceso() {
     const passIngresada = document.getElementById('input-password').value.trim();
     const clavesValidas = Object.values(clavesMensuales);
     
     if (clavesValidas.includes(passIngresada)) {
         confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-        
-        // Guardamos el acceso permanente
         localStorage.setItem('acceso_market', 'true');
-        
-        // Ocultamos login
         document.getElementById('pantalla-login').style.display = 'none';
         
-        // REVISAMOS SI YA VIO LA GUÍA
         if (localStorage.getItem('guia_leida') !== 'true') {
             abrirInfo(); 
         } else {
@@ -46,7 +42,6 @@ function contactarSoporte() {
     window.open(`https://wa.me/${telefonoSoporte}?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
 
-// Actualizamos la carga inicial también
 window.onload = () => {
     if (localStorage.getItem('acceso_market') === 'true') {
         const loginPantalla = document.getElementById('pantalla-login');
@@ -60,7 +55,11 @@ function irAPasillo(nombre) {
     pasilloActual = nombre;
     document.getElementById('menu-principal').style.display = 'none';
     document.getElementById('pantalla-reto').style.display = 'block';
-    if (!fraseAsignada[pasilloActual]) seleccionarFraseNueva();
+    
+    // Si no tiene frase asignada o es el pasillo VIP (que siempre refresca), asignamos una
+    if (!fraseAsignada[pasilloActual] || pasilloActual === 'vip') {
+        seleccionarFraseNueva();
+    }
     actualizarInterfaz();
 }
 
@@ -72,24 +71,29 @@ function mostrarMenu() {
 
 function seleccionarFraseNueva() {
     const lista = frasesDB[pasilloActual];
-    if (lista) fraseAsignada[pasilloActual] = lista[Math.floor(Math.random() * lista.length)];
+    if (lista && lista.length > 0) {
+        fraseAsignada[pasilloActual] = lista[Math.floor(Math.random() * lista.length)];
+    }
 }
 
-// --- INTERFAZ Y NIVELES ---
+// --- RENDERIZADO DE INTERFAZ ---
 function actualizarInterfaz() {
     const hoyFrase = fraseAsignada[pasilloActual];
     if (!hoyFrase) return;
 
+    // Títulos y textos
     document.getElementById('titulo-pasillo').innerText = pasilloActual;
     document.getElementById('frase-display').innerText = `"${hoyFrase.frase}"`;
     document.getElementById('reto-display').innerText = hoyFrase.reto;
 
+    // Progreso
     const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     const lista = progreso[pasilloActual] || [];
     const numDias = lista.length;
     
     let porcentaje = Math.min((numDias / 14) * 100, 100).toFixed(0);
     
+    // Lógica de Niveles
     let nivelTexto = "";
     let iconoNivel = "";
     if (numDias < 7) { nivelTexto = "Iniciado"; iconoNivel = "🌱"; }
@@ -106,31 +110,35 @@ function actualizarInterfaz() {
         barraDetalle.style.backgroundColor = colores[pasilloActual];
     }
 
+    // Botón de Logro y Lógica de Compromiso
     const btn = document.getElementById('btn-logrado');
     const leyenda = document.getElementById('instruccion-compromiso');
     const fechaHoy = new Date().toLocaleDateString('en-CA'); 
     
     if (lista.includes(fechaHoy)) {
+        // Estilo botón desactivado (Compromiso ya hecho)
         btn.disabled = true;
         btn.innerText = "🤝 COMPROMISO ADQUIRIDO";
         btn.style.opacity = "0.5";
         btn.style.backgroundColor = "#ccc";
+        btn.style.cursor = "default";
         if(leyenda) {
             leyenda.innerHTML = "✅ <strong>¡Reto activado!</strong> Tu mente ya está trabajando. No olvides usar tu llavero como ancla visual para cumplirlo.";
         }
     } else {
+        // Estilo botón activo
         btn.disabled = false;
         btn.innerText = "LO ACEPTO / ¡LOGRADO!";
         btn.style.opacity = "1";
+        btn.style.cursor = "pointer";
         btn.style.backgroundColor = colores[pasilloActual] || "var(--cafe)";
-        btn.className = "btn-principal";
         if(leyenda) {
             leyenda.innerHTML = `📌 <strong>Tip de Bienestar:</strong> Si no puedes cumplirlo ahora, presiona el botón como <strong>compromiso mental</strong>. <br> <span style="color: var(--cafe-claro); display:block; margin-top:5px;">🔑 Deja tu llavero en un lugar visible (espejo, PC o mesa) para recordarlo durante el día.</span>`;
         }
     }
 }
 
-// --- LOGRADO ---
+// --- ACCIÓN DE COMPLETAR ---
 function completarReto() {
     let progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     if (!progreso[pasilloActual]) progreso[pasilloActual] = [];
@@ -141,44 +149,26 @@ function completarReto() {
         localStorage.setItem('progreso_market', JSON.stringify(progreso));
         
         const totalDias = progreso[pasilloActual].length;
-
-        // --- MEJORA DE NARRATIVA: Cambio visual inmediato ---
+        
+        // Cambio visual inmediato
         const btn = document.getElementById('btn-logrado');
         const leyenda = document.getElementById('instruccion-compromiso');
-        
         if(btn) {
             btn.innerText = "🤝 COMPROMISO ADQUIRIDO";
             btn.style.backgroundColor = "#ccc";
             btn.disabled = true;
         }
-
         if(leyenda) {
-            leyenda.innerHTML = "✅ <strong>¡Reto activado!</strong> Tu mente ya está trabajando. No olvides usar tu llavero como ancla visual para cumplirlo.";
+            leyenda.innerHTML = "✅ <strong>¡Reto activado!</strong> Tu mente ya está trabajando.";
         }
 
-        // --- ESCENARIO A: EL GRAN HITO (DÍA 14) ---
+        // Premios por constancia
         if (totalDias === 14) {
-            var duration = 5 * 1000;
-            var end = Date.now() + duration;
-            (function frame() {
-              confetti({ particleCount: 10, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#d4af37', '#fcf6ba', '#ffffff'] });
-              confetti({ particleCount: 10, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#d4af37', '#fcf6ba', '#ffffff'] });
-              if (Date.now() < end) requestAnimationFrame(frame);
-            }());
-
-            lanzarMedalla(
-                "👑", 
-                "¡NIVEL PRACTICANTE!", 
-                "¡Increíble logro! Has mantenido tu constancia por 14 días. El hábito ya es parte de ti. ¡Sigue adelante hasta alcanzar la MAESTRÍA total! 🌳"
-            );
-            
+            lanzarConfettiEspecial();
+            lanzarMedalla("👑", "¡NIVEL PRACTICANTE!", "Has mantenido tu constancia por 14 días. ¡El hábito ya es parte de ti!");
             actualizarInterfaz();
-        } 
-        // --- ESCENARIO B: DÍA NORMAL ---
-        else {
+        } else {
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: [colores[pasilloActual], '#fff'] });
-            
-            // Pausa breve para que vean el cambio del botón antes de volver al menú
             setTimeout(() => {
                 actualizarInterfaz();
                 mostrarMenu();
@@ -187,6 +177,17 @@ function completarReto() {
     }
 }
 
+function lanzarConfettiEspecial() {
+    var duration = 5 * 1000;
+    var end = Date.now() + duration;
+    (function frame() {
+      confetti({ particleCount: 10, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#d4af37', '#fcf6ba'] });
+      confetti({ particleCount: 10, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#d4af37', '#fcf6ba'] });
+      if (Date.now() < end) requestAnimationFrame(frame);
+    }());
+}
+
+// --- ACTUALIZACIÓN DEL MENÚ ---
 function actualizarMenuPrincipal() {
     const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     const pasillos = ['resiliencia', 'sabiduria', 'calma', 'empatia'];
@@ -207,17 +208,19 @@ function actualizarMenuPrincipal() {
         }
     });
 
+    // Lógica Pasillo VIP (Solo si completó los 4 de hoy)
     const cardVip = document.getElementById('card-vip');
-    if (cardVip) cardVip.style.display = (completadosHoy >= 4) ? "block" : "none";
+    if (cardVip) {
+        cardVip.style.display = (completadosHoy >= 4) ? "block" : "none";
+    }
 }
 
+// --- UTILIDADES ---
 function compartirWhatsApp() {
-    // Obtenemos los textos actuales de la pantalla
     const titulo = pasilloActual.toUpperCase();
     const frase = document.getElementById('frase-display').innerText;
     const reto = document.getElementById('reto-display').innerText;
     
-    // Construimos el mensaje con tu firma personalizada
     const mensaje = encodeURIComponent(
         `🚀 *MI CHISPA DIARIA - MARKET INSPIRARTE* 🚀\n\n` +
         `📍 *Pasillo:* ${titulo}\n\n` +
@@ -228,11 +231,24 @@ function compartirWhatsApp() {
         `🎁 Adquiere tu llave en *Enkanta2 Arte Manual*\n` +
         `📲 WhatsApp: 3244173977`
     );
-    
-    // Abrimos WhatsApp con el mensaje listo
     window.open(`https://wa.me/?text=${mensaje}`, '_blank');
 }
 
 function lanzarMedalla(ico, tit, msg) {
-    const iconElem = document.getElementById('insignia-icon');
-    const titElem
+    document.getElementById('insignia-icon').innerText = ico;
+    document.getElementById('insignia-titulo').innerText = tit;
+    document.getElementById('insignia-msj').innerText = msg;
+    document.getElementById('modal-insignia').style.display = 'flex';
+}
+
+function cerrarModalYMenu() {
+    document.getElementById('modal-insignia').style.display = 'none';
+    mostrarMenu();
+}
+
+function abrirInfo() { document.getElementById('modal-info').style.display = 'flex'; }
+function cerrarInfo() {
+    document.getElementById('modal-info').style.display = 'none';
+    localStorage.setItem('guia_leida', 'true'); 
+    actualizarMenuPrincipal(); 
+}
