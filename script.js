@@ -1,6 +1,12 @@
 let pasilloActual = '';
 let fraseAsignada = { resiliencia: null, sabiduria: null, calma: null, empatia: null, vip: null };
-const colores = { 'resiliencia': '#4caf50', 'sabiduria': '#0288d1', 'calma': '#ff7043', 'empatia': '#fbc02d', 'vip': '#d4af37' };
+const colores = { 
+    'resiliencia': '#4caf50', 
+    'sabiduria': '#0288d1', 
+    'calma': '#ff7043', 
+    'empatia': '#fbc02d', 
+    'vip': '#d4af37' 
+};
 
 const clavesMensuales = {
     0: "MarketEne26", 1: "MarketFeb26", 2: "MarketMar26", 3: "MarketAbr26",
@@ -15,13 +21,18 @@ function verificarAcceso() {
     
     if (clavesValidas.includes(passIngresada)) {
         confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        
+        // Guardamos el acceso permanente
         localStorage.setItem('acceso_market', 'true');
+        
+        // Ocultamos login
         document.getElementById('pantalla-login').style.display = 'none';
         
+        // REVISAMOS SI YA VIO LA GUÍA
         if (localStorage.getItem('guia_leida') !== 'true') {
-            abrirInfo();
+            abrirInfo(); 
         } else {
-            actualizarMenuPrincipal();
+            actualizarMenuPrincipal(); 
         }
     } else {
         document.getElementById('error-login').style.display = 'block';
@@ -35,9 +46,11 @@ function contactarSoporte() {
     window.open(`https://wa.me/${telefonoSoporte}?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
 
+// Actualizamos la carga inicial también
 window.onload = () => {
     if (localStorage.getItem('acceso_market') === 'true') {
-        document.getElementById('pantalla-login').style.display = 'none';
+        const loginPantalla = document.getElementById('pantalla-login');
+        if(loginPantalla) loginPantalla.style.display = 'none';
         actualizarMenuPrincipal();
     }
 };
@@ -100,20 +113,24 @@ function actualizarInterfaz() {
     if (lista.includes(fechaHoy)) {
         btn.disabled = true;
         btn.innerText = "🤝 COMPROMISO ADQUIRIDO";
+        btn.style.opacity = "0.5";
         btn.style.backgroundColor = "#ccc";
-        btn.style.opacity = "0.7";
-        if(leyenda) leyenda.innerHTML = "✅ <strong>¡Reto activado!</strong> Tu mente ya está trabajando. No olvides usar tu llavero como ancla visual para cumplirlo.";
+        if(leyenda) {
+            leyenda.innerHTML = "✅ <strong>¡Reto activado!</strong> Tu mente ya está trabajando. No olvides usar tu llavero como ancla visual para cumplirlo.";
+        }
     } else {
         btn.disabled = false;
-        btn.innerText = "LO ACEPTO / ¡LOGRADO!"; // Texto acordado
+        btn.innerText = "LO ACEPTO / ¡LOGRADO!";
         btn.style.opacity = "1";
-        btn.style.backgroundColor = ""; // Reset al color de la clase
-        btn.className = "btn-principal color-" + pasilloActual;
-        if(leyenda) leyenda.innerHTML = `📌 <strong>Tip de Bienestar:</strong> Si no puedes cumplirlo ahora, presiona el botón como <strong>compromiso mental</strong>. <br> <span style="color: var(--cafe-claro); display:block; margin-top:5px;">🔑 Deja tu llavero en un lugar visible para recordarlo durante el día.</span>`;
+        btn.style.backgroundColor = colores[pasilloActual] || "var(--cafe)";
+        btn.className = "btn-principal";
+        if(leyenda) {
+            leyenda.innerHTML = `📌 <strong>Tip de Bienestar:</strong> Si no puedes cumplirlo ahora, presiona el botón como <strong>compromiso mental</strong>. <br> <span style="color: var(--cafe-claro); display:block; margin-top:5px;">🔑 Deja tu llavero en un lugar visible (espejo, PC o mesa) para recordarlo durante el día.</span>`;
+        }
     }
 }
 
-// --- LOGRADO (CON NARRATIVA DE COMPROMISO) ---
+// --- LOGRADO ---
 function completarReto() {
     let progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     if (!progreso[pasilloActual]) progreso[pasilloActual] = [];
@@ -125,7 +142,7 @@ function completarReto() {
         
         const totalDias = progreso[pasilloActual].length;
 
-        // --- CAMBIO VISUAL INMEDIATO ---
+        // --- MEJORA DE NARRATIVA: Cambio visual inmediato ---
         const btn = document.getElementById('btn-logrado');
         const leyenda = document.getElementById('instruccion-compromiso');
         
@@ -139,7 +156,7 @@ function completarReto() {
             leyenda.innerHTML = "✅ <strong>¡Reto activado!</strong> Tu mente ya está trabajando. No olvides usar tu llavero como ancla visual para cumplirlo.";
         }
 
-        // --- ESCENARIOS DE PREMIACIÓN ---
+        // --- ESCENARIO A: EL GRAN HITO (DÍA 14) ---
         if (totalDias === 14) {
             var duration = 5 * 1000;
             var end = Date.now() + duration;
@@ -154,9 +171,14 @@ function completarReto() {
                 "¡NIVEL PRACTICANTE!", 
                 "¡Increíble logro! Has mantenido tu constancia por 14 días. El hábito ya es parte de ti. ¡Sigue adelante hasta alcanzar la MAESTRÍA total! 🌳"
             );
+            
             actualizarInterfaz();
-        } else {
+        } 
+        // --- ESCENARIO B: DÍA NORMAL ---
+        else {
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: [colores[pasilloActual], '#fff'] });
+            
+            // Pausa breve para que vean el cambio del botón antes de volver al menú
             setTimeout(() => {
                 actualizarInterfaz();
                 mostrarMenu();
@@ -190,10 +212,12 @@ function actualizarMenuPrincipal() {
 }
 
 function compartirWhatsApp() {
+    // Obtenemos los textos actuales de la pantalla
     const titulo = pasilloActual.toUpperCase();
     const frase = document.getElementById('frase-display').innerText;
     const reto = document.getElementById('reto-display').innerText;
     
+    // Construimos el mensaje con tu firma personalizada
     const mensaje = encodeURIComponent(
         `🚀 *MI CHISPA DIARIA - MARKET INSPIRARTE* 🚀\n\n` +
         `📍 *Pasillo:* ${titulo}\n\n` +
@@ -204,24 +228,11 @@ function compartirWhatsApp() {
         `🎁 Adquiere tu llave en *Enkanta2 Arte Manual*\n` +
         `📲 WhatsApp: 3244173977`
     );
+    
+    // Abrimos WhatsApp con el mensaje listo
     window.open(`https://wa.me/?text=${mensaje}`, '_blank');
 }
 
 function lanzarMedalla(ico, tit, msg) {
-    document.getElementById('insignia-icon').innerText = ico;
-    document.getElementById('insignia-titulo').innerText = tit;
-    document.getElementById('insignia-msj').innerText = msg;
-    document.getElementById('modal-insignia').style.display = 'flex';
-}
-function cerrarModalYMenu() {
-    document.getElementById('modal-insignia').style.display = 'none';
-    mostrarMenu();
-}
-function abrirInfo() {
-    document.getElementById('modal-info').style.display = 'flex';
-}
-function cerrarInfo() {
-    document.getElementById('modal-info').style.display = 'none';
-    localStorage.setItem('guia_leida', 'true'); 
-    actualizarMenuPrincipal();
-}
+    const iconElem = document.getElementById('insignia-icon');
+    const titElem
