@@ -123,9 +123,22 @@ function completarReto() {
         
         const totalDias = progreso[pasilloActual].length;
 
+        // --- MEJORA DE NARRATIVA: Cambio visual inmediato ---
+        const btn = document.getElementById('btn-logrado');
+        const leyenda = document.getElementById('instruccion-compromiso');
+        
+        if(btn) {
+            btn.innerText = "🤝 COMPROMISO ADQUIRIDO";
+            btn.style.backgroundColor = "#ccc";
+            btn.disabled = true;
+        }
+
+        if(leyenda) {
+            leyenda.innerHTML = "✅ <strong>¡Reto activado!</strong> Tu mente ya está trabajando. No olvides usar tu llavero como ancla visual para cumplirlo.";
+        }
+
         // --- ESCENARIO A: EL GRAN HITO (DÍA 14) ---
         if (totalDias === 14) {
-            // Lluvia Dorada Larga
             var duration = 5 * 1000;
             var end = Date.now() + duration;
             (function frame() {
@@ -134,29 +147,26 @@ function completarReto() {
               if (Date.now() < end) requestAnimationFrame(frame);
             }());
 
-            // Mostramos el mensaje de nivel y motivación
             lanzarMedalla(
                 "👑", 
                 "¡NIVEL PRACTICANTE!", 
                 "¡Increíble logro! Has mantenido tu constancia por 14 días. El hábito ya es parte de ti. ¡Sigue adelante hasta alcanzar la MAESTRÍA total! 🌳"
             );
             
-            // En este caso NO volvemos al menú automáticamente para que lean su logro
             actualizarInterfaz();
         } 
         // --- ESCENARIO B: DÍA NORMAL ---
         else {
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: [colores[pasilloActual], '#fff'] });
             
-            // Pausa breve y regreso automático
+            // Pausa breve para que vean el cambio del botón antes de volver al menú
             setTimeout(() => {
                 actualizarInterfaz();
                 mostrarMenu();
-            }, 1000);
+            }, 2000); // Aumenté a 2 segundos para que alcancen a leer el "Compromiso Adquirido"
         }
     }
 }
-
 function actualizarMenuPrincipal() {
     const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     const pasillos = ['resiliencia', 'sabiduria', 'calma', 'empatia'];
