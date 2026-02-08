@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Inspirarte - La CHISPA para iniciar tu día</title>
+    <title>Market Inspirarte - Enkanta2 Arte Manual</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --cafe: #6d4c41;
@@ -15,7 +16,8 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Usamos Montserrat como prioridad, si no Segoe UI */
+            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #e0e0e0;
             margin: 0;
             display: flex;
@@ -92,15 +94,15 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.1); text-align: center;
         }
 
-        .frase-quote { font-size: 1.2rem; font-style: italic; margin-bottom: 20px; min-height: 70px; display: flex; align-items: center; justify-content: center; }
+        .frase-quote { font-size: 1.1rem; font-style: italic; margin-bottom: 20px; min-height: 70px; display: flex; align-items: center; justify-content: center; line-height: 1.4; }
 
         .btn-whatsapp {
             background: var(--whatsapp); color: white; padding: 10px 20px;
             border-radius: 20px; text-decoration: none; font-weight: bold;
-            display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px;
+            display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 0.9rem;
         }
 
-        .reto-instruccion { background: #fff9c4; padding: 15px; border-left: 5px solid #fbc02d; text-align: left; margin-bottom: 20px; border-radius: 0 10px 10px 0; }
+        .reto-instruccion { background: #fff9c4; padding: 15px; border-left: 5px solid #fbc02d; text-align: left; margin-bottom: 10px; border-radius: 0 10px 10px 0; }
 
         .btn-principal { width: 100%; padding: 18px; border-radius: 30px; border: none; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
 
@@ -113,7 +115,12 @@
         .color-vip { background-color: var(--oro); }
 
         .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:6000; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
-        .modal-content { background:white; padding:30px; border-radius:20px; text-align:center; max-width:350px; width: 100%; }
+        .modal-content { background:white; padding:25px; border-radius:20px; text-align:center; max-width:380px; width: 100%; }
+        
+        /* Estilos para el texto científico */
+        .sc-box { background: #f9f9f9; padding: 12px; border-radius: 12px; border: 1px solid #eee; margin: 10px 0; text-align: left; }
+        .sc-title { font-weight: bold; font-size: 0.85rem; color: var(--cafe); display: block; margin-bottom: 4px; }
+        .sc-text { font-size: 0.75rem; color: #666; line-height: 1.3; }
     </style>
 </head>
 <body>
@@ -130,8 +137,8 @@
 
 <div class="container">
     <header>
-        <h1>MARKET INSPIRARTE</h1>
-        <p>La CHISPA para iniciar tu día</p>
+        <h1 style="margin:0; font-size: 1.5rem;">MARKET INSPIRARTE</h1>
+        <p style="margin:5px 0 0; opacity: 0.9;">La CHISPA para iniciar tu día</p>
     </header>
 
     <div id="menu-principal">
@@ -193,14 +200,20 @@
             
             <div class="reto-instruccion">
                 <strong style="font-size: 0.8rem; color: #af8600;">⚡ RETO DE HOY:</strong>
-                <p id="reto-display" style="margin: 5px 0 0; font-size: 0.95rem;"></p>
+                <p id="reto-display" style="margin: 5px 0 0; font-size: 0.95rem; line-height: 1.3;"></p>
             </div>
 
             <button id="btn-logrado" onclick="completarReto()" class="btn-principal">¡LOGRADO!</button>
+            <p style="font-size: 0.65rem; color: #999; margin-top: 8px;">Si no puedes cumplirlo ya, acéptalo como compromiso para hoy.</p>
+            
             <button id="btn-cambiar-frase" class="btn-secundario" onclick="seleccionarFraseNueva(); actualizarInterfaz();">🔄 Otra opción</button>
             <button class="btn-secundario" onclick="mostrarMenu()" style="border:none;">← Volver al inicio</button>
         </div>
     </div>
+    
+    <footer style="text-align: center; padding: 15px; opacity: 0.5;">
+        <p style="font-size: 0.7rem;">Enkanta2 Arte Manual | Market Inspirarte</p>
+    </footer>
 </div>
 
 <div id="modal-insignia" class="modal">
@@ -213,26 +226,62 @@
 </div>
 
 <div id="modal-info" class="modal">
-    <div class="modal-content" style="text-align: left; max-height: 85vh; overflow-y: auto;">
-        <h2 style="color: var(--cafe); margin-top: 0; text-align: center;">🚀 Tu Chispa Diaria</h2>
-        <p><strong>Bienvenidos al Market Inspirarte</strong>. Este es el gimnasio de tu mentalidad.</p>
-        <h3 style="font-size: 1rem; color: #444; margin-bottom: 5px;">🛡️ Privacidad y Progreso</h3>
-        <p style="font-size: 0.9rem; color: #666; margin-top: 0;">No recogemos datos personales. Tu avance se guarda solo en tu celular.</p>
-        <div style="background: #fff3cd; padding: 10px; border-radius: 10px; border-left: 5px solid #ffecb5; font-size: 0.85rem; margin-bottom: 15px;">
-            ⚠️ Si borras el historial de navegación, perderás tu progreso.
+    <div class="modal-content" style="text-align: left; max-height: 90vh; overflow-y: auto;">
+        <h2 style="color: var(--cafe); margin-top: 0; text-align: center; font-size: 1.3rem;">🚀 Guía y Metodología</h2>
+        
+        <p style="font-size: 0.85rem; margin-bottom: 10px;">Este es el gimnasio de tu mentalidad, diseñado por <strong>Enkanta2 Arte Manual</strong>.</p>
+
+        <h3 style="font-size: 0.95rem; color: var(--cafe-claro); border-bottom: 1px solid #eee; padding-bottom: 5px;">🧬 Sustento Científico</h3>
+        
+        <div class="sc-box">
+            <span class="sc-title">Neuroplasticidad</span>
+            <span class="sc-text">Entrenamiento de 21 días para crear nuevas rutas sinápticas de resiliencia (Lally et al., 2010).</span>
         </div>
-        <h3 style="font-size: 1rem; color: #444; margin-bottom: 5px;">🎯 Niveles</h3>
-        <ul style="font-size: 0.9rem; color: #666; padding-left: 20px;">
-            <li><strong>Aprendiz:</strong> Día 1-13 🌱</li>
-            <li><strong>Practicante:</strong> Día 14 🌳</li>
-            <li><strong>Maestro:</strong> Día 21+ 👑</li>
-        </ul>
-        <button onclick="cerrarInfo()" class="btn-principal" style="background-color: var(--cafe); margin-top: 15px;">¡LISTO PARA EMPEZAR!</button>
+        <div class="sc-box">
+            <span class="sc-title">Cognitive Priming</span>
+            <span class="sc-text">La inducción positiva matutina expande tu capacidad de resolver problemas (Fredrickson, 2001).</span>
+        </div>
+        <div class="sc-box">
+            <span class="sc-title">Micro-Nudging</span>
+            <span class="sc-text">Tu llavero físico actúa como un recordatorio (Nudge) que facilita hábitos saludables (Thaler, 2008).</span>
+        </div>
+
+        <h3 style="font-size: 0.95rem; color: var(--cafe-claro); margin-top: 15px;">🛡️ Privacidad</h3>
+        <p style="font-size: 0.8rem; color: #666;">No recogemos datos. Tu avance se guarda solo en este celular. <strong>Si borras el historial, perderás tu racha.</strong></p>
+
+        <button onclick="generarPDF()" style="background: none; border: 1px solid var(--cafe); color: var(--cafe); padding: 10px; width: 100%; border-radius: 10px; font-size: 0.75rem; margin-top: 5px; cursor: pointer; font-weight: bold;">
+            📥 DESCARGAR FICHA TÉCNICA (PDF)
+        </button>
+
+        <button onclick="cerrarInfo()" class="btn-principal" style="background-color: var(--cafe); margin-top: 15px;">¡ENTENDIDO!</button>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script src="frases.js"></script>
 <script src="script.js"></script>
+
+<script>
+    // Función adicional para el PDF rápido (puedes mejorarla luego con la versión Canva)
+    function generarPDF() {
+        const contenido = `
+            MARKET INSPIRARTE - FICHA TÉCNICA
+            Enkanta2 Arte Manual
+            -----------------------------------
+            METODOLOGÍA:
+            1. NEUROPLASTICIDAD: Basado en Lally et al. (2010). 
+            2. MICRO-NUDGING: Basado en Thaler (2008). 
+            3. COGNITIVE PRIMING: Basado en Fredrickson (2001). 
+
+            La constancia es la llave del cambio.
+            WhatsApp Soporte: 3244173977
+        `;
+        const ventana = window.open('', '', 'height=400,width=600');
+        ventana.document.write('<pre>' + contenido + '</pre>');
+        ventana.document.close();
+        ventana.print();
+    }
+</script>
+
 </body>
 </html>
