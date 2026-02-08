@@ -68,7 +68,7 @@ function verificarAcceso() {
 function contactarSoporte() {
     const telefonoSoporte = "573244173977"; 
     const mesActualNombre = new Intl.DateTimeFormat('es-ES', { month: 'long' }).format(new Date());
-    const mensaje = `Hola! 👋 Necesito soporte con mi llavero del Market Inspirarte. No puedo acceder con mi código de ${mesActualNombre}.`;
+    const mensaje = `Hola! 👋 Necesito soporte con mi llavero del Market Inspirarte. No puedo acceder con mi código `;
     window.open(`https://wa.me/${telefonoSoporte}?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
 
