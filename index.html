@@ -106,7 +106,7 @@
 
         .btn-secundario { width: 100%; padding: 12px; background: none; border: 2px solid #ddd; border-radius: 30px; color: #888; margin-top: 10px; cursor: pointer; }
 
-        /* Estilos del nuevo bloque de compromiso */
+        /* Estilos del bloque de compromiso */
         #instruccion-compromiso {
             margin-top: 15px; font-size: 0.78rem; color: #6d4c41; line-height: 1.5; 
             background: #fdfaf5; padding: 15px; border-radius: 12px; border: 1px dashed var(--oro);
@@ -209,12 +209,23 @@
             
             <div id="instruccion-compromiso">
                 📌 <strong>Tip de Bienestar:</strong> Si no puedes cumplirlo ahora, presiona el botón como <strong>compromiso mental</strong>. <br>
-                <span style="color: var(--cafe-claro); display:block; margin-top:5px;">🔑 Deja tu llavero en un lugar visible (espejo, PC o mesa) para recordarlo durante el día.</span>
+                <span style="color: var(--cafe-claro); display:block; margin-top:5px;">🔑 Deja tu llavero en un lugar visible para recordarlo durante el día.</span>
             </div>
 
             <button id="btn-cambiar-frase" class="btn-secundario" onclick="seleccionarFraseNueva(); actualizarInterfaz();">🔄 Otra opción</button>
             <button class="btn-secundario" onclick="mostrarMenu()" style="border:none;">← Volver al inicio</button>
         </div>
+    </div>
+</div>
+
+<div id="modal-info" class="modal"><div class="modal-content"><h2>Guía de Uso</h2><p>Entrena tu mente con neuroplasticidad.</p><button onclick="cerrarInfo()" class="btn-principal" style="background-color: var(--cafe);">¡ENTENDIDO!</button></div></div>
+
+<div id="modal-insignia" class="modal">
+    <div class="modal-content">
+        <div id="insignia-icon" style="font-size: 4rem;">🏆</div>
+        <h2 id="insignia-titulo"></h2>
+        <p id="insignia-msj"></p>
+        <button class="btn-principal" onclick="cerrarModalYMenu()" style="background-color: var(--cafe);">CONTINUAR</button>
     </div>
 </div>
 
