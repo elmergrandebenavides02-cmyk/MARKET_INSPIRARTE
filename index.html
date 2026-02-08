@@ -16,7 +16,7 @@
         }
 
         body {
-            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Montserrat', sans-serif;
             background-color: #e0e0e0;
             margin: 0;
             display: flex;
@@ -92,7 +92,7 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.1); text-align: center;
         }
 
-        .frase-quote { font-size: 1.1rem; font-style: italic; margin-bottom: 20px; min-height: 70px; display: flex; align-items: center; justify-content: center; color: #444; }
+        .frase-quote { font-size: 1.1rem; font-style: italic; margin-bottom: 20px; min-height: 70px; display: flex; align-items: center; justify-content: center; line-height: 1.4; color: #333; }
 
         .btn-whatsapp {
             background: var(--whatsapp); color: white; padding: 10px 20px;
@@ -102,9 +102,16 @@
 
         .reto-instruccion { background: #fff9c4; padding: 15px; border-left: 5px solid #fbc02d; text-align: left; margin-bottom: 15px; border-radius: 0 10px 10px 0; }
 
-        .btn-principal { width: 100%; padding: 18px; border-radius: 30px; border: none; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-principal { width: 100%; padding: 18px; border-radius: 30px; border: none; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
 
         .btn-secundario { width: 100%; padding: 12px; background: none; border: 2px solid #ddd; border-radius: 30px; color: #888; margin-top: 10px; cursor: pointer; }
+
+        /* Estilos del nuevo bloque de compromiso */
+        #instruccion-compromiso {
+            margin-top: 15px; font-size: 0.78rem; color: #6d4c41; line-height: 1.5; 
+            background: #fdfaf5; padding: 15px; border-radius: 12px; border: 1px dashed var(--oro);
+            text-align: left; margin-bottom: 15px;
+        }
 
         .color-resiliencia { background-color: #4caf50; }
         .color-sabiduria { background-color: #0288d1; }
@@ -112,15 +119,8 @@
         .color-empatia { background-color: #fbc02d; }
         .color-vip { background-color: var(--oro); }
 
-        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:6000; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:6000; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background:white; padding:30px; border-radius:20px; text-align:center; max-width:350px; width: 100%; }
-        
-        /* Tip de compromiso */
-        #instruccion-compromiso {
-            margin-top: 15px; font-size: 0.75rem; color: #6d4c41; line-height: 1.4; 
-            background: #fdfaf5; padding: 12px; border-radius: 12px; border: 1px dashed var(--oro);
-            text-align: left; margin-bottom: 15px;
-        }
     </style>
 </head>
 <body>
@@ -218,17 +218,8 @@
     </div>
 </div>
 
-<div id="modal-insignia" class="modal">
-    <div class="modal-content">
-        <div id="insignia-icon" style="font-size: 4rem;">🏆</div>
-        <h2 id="insignia-titulo"></h2>
-        <p id="insignia-msj"></p>
-        <button class="btn-principal color-cafe" onclick="cerrarModalYMenu()" style="background-color: var(--cafe);">CONTINUAR</button>
-    </div>
-</div>
-
-<div id="modal-info" class="modal">
-    <div class="modal-content" style="text-align: left; max-height: 85vh; overflow-y: auto;">
-        <h2 style="color: var(--cafe); margin-top: 0; text-align: center;">🚀 Tu Chispa Diaria</h2>
-        <p><strong>Bienvenidos al Market Inspirarte</strong>. Este es el gimnasio de tu mentalidad.</p>
-        <h3 style="font-size: 1rem; color: #444; margin
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="frases.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
