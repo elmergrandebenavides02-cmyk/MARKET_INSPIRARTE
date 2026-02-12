@@ -1,1 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADN TIGO - Cultura</title>
+    <link rel="stylesheet" href="../style.css"> <style>
+        :root {
+            --tigo-blue: #00377d;
+            --tigo-gold: #f3b01a;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--tigo-blue);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .header { margin-bottom: 30px; }
+        .logo { width: 150px; margin-bottom: 10px; }
+        
+        .container {
+            background: white;
+            color: #333;
+            border-radius: 15px;
+            padding: 25px;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        
+        .pasillo-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .pasillo-btn:active { transform: scale(0.95); }
+        
+        /* Colores de los pasillos */
+        .btn-agiles { background-color: #00a1e1; color: white; }
+        .btn-colab { background-color: #00377d; color: white; }
+        .btn-foco { background-color: #f3b01a; color: #00377d; }
+        .btn-integ { background-color: #722f37; color: white; }
+        .btn-talento { background-color: #00c389; color: white; }
 
+        #display-area {
+            margin-top: 25px;
+            padding: 15px;
+            border-top: 2px solid #eee;
+            min-height: 100px;
+        }
+        .lema { font-style: italic; color: #666; font-size: 0.9em; margin-bottom: 10px; }
+        .frase { font-size: 1.2em; font-weight: bold; color: var(--tigo-blue); }
+        .reto { margin-top: 10px; color: #e67e22; font-weight: bold; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>ADN TIGO</h1>
+        <p>Protagonistas de nuestra cultura</p>
+    </div>
+
+    <div class="container">
+        <h3>Selecciona tu Pasillo:</h3>
+        <button class="pasillo-btn btn-agiles" onclick="mostrarReto('agilidad')">SOMOS ÁGILES <br><small>"Diciendo y haciendo"</small></button>
+        <button class="pasillo-btn btn-colab" onclick="mostrarReto('colaboracion')">SOMOS COLABORATIVOS <br><small>"Juntos pa' las que sea"</small></button>
+        <button class="pasillo-btn btn-foco" onclick="mostrarReto('foco')">TENEMOS FOCO <br><small>"Full Foco"</small></button>
+        <button class="pasillo-btn btn-integ" onclick="mostrarReto('integridad')">SOMOS ÍNTEGROS <br><small>"No todo se vale"</small></button>
+        <button class="pasillo-btn btn-talento" onclick="mostrarReto('talento')">SOMOS TALENTO TIGO <br><small>"Protagonistas de nuestro desarrollo"</small></button>
+
+        <div id="display-area">
+            <p>Toca un botón para inspirarte...</p>
+        </div>
+    </div>
+
+    <script src="capacidad.js"></script> 
+
+    <script>
+        function mostrarReto(categoria) {
+            const area = document.getElementById('display-area');
+            // Verifica que capacidad.js haya cargado frasesDB
+            if (typeof capacidadDB !== 'undefined' && capacidadDB[categoria]) {
+                const lista = capacidadDB[categoria];
+                const item = lista[Math.floor(Math.random() * lista.length)];
+                
+                area.innerHTML = `
+                    <div class="frase">"${item.frase}"</div>
+                    <div class="reto">RETO: ${item.reto}</div>
+                `;
+            } else {
+                area.innerHTML = "<p style='color:red;'>Error: No se encontró la base de datos de retos.</p>";
+            }
+        }
+    </script>
+</body>
+</html>
