@@ -3,102 +3,267 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADN TIGO - Cultura</title>
-    <link rel="stylesheet" href="../style.css"> <style>
+    <title>ADN TIGO - Cultura en Acción</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
         :root {
             --tigo-blue: #00377d;
+            --tigo-light-blue: #00a1e1;
             --tigo-gold: #f3b01a;
+            --fondo: #f4f7f9;
+            --blanco: #ffffff;
+            --whatsapp: #25D366;
         }
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: var(--tigo-blue);
-            color: white;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-        }
-        .header { margin-bottom: 30px; }
-        .logo { width: 150px; margin-bottom: 10px; }
-        
-        .container {
-            background: white;
-            color: #333;
-            border-radius: 15px;
-            padding: 25px;
-            max-width: 500px;
-            margin: 0 auto;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-        
-        .pasillo-btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .pasillo-btn:active { transform: scale(0.95); }
-        
-        /* Colores de los pasillos */
-        .btn-agiles { background-color: #00a1e1; color: white; }
-        .btn-colab { background-color: #00377d; color: white; }
-        .btn-foco { background-color: #f3b01a; color: #00377d; }
-        .btn-integ { background-color: #722f37; color: white; }
-        .btn-talento { background-color: #00c389; color: white; }
 
-        #display-area {
-            margin-top: 25px;
-            padding: 15px;
-            border-top: 2px solid #eee;
-            min-height: 100px;
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #d1d9e0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
         }
-        .lema { font-style: italic; color: #666; font-size: 0.9em; margin-bottom: 10px; }
-        .frase { font-size: 1.2em; font-weight: bold; color: var(--tigo-blue); }
-        .reto { margin-top: 10px; color: #e67e22; font-weight: bold; text-transform: uppercase; }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            background: var(--blanco);
+            box-shadow: 0 0 50px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--tigo-blue), var(--tigo-light-blue));
+            color: white; text-align: center; padding: 30px 20px;
+            border-bottom: 6px solid var(--tigo-gold);
+        }
+
+        #menu-principal { padding: 20px; display: block; }
+
+        /* GRID DE PASILLOS */
+        .grid-pasillos { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .card-menu {
+            background: white; border-radius: 15px; padding: 15px;
+            border: 1px solid #eee; text-align: center; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .btn-categoria {
+            width: 100%; padding: 10px; border: none; border-radius: 10px;
+            color: white; font-weight: bold; margin-bottom: 8px; font-size: 0.75rem;
+        }
+
+        /* COLORES CAPACIDADES */
+        .color-agilidad { background-color: #00a1e1; }
+        .color-colaboracion { background-color: #00377d; }
+        .color-foco { background-color: #f3b01a; color: #00377d !important; }
+        .color-integridad { background-color: #722f37; }
+        .color-talento { background-color: #00c389; }
+
+        /* BARRAS DE PROGRESO */
+        .progress-container {
+            width: 100%; background: #eee; height: 8px; border-radius: 10px;
+            overflow: hidden; margin: 10px 0;
+        }
+        .progress-fill { width: 0%; height: 100%; transition: width 0.8s ease; }
+
+        /* PANTALLA RETO */
+        #pantalla-reto { display: none; padding: 20px; background: var(--fondo); flex-grow: 1; }
+        .reto-main-card {
+            background: white; border-radius: 25px; padding: 25px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1); text-align: center;
+        }
+
+        .frase-quote { font-size: 1.1rem; font-style: italic; margin-bottom: 20px; min-height: 70px; display: flex; align-items: center; justify-content: center; line-height: 1.4; color: #333; }
+        
+        .btn-whatsapp {
+            background: var(--whatsapp); color: white; padding: 10px 20px;
+            border-radius: 20px; text-decoration: none; font-weight: bold;
+            display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 0.85rem;
+        }
+
+        .reto-instruccion { background: #e3f2fd; padding: 15px; border-left: 5px solid var(--tigo-light-blue); text-align: left; margin-bottom: 15px; border-radius: 0 10px 10px 0; }
+        
+        .btn-principal { width: 100%; padding: 18px; border-radius: 30px; border: none; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; background: var(--tigo-blue); }
+        .btn-secundario { width: 100%; padding: 12px; background: none; border: 2px solid #ddd; border-radius: 30px; color: #888; margin-top: 10px; cursor: pointer; }
+
+        #instruccion-compromiso {
+            margin-top: 15px; font-size: 0.78rem; color: var(--tigo-blue); line-height: 1.5; 
+            background: #fff; padding: 15px; border-radius: 12px; border: 1px dashed var(--tigo-gold);
+            text-align: left; margin-bottom: 15px;
+        }
+
+        /* MODALES */
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:6000; justify-content: center; align-items: flex-start; padding: 20px; overflow-y: auto; }
+        .modal-content { background:white; padding:30px; border-radius:20px; text-align:left; max-width:400px; width: 100%; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>ADN TIGO</h1>
-        <p>Protagonistas de nuestra cultura</p>
-    </div>
+<div class="container">
+    <header>
+        <h1 style="margin:0; font-size: 1.5rem;">ADN TIGO CULTURA</h1>
+        <p style="margin:5px 0 0; opacity: 0.9;">Diciendo y Haciendo</p>
+    </header>
 
-    <div class="container">
-        <h3>Selecciona tu Pasillo:</h3>
-        <button class="pasillo-btn btn-agiles" onclick="mostrarReto('agilidad')">SOMOS ÁGILES <br><small>"Diciendo y haciendo"</small></button>
-        <button class="pasillo-btn btn-colab" onclick="mostrarReto('colaboracion')">SOMOS COLABORATIVOS <br><small>"Juntos pa' las que sea"</small></button>
-        <button class="pasillo-btn btn-foco" onclick="mostrarReto('foco')">TENEMOS FOCO <br><small>"Full Foco"</small></button>
-        <button class="pasillo-btn btn-integ" onclick="mostrarReto('integridad')">SOMOS ÍNTEGROS <br><small>"No todo se vale"</small></button>
-        <button class="pasillo-btn btn-talento" onclick="mostrarReto('talento')">SOMOS TALENTO TIGO <br><small>"Protagonistas de nuestro desarrollo"</small></button>
+    <div id="menu-principal">
+        <div style="text-align: right; padding: 0 0 15px 0;">
+            <button onclick="abrirInfo()" style="background: none; border: 1px solid #ccc; border-radius: 50%; width: 32px; height: 32px; color: #888; font-weight: bold; cursor: pointer; font-size: 1.1rem;">i</button>
+        </div>
 
-        <div id="display-area">
-            <p>Toca un botón para inspirarte...</p>
+        <div class="grid-pasillos">
+            <div class="card-menu" onclick="irAPasillo('agilidad')">
+                <div class="btn-categoria color-agilidad">AGILIDAD</div>
+                <div class="progress-container"><div id="bar-menu-agilidad" class="progress-fill color-agilidad"></div></div>
+                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-agilidad">0</span>/30 retos logrados</p>
+            </div>
+            <div class="card-menu" onclick="irAPasillo('colaboracion')">
+                <div class="btn-categoria color-colaboracion">COLABORACIÓN</div>
+                <div class="progress-container"><div id="bar-menu-colaboracion" class="progress-fill color-colaboracion"></div></div>
+                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-colaboracion">0</span>/30 retos logrados</p>
+            </div>
+            <div class="card-menu" onclick="irAPasillo('foco')">
+                <div class="btn-categoria color-foco">FOCO</div>
+                <div class="progress-container"><div id="bar-menu-foco" class="progress-fill color-foco"></div></div>
+                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-foco">0</span>/30 retos logrados</p>
+            </div>
+            <div class="card-menu" onclick="irAPasillo('integridad')">
+                <div class="btn-categoria color-integridad">INTEGRIDAD</div>
+                <div class="progress-container"><div id="bar-menu-integridad" class="progress-fill color-integridad"></div></div>
+                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-integridad">0</span>/30 retos logrados</p>
+            </div>
+            <div class="card-menu" onclick="irAPasillo('talento')" style="grid-column: span 2;">
+                <div class="btn-categoria color-talento">TALENTO TIGO</div>
+                <div class="progress-container"><div id="bar-menu-talento" class="progress-fill color-talento"></div></div>
+                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-talento">0</span>/30 retos logrados</p>
+            </div>
         </div>
     </div>
 
-    <script src="capacidad.js"></script> 
+    <div id="pantalla-reto">
+        <div style="text-align:center; margin-bottom:15px;">
+            <h2 id="titulo-pasillo" style="margin:0; color: var(--tigo-blue); font-size: 1.2rem; text-transform: uppercase;"></h2>
+            <div class="progress-container" style="height: 12px; max-width: 80%; margin: 10px auto;">
+                <div id="bar-reto-detalle" class="progress-fill"></div>
+            </div>
+            <p style="font-size: 0.8rem; color: #888;"><span id="porcentaje-txt">0%</span> completado</p>
+        </div>
 
-    <script>
-        function mostrarReto(categoria) {
-            const area = document.getElementById('display-area');
-            // Verifica que capacidad.js haya cargado frasesDB
-            if (typeof capacidadDB !== 'undefined' && capacidadDB[categoria]) {
-                const lista = capacidadDB[categoria];
-                const item = lista[Math.floor(Math.random() * lista.length)];
-                
-                area.innerHTML = `
-                    <div class="frase">"${item.frase}"</div>
-                    <div class="reto">RETO: ${item.reto}</div>
-                `;
-            } else {
-                area.innerHTML = "<p style='color:red;'>Error: No se encontró la base de datos de retos.</p>";
+        <div class="reto-main-card">
+            <div id="frase-display" class="frase-quote">"..."</div>
+            
+            <a href="javascript:void(0)" onclick="compartirWhatsApp()" class="btn-whatsapp">
+                📱 Compartir con mi equipo
+            </a>
+            
+            <div class="reto-instruccion">
+                <strong style="font-size: 0.8rem; color: var(--tigo-blue);">⚡ RETO ADN TIGO:</strong>
+                <p id="reto-display" style="margin: 5px 0 0; font-size: 0.95rem;"></p>
+            </div>
+
+            <button id="btn-logrado" onclick="completarReto()" class="btn-principal">
+                ACEPTO EL RETO / ¡LOGRADO!
+            </button>
+            
+            <div id="instruccion-compromiso">
+                📌 <strong>Compromiso Tigo:</strong> Al presionar el botón, activas tu mentalidad para vivir nuestra cultura hoy. <br>
+                <span style="color: var(--tigo-light-blue); display:block; margin-top:5px;">🚀 ¡Hagamos que las cosas pasen!</span>
+            </div>
+
+            <button class="btn-secundario" onclick="irAMenu()">← Volver al mapa de capacidades</button>
+        </div>
+    </div>
+</div>
+
+<div id="modal-info" class="modal">
+    <div class="modal-content">
+        <h2 style="text-align:center; color: var(--tigo-blue);">🚀 Bienvenidos a Cultura ADN Tigo</h2>
+        <p>Esta herramienta es tu guía diaria para fortalecer las capacidades que nos hacen únicos. Aquí entrenamos la agilidad, el foco y la colaboración.</p>
+        
+        <h3>¿Cómo funciona?</h3>
+        <ul style="padding-left: 20px; font-size: 0.85rem;">
+            <li>📍 <strong>Elige una Capacidad:</strong> Según el pasillo que quieras reforzar hoy.</li>
+            <li>⚡ <strong>Acepta el Reto:</strong> Vive la cultura "Diciendo y Haciendo".</li>
+            <li>📈 <strong>Tu Progreso:</strong> Se guarda localmente en este navegador.</li>
+        </ul>
+
+        <h3>🔒 Privacidad</h3>
+        <p style="font-size: 0.85rem;">No guardamos nombres ni teléfonos. Tu progreso es 100% anónimo y personal.</p>
+
+        <button onclick="cerrarInfo()" class="btn-principal" style="margin-top: 15px;">¡ENTENDIDO!</button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="capacidad.js"></script>
+<script>
+    // --- LÓGICA DE CONTROL ---
+    let capacidadActual = '';
+    let progreso = JSON.parse(localStorage.getItem('progresoTigo')) || { agilidad: 0, colaboracion: 0, foco: 0, integridad: 0, talento: 0 };
+
+    function actualizarBarrasMenu() {
+        for (let cap in progreso) {
+            const porcentaje = (progreso[cap] / 30) * 100;
+            if(document.getElementById(`bar-menu-${cap}`)) {
+                document.getElementById(`bar-menu-${cap}`).style.width = porcentaje + '%';
+                document.getElementById(`mini-dias-${cap}`).innerText = progreso[cap];
             }
         }
-    </script>
+    }
+
+    function irAPasillo(cap) {
+        capacidadActual = cap;
+        document.getElementById('menu-principal').style.display = 'none';
+        document.getElementById('pantalla-reto').style.display = 'flex';
+        document.getElementById('titulo-pasillo').innerText = cap;
+        
+        // Cargar frase aleatoria
+        const lista = capacidadDB[cap];
+        const random = lista[Math.floor(Math.random() * lista.length)];
+        document.getElementById('frase-display').innerText = `"${random.frase}"`;
+        document.getElementById('reto-display').innerText = random.reto;
+        
+        actualizarDetalleReto();
+    }
+
+    function actualizarDetalleReto() {
+        const p = (progreso[capacidadActual] / 30) * 100;
+        document.getElementById('bar-reto-detalle').style.width = p + '%';
+        document.getElementById('bar-reto-detalle').className = `progress-fill color-${capacidadActual}`;
+        document.getElementById('porcentaje-txt').innerText = Math.round(p) + '%';
+    }
+
+    function completarReto() {
+        if (progreso[capacidadActual] < 30) {
+            progreso[capacidadActual]++;
+            localStorage.setItem('progresoTigo', JSON.stringify(progreso));
+            
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#00377d', '#f3b01a', '#00a1e1'] });
+            
+            actualizarDetalleReto();
+            setTimeout(irAMenu, 2000);
+        }
+    }
+
+    function irAMenu() {
+        document.getElementById('menu-principal').style.display = 'block';
+        document.getElementById('pantalla-reto').style.display = 'none';
+        actualizarBarrasMenu();
+    }
+
+    function abrirInfo() { document.getElementById('modal-info').style.display = 'flex'; }
+    function cerrarInfo() { document.getElementById('modal-info').style.display = 'none'; }
+    
+    function compartirWhatsApp() {
+        const texto = encodeURIComponent(`🚀 Hoy acepté este reto de Cultura ADN TIGO: ${document.getElementById('reto-display').innerText}`);
+        window.open(`https://wa.me/?text=${texto}`, '_blank');
+    }
+
+    window.onload = actualizarBarrasMenu;
+</script>
+
 </body>
 </html>
