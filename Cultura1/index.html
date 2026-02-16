@@ -3,267 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADN TIGO - Cultura en Acción</title>
+    <title>Market de Cultura Tigo - Nivel Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            --tigo-blue: #00377d;
-            --tigo-light-blue: #00a1e1;
-            --tigo-gold: #f3b01a;
+            --tigo-azul: #00377d;
+            --tigo-azul-claro: #0050b5;
+            --tigo-amarillo: #ffcd00;
             --fondo: #f4f7f9;
             --blanco: #ffffff;
-            --whatsapp: #25D366;
+            --color-agiles: #00a1e1;
+            --color-enfocados: #f37021;
+            --color-colaborativos: #6fb43f;
+            --color-integros: #7b207b;
         }
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #d1d9e0;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
+        body { font-family: 'Montserrat', sans-serif; background-color: #d1d8e0; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 450px; background: var(--blanco); box-shadow: 0 0 50px rgba(0,0,0,0.2); display: flex; flex-direction: column; position: relative; overflow-x: hidden; }
 
-        .container {
-            width: 100%;
-            max-width: 450px;
-            background: var(--blanco);
-            box-shadow: 0 0 50px rgba(0,0,0,0.2);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
+        /* --- LOGIN --- */
+        #pantalla-login { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--tigo-azul); z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; padding: 30px; text-align: center; box-sizing: border-box; }
+        #input-password { width: 100%; max-width: 280px; padding: 15px; border-radius: 10px; border: none; text-align: center; font-size: 1.2rem; margin-bottom: 20px; }
 
-        header {
-            background: linear-gradient(135deg, var(--tigo-blue), var(--tigo-light-blue));
-            color: white; text-align: center; padding: 30px 20px;
-            border-bottom: 6px solid var(--tigo-gold);
-        }
+        header { background: linear-gradient(135deg, var(--tigo-azul), var(--tigo-azul-claro)); color: white; text-align: center; padding: 25px 20px; border-bottom: 6px solid var(--tigo-amarillo); }
 
-        #menu-principal { padding: 20px; display: block; }
-
-        /* GRID DE PASILLOS */
+        /* --- MENU --- */
+        #menu-principal { padding: 20px; }
         .grid-pasillos { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-
-        .card-menu {
-            background: white; border-radius: 15px; padding: 15px;
-            border: 1px solid #eee; text-align: center; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-
-        .btn-categoria {
-            width: 100%; padding: 10px; border: none; border-radius: 10px;
-            color: white; font-weight: bold; margin-bottom: 8px; font-size: 0.75rem;
-        }
-
-        /* COLORES CAPACIDADES */
-        .color-agilidad { background-color: #00a1e1; }
-        .color-colaboracion { background-color: #00377d; }
-        .color-foco { background-color: #f3b01a; color: #00377d !important; }
-        .color-integridad { background-color: #722f37; }
-        .color-talento { background-color: #00c389; }
-
-        /* BARRAS DE PROGRESO */
-        .progress-container {
-            width: 100%; background: #eee; height: 8px; border-radius: 10px;
-            overflow: hidden; margin: 10px 0;
-        }
+        .card-menu { background: white; border-radius: 15px; padding: 15px; border: 1px solid #eee; text-align: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: transform 0.2s; }
+        .card-menu:active { transform: scale(0.96); }
+        .btn-categoria { width: 100%; padding: 10px; border: none; border-radius: 10px; color: white; font-weight: bold; margin-bottom: 8px; font-size: 0.7rem; min-height: 45px; display: flex; align-items: center; justify-content: center; line-height: 1.2; }
+        .progress-container { width: 100%; background: #eee; height: 8px; border-radius: 10px; overflow: hidden; margin: 10px 0; }
         .progress-fill { width: 0%; height: 100%; transition: width 0.8s ease; }
 
-        /* PANTALLA RETO */
-        #pantalla-reto { display: none; padding: 20px; background: var(--fondo); flex-grow: 1; }
-        .reto-main-card {
-            background: white; border-radius: 25px; padding: 25px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1); text-align: center;
-        }
+        /* --- RETO --- */
+        #pantalla-reto { display: none; padding: 20px; background: var(--fondo); flex-grow: 1; flex-direction: column; }
+        .reto-main-card { background: white; border-radius: 25px; padding: 25px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); text-align: center; }
+        .frase-quote { font-size: 1.1rem; font-weight: bold; margin-bottom: 20px; min-height: 80px; display: flex; align-items: center; justify-content: center; color: var(--tigo-azul); }
+        .reto-instruccion { background: #e3f2fd; padding: 15px; border-left: 5px solid var(--tigo-azul); text-align: left; margin-bottom: 20px; border-radius: 0 10px 10px 0; }
+        .btn-principal { width: 100%; padding: 18px; border-radius: 30px; border: none; background: var(--tigo-azul); color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
+        .btn-secundario { width: 100%; padding: 12px; background: none; border: 2px solid #ddd; border-radius: 30px; color: #888; margin-top: 15px; cursor: pointer; }
 
-        .frase-quote { font-size: 1.1rem; font-style: italic; margin-bottom: 20px; min-height: 70px; display: flex; align-items: center; justify-content: center; line-height: 1.4; color: #333; }
+        /* --- MODALES --- */
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:6000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background:white; padding:30px; border-radius:20px; max-width:400px; width: 100%; text-align: center; }
         
-        .btn-whatsapp {
-            background: var(--whatsapp); color: white; padding: 10px 20px;
-            border-radius: 20px; text-decoration: none; font-weight: bold;
-            display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 0.85rem;
-        }
+        .insignia-icon { font-size: 4rem; margin-bottom: 15px; }
+        .rango-txt { color: var(--tigo-azul); font-weight: bold; font-size: 1.2rem; display: block; margin-bottom: 10px; }
 
-        .reto-instruccion { background: #e3f2fd; padding: 15px; border-left: 5px solid var(--tigo-light-blue); text-align: left; margin-bottom: 15px; border-radius: 0 10px 10px 0; }
-        
-        .btn-principal { width: 100%; padding: 18px; border-radius: 30px; border: none; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; background: var(--tigo-blue); }
-        .btn-secundario { width: 100%; padding: 12px; background: none; border: 2px solid #ddd; border-radius: 30px; color: #888; margin-top: 10px; cursor: pointer; }
-
-        #instruccion-compromiso {
-            margin-top: 15px; font-size: 0.78rem; color: var(--tigo-blue); line-height: 1.5; 
-            background: #fff; padding: 15px; border-radius: 12px; border: 1px dashed var(--tigo-gold);
-            text-align: left; margin-bottom: 15px;
-        }
-
-        /* MODALES */
-        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:6000; justify-content: center; align-items: flex-start; padding: 20px; overflow-y: auto; }
-        .modal-content { background:white; padding:30px; border-radius:20px; text-align:left; max-width:400px; width: 100%; margin-top: 20px; }
+        .color-agiles { background-color: var(--color-agiles); }
+        .color-enfocados { background-color: var(--color-enfocados); }
+        .color-colaborativos { background-color: var(--color-colaborativos); }
+        .color-integros { background-color: var(--color-integros); }
     </style>
 </head>
 <body>
 
+<div id="pantalla-login">
+    <div style="font-size: 4rem; margin-bottom: 10px;">🚀</div>
+    <h2>MARKET DE CULTURA</h2>
+    <p>Usa la clave de equipo para entrar</p>
+    <input type="password" id="input-password" placeholder="Clave de Cultura">
+    <button onclick="verificarAcceso()" style="background: var(--tigo-amarillo); color: var(--tigo-azul); border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; cursor: pointer; width: 100%; max-width: 280px;">ENTRAR</button>
+</div>
+
 <div class="container">
     <header>
-        <h1 style="margin:0; font-size: 1.5rem;">ADN TIGO CULTURA</h1>
-        <p style="margin:5px 0 0; opacity: 0.9;">Diciendo y Haciendo</p>
+        <h1 style="margin:0; font-size: 1.5rem;">CULTURA TIGO</h1>
+        <p style="margin:5px 0 0; opacity: 0.9; font-size: 0.9rem;">Tu ADN en acción</p>
     </header>
 
     <div id="menu-principal">
-        <div style="text-align: right; padding: 0 0 15px 0;">
-            <button onclick="abrirInfo()" style="background: none; border: 1px solid #ccc; border-radius: 50%; width: 32px; height: 32px; color: #888; font-weight: bold; cursor: pointer; font-size: 1.1rem;">i</button>
+        <div id="rango-badge" style="background: #f0f0f0; padding: 10px; border-radius: 10px; margin-bottom: 20px; text-align: center; font-size: 0.8rem;">
+            Tu Nivel Actual: <strong id="txt-rango-menu" style="color: var(--tigo-azul);">Novato Tigo</strong>
         </div>
 
         <div class="grid-pasillos">
-            <div class="card-menu" onclick="irAPasillo('agilidad')">
-                <div class="btn-categoria color-agilidad">AGILIDAD</div>
-                <div class="progress-container"><div id="bar-menu-agilidad" class="progress-fill color-agilidad"></div></div>
-                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-agilidad">0</span>/30 retos logrados</p>
+            <div class="card-menu" onclick="irAPasillo('agiles')">
+                <div class="btn-categoria color-agiles">SOMOS ÁGILES<br>"Diciendo y Haciendo"</div>
+                <div class="progress-container"><div id="bar-menu-agiles" class="progress-fill color-agiles"></div></div>
+                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-agiles">0</span> de 15 retos</p>
             </div>
-            <div class="card-menu" onclick="irAPasillo('colaboracion')">
-                <div class="btn-categoria color-colaboracion">COLABORACIÓN</div>
-                <div class="progress-container"><div id="bar-menu-colaboracion" class="progress-fill color-colaboracion"></div></div>
-                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-colaboracion">0</span>/30 retos logrados</p>
+            <div class="card-menu" onclick="irAPasillo('enfocados')">
+                <div class="btn-categoria color-enfocados">SOMOS ENFOCADOS<br>"Full Foco"</div>
+                <div class="progress-container"><div id="bar-menu-enfocados" class="progress-fill color-enfocados"></div></div>
+                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-enfocados">0</span> de 15 retos</p>
             </div>
-            <div class="card-menu" onclick="irAPasillo('foco')">
-                <div class="btn-categoria color-foco">FOCO</div>
-                <div class="progress-container"><div id="bar-menu-foco" class="progress-fill color-foco"></div></div>
-                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-foco">0</span>/30 retos logrados</p>
+            <div class="card-menu" onclick="irAPasillo('colaborativos')">
+                <div class="btn-categoria color-colaborativos">COLABORATIVOS<br>"Juntos pa' las que sean"</div>
+                <div class="progress-container"><div id="bar-menu-colaborativos" class="progress-fill color-colaborativos"></div></div>
+                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-colaborativos">0</span> de 15 retos</p>
             </div>
-            <div class="card-menu" onclick="irAPasillo('integridad')">
-                <div class="btn-categoria color-integridad">INTEGRIDAD</div>
-                <div class="progress-container"><div id="bar-menu-integridad" class="progress-fill color-integridad"></div></div>
-                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-integridad">0</span>/30 retos logrados</p>
-            </div>
-            <div class="card-menu" onclick="irAPasillo('talento')" style="grid-column: span 2;">
-                <div class="btn-categoria color-talento">TALENTO TIGO</div>
-                <div class="progress-container"><div id="bar-menu-talento" class="progress-fill color-talento"></div></div>
-                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-talento">0</span>/30 retos logrados</p>
+            <div class="card-menu" onclick="irAPasillo('integros')">
+                <div class="btn-categoria color-integros">SOMOS ÍNTEGROS<br>"No todo se vale"</div>
+                <div class="progress-container"><div id="bar-menu-integros" class="progress-fill color-integros"></div></div>
+                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-integros">0</span> de 15 retos</p>
             </div>
         </div>
     </div>
 
     <div id="pantalla-reto">
-        <div style="text-align:center; margin-bottom:15px;">
-            <h2 id="titulo-pasillo" style="margin:0; color: var(--tigo-blue); font-size: 1.2rem; text-transform: uppercase;"></h2>
-            <div class="progress-container" style="height: 12px; max-width: 80%; margin: 10px auto;">
-                <div id="bar-reto-detalle" class="progress-fill"></div>
-            </div>
-            <p style="font-size: 0.8rem; color: #888;"><span id="porcentaje-txt">0%</span> completado</p>
+        <div style="text-align:center; margin-bottom:20px;">
+            <h2 id="titulo-pasillo" style="margin:0; color: var(--tigo-azul); font-size: 1.1rem;"></h2>
+            <p id="subtitulo-pasillo" style="margin:5px 0; font-size: 0.85rem; color: #666;"></p>
         </div>
-
         <div class="reto-main-card">
             <div id="frase-display" class="frase-quote">"..."</div>
-            
-            <a href="javascript:void(0)" onclick="compartirWhatsApp()" class="btn-whatsapp">
-                📱 Compartir con mi equipo
-            </a>
-            
             <div class="reto-instruccion">
-                <strong style="font-size: 0.8rem; color: var(--tigo-blue);">⚡ RETO ADN TIGO:</strong>
+                <strong style="font-size: 0.75rem; color: var(--tigo-azul);">⚡ RETO DE CULTURA:</strong>
                 <p id="reto-display" style="margin: 5px 0 0; font-size: 0.95rem;"></p>
             </div>
-
-            <button id="btn-logrado" onclick="completarReto()" class="btn-principal">
-                ACEPTO EL RETO / ¡LOGRADO!
-            </button>
-            
-            <div id="instruccion-compromiso">
-                📌 <strong>Compromiso Tigo:</strong> Al presionar el botón, activas tu mentalidad para vivir nuestra cultura hoy. <br>
-                <span style="color: var(--tigo-light-blue); display:block; margin-top:5px;">🚀 ¡Hagamos que las cosas pasen!</span>
-            </div>
-
-            <button class="btn-secundario" onclick="irAMenu()">← Volver al mapa de capacidades</button>
+            <button onclick="completarReto()" class="btn-principal">¡LO HARÉ HOY!</button>
+            <button class="btn-secundario" onclick="mostrarMenu()">← Volver al inicio</button>
         </div>
     </div>
 </div>
 
-<div id="modal-info" class="modal">
+<div id="modal-insignia" class="modal">
     <div class="modal-content">
-        <h2 style="text-align:center; color: var(--tigo-blue);">🚀 Bienvenidos a Cultura ADN Tigo</h2>
-        <p>Esta herramienta es tu guía diaria para fortalecer las capacidades que nos hacen únicos. Aquí entrenamos la agilidad, el foco y la colaboración.</p>
-        
-        <h3>¿Cómo funciona?</h3>
-        <ul style="padding-left: 20px; font-size: 0.85rem;">
-            <li>📍 <strong>Elige una Capacidad:</strong> Según el pasillo que quieras reforzar hoy.</li>
-            <li>⚡ <strong>Acepta el Reto:</strong> Vive la cultura "Diciendo y Haciendo".</li>
-            <li>📈 <strong>Tu Progreso:</strong> Se guarda localmente en este navegador.</li>
-        </ul>
-
-        <h3>🔒 Privacidad</h3>
-        <p style="font-size: 0.85rem;">No guardamos nombres ni teléfonos. Tu progreso es 100% anónimo y personal.</p>
-
-        <button onclick="cerrarInfo()" class="btn-principal" style="margin-top: 15px;">¡ENTENDIDO!</button>
+        <div class="insignia-icon" id="insignia-emoji">🏆</div>
+        <span class="rango-txt" id="insignia-titulo">NUEVO RANGO</span>
+        <p id="insignia-mensaje" style="color: #555; font-size: 0.9rem; margin-bottom: 25px;"></p>
+        <button onclick="cerrarModalInsignia()" class="btn-principal">¡ASÍ SE HACE!</button>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<script src="capacidad.js"></script>
 <script>
-    // --- LÓGICA DE CONTROL ---
-    let capacidadActual = '';
-    let progreso = JSON.parse(localStorage.getItem('progresoTigo')) || { agilidad: 0, colaboracion: 0, foco: 0, integridad: 0, talento: 0 };
+    const capacidades = {
+        agiles: { titulo: "Somos Ágiles", sub: "Diciendo y Haciendo", color: "#00a1e1", frases: [{q:"La agilidad es nuestra respuesta al cambio.", r:"Resuelve hoy esa duda que lleva más de 24h pendiente."}, {q:"Diciendo y haciendo.", r:"Define responsables y fechas en tu primera reunión del día."}] },
+        enfocados: { titulo: "Somos Enfocados", sub: "Full Foco", color: "#f37021", frases: [{q:"Si todo es prioridad, nada es.", r:"Haz tus dos tareas más pesadas antes de las 10 AM."}, {q:"Full Foco.", r:"Trabaja 45 min seguidos sin mirar el celular ni el chat."}] },
+        colaborativos: { titulo: "Somos Colaborativos", sub: "Juntos pa' las que sean", color: "#6fb43f", frases: [{q:"Juntos pa' las que sean.", r:"Ofrece ayuda a alguien de otra área hoy."}, {q:"El éxito es del equipo.", r:"Agradece públicamente a un colega por su apoyo hoy."}] },
+        integros: { titulo: "Somos Íntegros", sub: "No todo se vale", color: "#7b207b", frases: [{q:"La integridad es hacer lo correcto.", r:"Si detectas algo que no funciona bien, repórtalo con una solución."}, {q:"No todo se vale.", r:"Asegúrate de que tus reportes de hoy sean 100% exactos."}] }
+    };
 
-    function actualizarBarrasMenu() {
-        for (let cap in progreso) {
-            const porcentaje = (progreso[cap] / 30) * 100;
-            if(document.getElementById(`bar-menu-${cap}`)) {
-                document.getElementById(`bar-menu-${cap}`).style.width = porcentaje + '%';
-                document.getElementById(`mini-dias-${cap}`).innerText = progreso[cap];
-            }
+    let capActual = '';
+
+    function verificarAcceso() {
+        if(document.getElementById('input-password').value.toLowerCase() === "tigo2026") {
+            document.getElementById('pantalla-login').style.display = 'none';
+            actualizarInterfaz();
         }
     }
 
-    function irAPasillo(cap) {
-        capacidadActual = cap;
+    function irAPasillo(id) {
+        capActual = id;
+        const data = capacidades[id];
+        document.getElementById('titulo-pasillo').innerText = data.titulo;
+        document.getElementById('subtitulo-pasillo').innerText = data.sub;
+        const r = data.frases[Math.floor(Math.random() * data.frases.length)];
+        document.getElementById('frase-display').innerText = `"${r.q}"`;
+        document.getElementById('reto-display').innerText = r.r;
         document.getElementById('menu-principal').style.display = 'none';
         document.getElementById('pantalla-reto').style.display = 'flex';
-        document.getElementById('titulo-pasillo').innerText = cap;
-        
-        // Cargar frase aleatoria
-        const lista = capacidadDB[cap];
-        const random = lista[Math.floor(Math.random() * lista.length)];
-        document.getElementById('frase-display').innerText = `"${random.frase}"`;
-        document.getElementById('reto-display').innerText = random.reto;
-        
-        actualizarDetalleReto();
     }
 
-    function actualizarDetalleReto() {
-        const p = (progreso[capacidadActual] / 30) * 100;
-        document.getElementById('bar-reto-detalle').style.width = p + '%';
-        document.getElementById('bar-reto-detalle').className = `progress-fill color-${capacidadActual}`;
-        document.getElementById('porcentaje-txt').innerText = Math.round(p) + '%';
+    function mostrarMenu() {
+        document.getElementById('menu-principal').style.display = 'block';
+        document.getElementById('pantalla-reto').style.display = 'none';
+        actualizarInterfaz();
     }
 
     function completarReto() {
-        if (progreso[capacidadActual] < 30) {
-            progreso[capacidadActual]++;
-            localStorage.setItem('progresoTigo', JSON.stringify(progreso));
-            
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#00377d', '#f3b01a', '#00a1e1'] });
-            
-            actualizarDetalleReto();
-            setTimeout(irAMenu, 2000);
+        let p = JSON.parse(localStorage.getItem('pTigo')) || {agiles:0, enfocados:0, colaborativos:0, integros:0, total:0};
+        p[capActual]++;
+        p.total++;
+        localStorage.setItem('pTigo', JSON.stringify(p));
+
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: [capacidades[capActual].color, '#ffcd00'] });
+
+        // Lógica de Insignias
+        if(p.total === 5) mostrarInsignia("🥉 Bronce", "Has completado 5 retos. ¡Ya tienes ADN Tigo en la sangre!", "🌱");
+        else if(p.total === 10) mostrarInsignia("🥈 Plata", "10 retos cumplidos. ¡Eres un referente de agilidad y foco!", "⚡");
+        else if(p.total === 15) mostrarInsignia("🥇 Oro", "¡Nivel Experto! Juntos pa' las que sean, eres un Embajador de Cultura.", "🏆");
+        else {
+            setTimeout(() => { alert("¡Reto Logrado!"); mostrarMenu(); }, 500);
         }
     }
 
-    function irAMenu() {
-        document.getElementById('menu-principal').style.display = 'block';
-        document.getElementById('pantalla-reto').style.display = 'none';
-        actualizarBarrasMenu();
+    function mostrarInsignia(titulo, msg, emoji) {
+        document.getElementById('insignia-titulo').innerText = titulo;
+        document.getElementById('insignia-mensaje').innerText = msg;
+        document.getElementById('insignia-emoji').innerText = emoji;
+        document.getElementById('modal-insignia').style.display = 'flex';
     }
 
-    function abrirInfo() { document.getElementById('modal-info').style.display = 'flex'; }
-    function cerrarInfo() { document.getElementById('modal-info').style.display = 'none'; }
-    
-    function compartirWhatsApp() {
-        const texto = encodeURIComponent(`🚀 Hoy acepté este reto de Cultura ADN TIGO: ${document.getElementById('reto-display').innerText}`);
-        window.open(`https://wa.me/?text=${texto}`, '_blank');
+    function cerrarModalInsignia() {
+        document.getElementById('modal-insignia').style.display = 'none';
+        mostrarMenu();
     }
 
-    window.onload = actualizarBarrasMenu;
+    function actualizarInterfaz() {
+        let p = JSON.parse(localStorage.getItem('pTigo')) || {agiles:0, enfocados:0, colaborativos:0, integros:0, total:0};
+        for(let id in p) {
+            if(id === 'total') continue;
+            let perc = Math.min((p[id]/15)*100, 100);
+            if(document.getElementById(`bar-menu-${id}`)) document.getElementById(`bar-menu-${id}`).style.width = perc+'%';
+            if(document.getElementById(`mini-dias-${id}`)) document.getElementById(`mini-dias-${id}`).innerText = p[id];
+        }
+        
+        // Rango dinámico en el menú
+        let rango = "Novato Tigo";
+        if(p.total >= 15) rango = "Embajador de Cultura 🏆";
+        else if(p.total >= 10) rango = "Líder de ADN ⚡";
+        else if(p.total >= 5) rango = "Creyente Tigo 🌱";
+        document.getElementById('txt-rango-menu').innerText = rango;
+    }
+
+    window.onload = actualizarInterfaz;
 </script>
-
 </body>
 </html>
