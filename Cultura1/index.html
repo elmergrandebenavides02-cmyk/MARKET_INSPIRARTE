@@ -153,17 +153,22 @@
         actualizarInterfaz();
     }
 
-    function completarReto() {
-        const hoy = new Date().toDateString();
-        let p = JSON.parse(localStorage.getItem('pTigo')) || {agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, ultimosRetos: {}};
-        p[capActual] = (p[capActual] || 0) + 1;
-        p.ultimosRetos[capActual] = hoy;
-        localStorage.setItem('pTigo', JSON.stringify(p));
+    function completarReto(capacidad) {
+    // 1. Obtenemos lo que haya en localStorage o creamos un objeto vacío si no existe
+    let progreso = JSON.parse(localStorage.getItem('progresoMarket')) || {};
 
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-        alert("¡Compromiso adquirido! \n\nRecuerda tener tu ancla 'llavero' en un lugar visible para que no olvides cumplir este compromiso.");
-        setTimeout(() => { mostrarMenu(); }, 3000);
+    // 2. Si la capacidad (ej: 'foco') no existe en el progreso, la inicializamos
+    if (!progreso[capacidad]) {
+        progreso[capacidad] = 0;
     }
+
+    // 3. Incrementamos y guardamos
+    progreso[capacidad]++;
+    localStorage.setItem('progresoMarket', JSON.stringify(progreso));
+    
+    alert("¡Reto aceptado! Sumaste un punto a " + capacidad);
+    location.reload(); // Para actualizar los contadores de la pantalla principal
+}
 
     function actualizarInterfaz() {
         const hoy = new Date().toDateString();
