@@ -3,253 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market de Cultura Tigo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <title>Market de Cultura - Tigo</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
-    <script src="capacidad.js"></script>
-
-    <style>
-        :root {
-            --tigo-azul: #00377d; --tigo-azul-claro: #0050b5; --tigo-amarillo: #ffcd00;
-            --fondo: #f4f7f9; --blanco: #ffffff;
-            --color-agilidad: #00a1e1; --color-foco: #f37021; --color-colaboracion: #6fb43f;
-            --color-integridad: #7b207b; --color-talento: #e4002b;
-        }
-        body { font-family: 'Montserrat', sans-serif; background-color: #d1d8e0; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
-        .container { width: 100%; max-width: 450px; background: var(--blanco); box-shadow: 0 0 50px rgba(0,0,0,0.2); display: flex; flex-direction: column; position: relative; min-height: 100vh; }
-        header { background: linear-gradient(135deg, var(--tigo-azul), var(--tigo-azul-claro)); color: white; text-align: center; padding: 20px; border-bottom: 6px solid var(--tigo-amarillo); }
-        #pantalla-login { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--tigo-azul); z-index: 5000; display: none; flex-direction: column; align-items: center; justify-content: center; color: white; padding: 30px; text-align: center; }
-        #input-password { width: 100%; max-width: 280px; padding: 15px; border-radius: 10px; border: none; text-align: center; font-size: 1.2rem; margin-bottom: 20px; }
-        #menu-principal { padding: 15px; }
-        .grid-pasillos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .card-menu { background: white; border-radius: 15px; padding: 12px; border: 1px solid #eee; text-align: center; cursor: pointer; transition: all 0.3s ease; }
-        .card-menu.completado-hoy { border: 2px solid #4caf50; background-color: #f1f8e9; }
-        .btn-categoria { width: 100%; padding: 8px; border: none; border-radius: 10px; color: white; font-weight: bold; margin-bottom: 8px; font-size: 0.65rem; min-height: 40px; display: flex; align-items: center; justify-content: center; text-transform: uppercase; }
-        .progress-container { width: 100%; background: #eee; height: 6px; border-radius: 10px; overflow: hidden; margin: 8px 0; }
-        .progress-fill { width: 0%; height: 100%; transition: width 0.8s ease; }
-        #pantalla-reto { display: none; padding: 20px; background: var(--fondo); flex-grow: 1; flex-direction: column; justify-content: center; }
-        .reto-main-card { background: white; border-radius: 25px; padding: 25px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); text-align: center; }
-        .frase-quote { font-size: 1rem; font-weight: bold; margin-bottom: 20px; color: var(--tigo-azul); min-height: 70px; display: flex; align-items: center; justify-content: center; font-style: italic; }
-        .reto-instruccion { background: #fff9c4; padding: 15px; border-left: 5px solid #fbc02d; text-align: left; margin-bottom: 20px; border-radius: 0 10px 10px 0; }
-        .btn-principal { width: 100%; padding: 18px; border-radius: 30px; border: none; background: var(--tigo-azul); color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
-        .btn-secundario { width: 100%; padding: 12px; background: none; border: 2px solid #ddd; border-radius: 30px; color: #888; margin-top: 15px; cursor: pointer; }
-        .badge-hoy { color: #4caf50; font-size: 0.6rem; font-weight: bold; margin-top: 5px; display: none; }
-        .color-agilidad { background-color: var(--color-agilidad); }
-        .color-foco { background-color: var(--color-foco); }
-        .color-colaboracion { background-color: var(--color-colaboracion); }
-        .color-integridad { background-color: var(--color-integridad); }
-        .color-talento { background-color: var(--color-talento); }
+    <link rel="stylesheet" href="estilos.css"> <style>
+        /* Estilos básicos para asegurar que las barras se vean */
+        .progress-container { width: 100%; background: #e0e0e0; border-radius: 10px; margin-top: 5px; height: 10px; overflow: hidden; }
+        .progress-bar { height: 100%; width: 0%; transition: width 0.5s ease; background: #0033a0; }
+        .completado-hoy { border: 2px solid #ffcd00; opacity: 0.8; }
+        #badge-agilidad, #badge-foco, #badge-colaboracion, #badge-integridad, #badge-talento { color: green; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div id="pantalla-login">
-    <div style="font-size: 3rem; margin-bottom: 10px;">🛡️</div>
-    <h2>ADN TIGO</h2>
-    <input type="password" id="input-password" placeholder="Clave de equipo">
-    <button onclick="verificarAcceso()" style="background: var(--tigo-amarillo); color: var(--tigo-azul); border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; cursor: pointer; width: 100%;">ENTRAR</button>
-</div>
-
-<div class="container" id="app-content" style="display:none;">
-    <header>
-        <h1 style="margin:0; font-size: 1.3rem;">MARKET DE CULTURA</h1>
-        <p style="margin:5px 0 0; font-size: 0.75rem; opacity: 0.9;">Diciendo y Haciendo</p>
-    </header>
-
-    <div id="menu-principal">
-        <div class="grid-pasillos">
-            <div class="card-menu" id="card-agilidad" onclick="irAPasillo('agilidad')">
-                <div class="btn-categoria color-agilidad">AGILIDAD</div>
-                <div class="progress-container"><div id="bar-agilidad" class="progress-fill color-agilidad"></div></div>
-                <p style="font-size: 0.55rem; margin:0;"><span id="pts-agilidad">0</span> retos</p>
-                <div class="badge-hoy" id="badge-agilidad">✅ COMPROMISO LISTO</div>
-            </div>
-            <div class="card-menu" id="card-foco" onclick="irAPasillo('foco')">
-                <div class="btn-categoria color-foco">FOCO</div>
-                <div class="progress-container"><div id="bar-foco" class="progress-fill color-foco"></div></div>
-                <p style="font-size: 0.55rem; margin:0;"><span id="pts-foco">0</span> retos</p>
-                <div class="badge-hoy" id="badge-foco">✅ COMPROMISO LISTO</div>
-            </div>
-            <div class="card-menu" id="card-colaboracion" onclick="irAPasillo('colaboracion')">
-                <div class="btn-categoria color-colaboracion">COLABORACIÓN</div>
-                <div class="progress-container"><div id="bar-colaboracion" class="progress-fill color-colaboracion"></div></div>
-                <p style="font-size: 0.55rem; margin:0;"><span id="pts-colaboracion">0</span> retos</p>
-                <div class="badge-hoy" id="badge-colaboracion">✅ COMPROMISO LISTO</div>
-            </div>
-            <div class="card-menu" id="card-integridad" onclick="irAPasillo('integridad')">
-                <div class="btn-categoria color-integridad">INTEGRIDAD</div>
-                <div class="progress-container"><div id="bar-integridad" class="progress-fill color-integridad"></div></div>
-                <p style="font-size: 0.55rem; margin:0;"><span id="pts-integridad">0</span> retos</p>
-                <div class="badge-hoy" id="badge-integridad">✅ COMPROMISO LISTO</div>
-            </div>
-            <div class="card-menu" id="card-talento" onclick="irAPasillo('talento')" style="grid-column: span 2;">
-                <div class="btn-categoria color-talento">TALENTO</div>
-                <div class="progress-container"><div id="bar-talento" class="progress-fill color-talento"></div></div>
-                <p style="font-size: 0.55rem; margin:0;"><span id="pts-talento">0</span> retos logrados</p>
-                <div class="badge-hoy" id="badge-talento">✅ COMPROMISO LISTO</div>
-            </div>
-        </div>
+    <div id="pantalla-login" style="display:none; flex-direction:column; align-items:center; justify-content:center; height:100vh;">
+        <h1>MARKET DE CULTURA</h1>
+        <p>Diciendo y Haciendo</p>
+        <input type="password" id="input-password" placeholder="Contraseña">
+        <button onclick="verificarAcceso()">Ingresar</button>
     </div>
 
-    <div id="pantalla-reto">
-        <div class="reto-main-card">
-            <h2 id="titulo-pasillo" style="color: var(--tigo-azul); font-size: 1.1rem; margin-top: 0; text-transform: uppercase;"></h2>
-            <div id="frase-display" class="frase-quote"></div>
-            <div class="reto-instruccion">
-                <strong style="font-size: 0.75rem; color: #af8600;">⚡ ACCIÓN A EJECUTAR:</strong>
-                <p id="reto-display" style="margin: 5px 0 0; font-size: 0.95rem;"></p>
-            </div>
-            <button id="btn-aceptar" onclick="completarReto()" class="btn-principal">¡LO HARÉ HOY!</button>
-            <p id="msg-bloqueo" style="display:none; color: #4caf50; font-weight: bold; font-size: 0.85rem; margin-top: 15px;">Ya aceptaste este compromiso hoy. <br>¡Mira tu llavero! ⚓</p>
-            <button class="btn-secundario" onclick="mostrarMenu()">Volver</button>
+    <div id="app-content" style="display:none; flex-direction:column; width:100%;">
+        
+        <div id="menu-principal" style="width:100%;">
+            <header style="background:#0033a0; color:white; padding:20px; text-align:center;">
+                <h1>MARKET DE CULTURA</h1>
+                <p>Diciendo y Haciendo</p>
+            </header>
+
+            <div class="grid-container" style="padding:20px;">
+                <div class="card-menu" id="card-talento" onclick="irAPasillo('talento')">
+                    <button class="btn-capacidad" style="background:#e30613;">TALENTO</button>
+                    <div class="progress-container"><div id="bar-talento" class="progress-bar" style="background:#e30613;"></div></div>
+                    <p><span id="pts-talento">0</span> retos logrados</p>
+                    <span id="badge-talento" style="display:none;">✔ Completado hoy</span>
+                </div>
+
+                <div class="card-menu" id="card-foco" onclick="irAPasillo('foco')">
+                    <button class="btn-capacidad" style="background:#f39200;">FOCO</button>
+                    <div class="progress-container"><div id="bar-foco" class="progress-bar" style="background:#f39200;"></div></div>
+                    <p><span id="pts-foco">0</span> retos logrados</p>
+                    <span id="badge-foco" style="display:none;">✔ Completado hoy</span>
+                </div>
+
+                </div>
         </div>
+
+        <div id="pantalla-reto" style="display:none; flex-direction:column; align-items:center; padding:20px;">
+            <h2 id="titulo-pasillo">CATEGORÍA</h2>
+            <div class="display-box">
+                <p id="frase-display" style="font-style:italic; font-size:1.2em;"></p>
+                <div style="background:#fff3cd; padding:15px; border-left:5px solid #ffcd00; margin:20px 0;">
+                    <strong>ACCIÓN A EJECUTAR:</strong>
+                    <p id="reto-display"></p>
+                </div>
+            </div>
+            <button id="btn-aceptar" onclick="completarReto()" style="background:#0033a0; color:white; padding:15px 40px; border-radius:25px; border:none; font-size:1.1em; cursor:pointer;">¡LO HARÉ HOY!</button>
+            <p id="msg-bloqueo" style="display:none; color:red;">Ya aceptaste un reto de esta categoría hoy. ¡Vuelve mañana!</p>
+            <button onclick="mostrarMenu()" style="margin-top:20px; background:none; border:none; text-decoration:underline; cursor:pointer;">Volver</button>
+        </div>
+
     </div>
-</div>
 
-<script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="frases.js"></script>
 
-<script>
-    const CLAVE_CORRECTA = "tigo2026";
-    let capActual = '';
+    <script>
+        const CLAVE_CORRECTA = "tigo2026";
+        let capActual = '';
 
-    // 1. GESTIÓN DE ACCESO
-    function checkAcceso() {
-        if (localStorage.getItem('tigo_logged') === 'true') {
-            document.getElementById('pantalla-login').style.display = 'none';
-            document.getElementById('app-content').style.display = 'flex';
+        function checkAcceso() {
+            if (localStorage.getItem('tigo_logged') === 'true') {
+                document.getElementById('pantalla-login').style.display = 'none';
+                document.getElementById('app-content').style.display = 'flex';
+                actualizarInterfaz();
+            } else { 
+                document.getElementById('pantalla-login').style.display = 'flex'; 
+            }
+        }
+
+        function verificarAcceso() {
+            const pass = document.getElementById('input-password').value.toLowerCase();
+            if (pass === CLAVE_CORRECTA) {
+                localStorage.setItem('tigo_logged', 'true');
+                checkAcceso();
+            } else { 
+                alert("Clave incorrecta"); 
+            }
+        }
+
+        function irAPasillo(id) {
+            capActual = id;
+            const hoy = new Date().toDateString();
+            
+            if (typeof capacidadDB === 'undefined') {
+                alert("Error: frases.js no cargado. Verifica el nombre del archivo.");
+                return;
+            }
+
+            let p = JSON.parse(localStorage.getItem('pTigo')) || {agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, ultimosRetos: {}};
+            const lista = capacidadDB[id];
+            const randomItem = lista[Math.floor(Math.random() * lista.length)];
+
+            document.getElementById('titulo-pasillo').innerText = id.toUpperCase();
+            document.getElementById('frase-display').innerText = `"${randomItem.frase}"`;
+            document.getElementById('reto-display').innerText = randomItem.reto;
+
+            const yaHizoReto = p.ultimosRetos && p.ultimosRetos[id] === hoy;
+            document.getElementById('btn-aceptar').style.display = yaHizoReto ? 'none' : 'block';
+            document.getElementById('msg-bloqueo').style.display = yaHizoReto ? 'block' : 'none';
+
+            document.getElementById('menu-principal').style.display = 'none';
+            document.getElementById('pantalla-reto').style.display = 'flex';
+        }
+
+        function mostrarMenu() {
+            document.getElementById('menu-principal').style.display = 'block';
+            document.getElementById('pantalla-reto').style.display = 'none';
             actualizarInterfaz();
-        } else { 
-            document.getElementById('pantalla-login').style.display = 'flex'; 
-        }
-    }
-
-    function verificarAcceso() {
-        const pass = document.getElementById('input-password').value.toLowerCase();
-        if (pass === CLAVE_CORRECTA) {
-            localStorage.setItem('tigo_logged', 'true');
-            checkAcceso();
-        } else { 
-            alert("Clave incorrecta"); 
-        }
-    }
-
-    // 2. NAVEGACIÓN Y SELECCIÓN DE RETO
-    function irAPasillo(id) {
-        capActual = id;
-        const hoy = new Date().toDateString();
-        
-        // Verificamos que frases.js (capacidadDB) esté cargado
-        if (typeof capacidadDB === 'undefined') {
-            alert("Error: No se encontró la base de datos de frases.");
-            return;
         }
 
-        let p = JSON.parse(localStorage.getItem('pTigo')) || {agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, ultimosRetos: {}};
-        
-        const lista = capacidadDB[id];
-        const randomItem = lista[Math.floor(Math.random() * lista.length)];
+        function completarReto() {
+            const capacidad = capActual;
+            const hoy = new Date().toDateString();
+            
+            let p = JSON.parse(localStorage.getItem('pTigo')) || {agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, ultimosRetos: {}};
 
-        // Actualizar visualización del reto
-        document.getElementById('titulo-pasillo').innerText = id.toUpperCase();
-        document.getElementById('frase-display').innerText = `"${randomItem.frase}"`;
-        document.getElementById('reto-display').innerText = randomItem.reto;
+            p[capacidad] = (p[capacidad] || 0) + 1;
+            p.ultimosRetos[capacidad] = hoy;
 
-        // Verificar si ya cumplió un reto de esta categoría hoy
-        const yaHizoReto = p.ultimosRetos && p.ultimosRetos[id] === hoy;
-        document.getElementById('btn-aceptar').style.display = yaHizoReto ? 'none' : 'block';
-        document.getElementById('msg-bloqueo').style.display = yaHizoReto ? 'block' : 'none';
+            localStorage.setItem('pTigo', JSON.stringify(p));
 
-        document.getElementById('menu-principal').style.display = 'none';
-        document.getElementById('pantalla-reto').style.display = 'flex';
-    }
+            if (typeof confetti !== 'undefined') {
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#0033a0', '#ffcd00', '#ffffff']
+                });
+            }
 
-    function mostrarMenu() {
-        document.getElementById('menu-principal').style.display = 'block';
-        document.getElementById('pantalla-reto').style.display = 'none';
-        actualizarInterfaz();
-    }
+            setTimeout(() => {
+                alert(`¡Reto de ${capacidad.toUpperCase()} aceptado!\n\n"Diciendo y Haciendo".`);
+                mostrarMenu();
+            }, 500);
+        }
 
-    // 3. FUNCIÓN: ¡LO HARÉ HOY! (Corregida y con Confeti)
-    function completarReto() {
-        const capacidad = capActual;
-        const hoy = new Date().toDateString();
-        
-        // Recuperar datos (unificamos a pTigo para evitar errores de undefined)
-        let p = JSON.parse(localStorage.getItem('pTigo')) || {
-            agilidad: 0, foco: 0, colaboracion: 0, integridad: 0, talento: 0, 
-            ultimosRetos: {}
-        };
+        function actualizarInterfaz() {
+            const hoy = new Date().toDateString();
+            let p = JSON.parse(localStorage.getItem('pTigo')) || {agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, ultimosRetos: {}};
+            
+            const capacidades = ["agilidad", "foco", "colaboracion", "integridad", "talento"];
 
-        // Incrementar puntos y bloquear por hoy
-        p[capacidad] = (p[capacidad] || 0) + 1;
-        p.ultimosRetos[capacidad] = hoy;
+            capacidades.forEach(id => {
+                const puntos = p[id] || 0;
+                const perc = Math.min((puntos / 30) * 100, 100); 
 
-        // Guardar progreso
-        localStorage.setItem('pTigo', JSON.stringify(p));
+                const barra = document.getElementById(`bar-${id}`);
+                if (barra) barra.style.width = perc + '%';
 
-        // Lanzar Confeti (Colores Tigo)
-        if (typeof confetti !== 'undefined') {
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#0033a0', '#ffcd00', '#ffffff']
+                const ptsTxt = document.getElementById(`pts-${id}`);
+                if (ptsTxt) ptsTxt.innerText = puntos;
+
+                const yaHizoReto = p.ultimosRetos && p.ultimosRetos[id] === hoy;
+                const card = document.getElementById(`card-${id}`);
+                if (card) card.classList.toggle('completado-hoy', yaHizoReto);
+                
+                const badge = document.getElementById(`badge-${id}`);
+                if (badge) badge.style.display = yaHizoReto ? 'block' : 'none';
             });
         }
 
-        // Mensaje de éxito personalizado
-        setTimeout(() => {
-            alert(`¡Excelente! Reto de ${capacidad.toUpperCase()} aceptado.\n\n"Diciendo y Haciendo".`);
-            mostrarMenu(); // Actualiza barras y vuelve al inicio
-        }, 600);
-    }
-
-    // 4. ACTUALIZACIÓN DE BARRAS Y CONTADORES
-    function actualizarInterfaz() {
-        const hoy = new Date().toDateString();
-        let p = JSON.parse(localStorage.getItem('pTigo')) || {
-            agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, 
-            ultimosRetos: {}
-        };
-        
-        const capacidades = ["agilidad", "foco", "colaboracion", "integridad", "talento"];
-
-        capacidades.forEach(id => {
-            const puntos = p[id] || 0;
-            // Meta de 30 retos por capacidad para tus invitados
-            const porcentaje = Math.min((puntos / 30) * 100, 100); 
-
-            // Actualizar Barras (ID esperado: bar-foco, bar-talento, etc.)
-            const elementoBarra = document.getElementById(`bar-${id}`);
-            if (elementoBarra) {
-                elementoBarra.style.width = porcentaje + '%';
-            }
-
-            // Actualizar Texto de puntos (ID esperado: pts-foco, pts-talento, etc.)
-            const elementoPts = document.getElementById(`pts-${id}`);
-            if (elementoPts) {
-                elementoPts.innerText = puntos;
-            }
-
-            // Actualizar estado visual de la card
-            const yaHizoReto = p.ultimosRetos && p.ultimosRetos[id] === hoy;
-            const card = document.getElementById(`card-${id}`);
-            if (card) {
-                card.className = 'card-menu' + (yaHizoReto ? ' completado-hoy' : '');
-            }
-            
-            const badge = document.getElementById(`badge-${id}`);
-            if (badge) {
-                badge.style.display = yaHizoReto ? 'block' : 'none';
-            }
-        });
-    }
-
-    window.onload = checkAcceso;
-</script>
+        window.onload = checkAcceso;
+    </script>
 </body>
 </html>
