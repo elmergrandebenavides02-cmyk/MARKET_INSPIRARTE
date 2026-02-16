@@ -131,7 +131,7 @@
     </div>
 </div>
 
-<script src="frases.js"></script>
+<script src="capacidad.js"></script>
 
 <script>
     const CLAVE_CORRECTA = "tigo2026";
@@ -158,9 +158,9 @@
     }
 
     function irAPasillo(id) {
-        // Validación crítica: ¿Cargó frases.js?
+        // Validación crítica: ¿Cargó capacidad.js?
         if (typeof capacidadDB === 'undefined') {
-            alert("Error crítico: No se encontró el archivo 'frases.js'. Verifica que esté en la misma carpeta.");
+            alert("Error crítico: No se encontró el archivo 'capacidad.js'. Verifica que esté en la misma carpeta.");
             return;
         }
         capActual = id;
