@@ -30,7 +30,6 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1); cursor: pointer;
             transition: transform 0.2s; border: 1px solid #ddd;
         }
-        .card-menu:active { transform: scale(0.98); }
         .completado-hoy { border: 2px solid var(--tigo-yellow); background: #fffdf0; }
 
         .btn-capacidad { 
@@ -41,13 +40,12 @@
         .progress-container { background: #eee; border-radius: 10px; height: 12px; overflow: hidden; margin: 10px 0; }
         .progress-bar { height: 100%; width: 0%; transition: width 0.8s ease-out; }
 
-        .stats { font-size: 14px; color: #666; display: flex; justify-content: space-between; }
+        .stats { font-size: 14px; color: #666; display: flex; justify-content: space-between; align-items: center; }
         .badge { color: #28a745; font-weight: bold; font-size: 12px; display: none; }
 
-        /* Pantallas */
         #pantalla-login, #pantalla-reto { display: none; flex-direction: column; align-items: center; padding: 30px; text-align: center; }
         
-        input { padding: 12px; width: 80%; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; }
+        input { padding: 12px; width: 80%; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
         .btn-main { background: var(--tigo-blue); color: white; border: none; padding: 15px 30px; border-radius: 30px; font-weight: bold; cursor: pointer; width: 100%; }
         
         .display-box { background: #fff; border-radius: 20px; padding: 20px; margin: 20px 0; border: 1px solid #eee; width: 100%; box-sizing: border-box; }
@@ -59,7 +57,7 @@
 <div class="container">
     <div id="pantalla-login">
         <h1 style="color:var(--tigo-blue)">MARKET DE CULTURA</h1>
-        <p>Ingresa la clave de acceso</p>
+        <p>Diciendo y Haciendo</p>
         <input type="password" id="input-password" placeholder="Contraseña">
         <button class="btn-main" onclick="verificarAcceso()">ENTRAR</button>
     </div>
@@ -76,7 +74,7 @@
                 <div class="progress-container"><div id="bar-agilidad" class="progress-bar" style="background:var(--tigo-light-blue)"></div></div>
                 <div class="stats">
                     <span><strong id="pts-agilidad">0</strong> retos logrados</span>
-                    <span id="badge-agilidad" class="badge">✔ HECHO</span>
+                    <span id="badge-agilidad" class="badge">✔ HECHO HOY</span>
                 </div>
             </div>
 
@@ -85,7 +83,7 @@
                 <div class="progress-container"><div id="bar-foco" class="progress-bar" style="background:var(--tigo-orange)"></div></div>
                 <div class="stats">
                     <span><strong id="pts-foco">0</strong> retos logrados</span>
-                    <span id="badge-foco" class="badge">✔ HECHO</span>
+                    <span id="badge-foco" class="badge">✔ HECHO HOY</span>
                 </div>
             </div>
 
@@ -94,7 +92,7 @@
                 <div class="progress-container"><div id="bar-colaboracion" class="progress-bar" style="background:var(--tigo-green)"></div></div>
                 <div class="stats">
                     <span><strong id="pts-colaboracion">0</strong> retos logrados</span>
-                    <span id="badge-colaboracion" class="badge">✔ HECHO</span>
+                    <span id="badge-colaboracion" class="badge">✔ HECHO HOY</span>
                 </div>
             </div>
 
@@ -103,7 +101,7 @@
                 <div class="progress-container"><div id="bar-integridad" class="progress-bar" style="background:var(--tigo-purple)"></div></div>
                 <div class="stats">
                     <span><strong id="pts-integridad">0</strong> retos logrados</span>
-                    <span id="badge-integridad" class="badge">✔ HECHO</span>
+                    <span id="badge-integridad" class="badge">✔ HECHO HOY</span>
                 </div>
             </div>
 
@@ -112,7 +110,7 @@
                 <div class="progress-container"><div id="bar-talento" class="progress-bar" style="background:var(--tigo-red)"></div></div>
                 <div class="stats">
                     <span><strong id="pts-talento">0</strong> retos logrados</span>
-                    <span id="badge-talento" class="badge">✔ HECHO</span>
+                    <span id="badge-talento" class="badge">✔ HECHO HOY</span>
                 </div>
             </div>
         </div>
@@ -127,13 +125,13 @@
                 </div>
             </div>
             <button id="btn-aceptar" class="btn-main" onclick="completarReto()">¡LO HARÉ HOY!</button>
-            <p id="msg-bloqueo" style="color: #666; font-weight: bold; display:none;">¡Reto aceptado! Vuelve mañana por más.</p>
-            <button onclick="mostrarMenu()" style="margin-top: 20px; border: none; background: none; color: var(--tigo-blue); text-decoration: underline; cursor: pointer;">Volver al menú</button>
+            <p id="msg-bloqueo" style="color: #666; font-weight: bold; display:none;">¡Reto aceptado! Vuelve mañana por uno nuevo.</p>
+            <button onclick="mostrarMenu()" style="margin-top: 20px; border: none; background: none; color: var(--tigo-blue); text-decoration: underline; cursor: pointer;">Volver al mercado</button>
         </div>
     </div>
 </div>
 
-<script src="capacidad.js"></script>
+<script src="frases.js"></script>
 
 <script>
     const CLAVE_CORRECTA = "tigo2026";
@@ -160,8 +158,9 @@
     }
 
     function irAPasillo(id) {
+        // Validación crítica: ¿Cargó frases.js?
         if (typeof capacidadDB === 'undefined') {
-            alert("Error: No se encuentra el archivo de frases (frases.js).");
+            alert("Error crítico: No se encontró el archivo 'frases.js'. Verifica que esté en la misma carpeta.");
             return;
         }
         capActual = id;
@@ -185,7 +184,10 @@
 
     function completarReto() {
         const hoy = new Date().toDateString();
-        let p = JSON.parse(localStorage.getItem('pTigo')) || {agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, ultimosRetos: {}};
+        // Unificamos datos en pTigo para evitar errores de 'undefined'
+        let p = JSON.parse(localStorage.getItem('pTigo')) || {
+            agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, ultimosRetos: {}
+        };
 
         p[capActual] = (p[capActual] || 0) + 1;
         if (!p.ultimosRetos) p.ultimosRetos = {};
@@ -193,6 +195,7 @@
 
         localStorage.setItem('pTigo', JSON.stringify(p));
 
+        // Lanzar Confeti
         if (window.confetti) {
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#0033a0', '#ffcd00'] });
         }
@@ -211,7 +214,9 @@
 
     function actualizarInterfaz() {
         const hoy = new Date().toDateString();
-        let p = JSON.parse(localStorage.getItem('pTigo')) || {agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, ultimosRetos: {}};
+        let p = JSON.parse(localStorage.getItem('pTigo')) || {
+            agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, ultimosRetos: {}
+        };
         
         ["agilidad", "foco", "colaboracion", "integridad", "talento"].forEach(id => {
             const puntos = p[id] || 0;
