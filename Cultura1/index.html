@@ -110,10 +110,13 @@
 <script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
     const CLAVE_CORRECTA = "tigo2026";
     let capActual = '';
 
-    // 1. Verificación de Acceso
+    // 1. GESTIÓN DE ACCESO
     function checkAcceso() {
         if (localStorage.getItem('tigo_logged') === 'true') {
             document.getElementById('pantalla-login').style.display = 'none';
@@ -125,7 +128,8 @@
     }
 
     function verificarAcceso() {
-        if (document.getElementById('input-password').value.toLowerCase() === CLAVE_CORRECTA) {
+        const pass = document.getElementById('input-password').value.toLowerCase();
+        if (pass === CLAVE_CORRECTA) {
             localStorage.setItem('tigo_logged', 'true');
             checkAcceso();
         } else { 
@@ -133,25 +137,28 @@
         }
     }
 
-    // 2. Navegación al Reto
+    // 2. NAVEGACIÓN Y SELECCIÓN DE RETO
     function irAPasillo(id) {
         capActual = id;
         const hoy = new Date().toDateString();
-        let p = JSON.parse(localStorage.getItem('pTigo')) || {agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, ultimosRetos: {}};
         
-        // Carga la lista desde frases.js (asegúrate que capacidadDB esté definido allí)
+        // Verificamos que frases.js (capacidadDB) esté cargado
         if (typeof capacidadDB === 'undefined') {
-            alert("Error: Base de datos no cargada.");
+            alert("Error: No se encontró la base de datos de frases.");
             return;
         }
 
+        let p = JSON.parse(localStorage.getItem('pTigo')) || {agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, ultimosRetos: {}};
+        
         const lista = capacidadDB[id];
         const randomItem = lista[Math.floor(Math.random() * lista.length)];
 
+        // Actualizar visualización del reto
         document.getElementById('titulo-pasillo').innerText = id.toUpperCase();
         document.getElementById('frase-display').innerText = `"${randomItem.frase}"`;
         document.getElementById('reto-display').innerText = randomItem.reto;
 
+        // Verificar si ya cumplió un reto de esta categoría hoy
         const yaHizoReto = p.ultimosRetos && p.ultimosRetos[id] === hoy;
         document.getElementById('btn-aceptar').style.display = yaHizoReto ? 'none' : 'block';
         document.getElementById('msg-bloqueo').style.display = yaHizoReto ? 'block' : 'none';
@@ -166,22 +173,25 @@
         actualizarInterfaz();
     }
 
-    // 3. Lógica de "¡LO HARÉ HOY!" (Corregida con Confeti y Progreso)
+    // 3. FUNCIÓN: ¡LO HARÉ HOY! (Corregida y con Confeti)
     function completarReto() {
         const capacidad = capActual;
         const hoy = new Date().toDateString();
         
-        // Usamos una sola fuente de verdad: 'pTigo'
-        let p = JSON.parse(localStorage.getItem('pTigo')) || {agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, ultimosRetos: {}};
+        // Recuperar datos (unificamos a pTigo para evitar errores de undefined)
+        let p = JSON.parse(localStorage.getItem('pTigo')) || {
+            agilidad: 0, foco: 0, colaboracion: 0, integridad: 0, talento: 0, 
+            ultimosRetos: {}
+        };
 
-        // A. Actualizar progreso y bloqueo diario
+        // Incrementar puntos y bloquear por hoy
         p[capacidad] = (p[capacidad] || 0) + 1;
         p.ultimosRetos[capacidad] = hoy;
 
-        // B. Guardar datos
+        // Guardar progreso
         localStorage.setItem('pTigo', JSON.stringify(p));
 
-        // C. Efecto de Confeti (Colores Tigo)
+        // Lanzar Confeti (Colores Tigo)
         if (typeof confetti !== 'undefined') {
             confetti({
                 particleCount: 150,
@@ -191,34 +201,41 @@
             });
         }
 
-        // D. Mensaje personalizado
+        // Mensaje de éxito personalizado
         setTimeout(() => {
-            alert(`¡Reto de ${capacidad.toUpperCase()} aceptado!\n\n"Diciendo y Haciendo". ¡A demostrar tu talento hoy!`);
-            mostrarMenu(); // Regresa al menú y actualiza la interfaz
-        }, 500);
+            alert(`¡Excelente! Reto de ${capacidad.toUpperCase()} aceptado.\n\n"Diciendo y Haciendo".`);
+            mostrarMenu(); // Actualiza barras y vuelve al inicio
+        }, 600);
     }
 
-    // 4. Actualización Visual de Barras y Contadores
+    // 4. ACTUALIZACIÓN DE BARRAS Y CONTADORES
     function actualizarInterfaz() {
         const hoy = new Date().toDateString();
-        let p = JSON.parse(localStorage.getItem('pTigo')) || {agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, ultimosRetos: {}};
+        let p = JSON.parse(localStorage.getItem('pTigo')) || {
+            agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, 
+            ultimosRetos: {}
+        };
         
         const capacidades = ["agilidad", "foco", "colaboracion", "integridad", "talento"];
 
         capacidades.forEach(id => {
             const puntos = p[id] || 0;
-            // Meta de 30 para tus invitados
-            const perc = Math.min((puntos / 30) * 100, 100); 
+            // Meta de 30 retos por capacidad para tus invitados
+            const porcentaje = Math.min((puntos / 30) * 100, 100); 
 
-            // Actualizar Barras (IDs deben ser bar-agilidad, bar-foco, etc.)
-            const barra = document.getElementById(`bar-${id}`);
-            if (barra) barra.style.width = perc + '%';
+            // Actualizar Barras (ID esperado: bar-foco, bar-talento, etc.)
+            const elementoBarra = document.getElementById(`bar-${id}`);
+            if (elementoBarra) {
+                elementoBarra.style.width = porcentaje + '%';
+            }
 
-            // Actualizar Números (IDs deben ser pts-agilidad, pts-foco, etc.)
-            const ptsTexto = document.getElementById(`pts-${id}`);
-            if (ptsTexto) ptsTexto.innerText = puntos;
+            // Actualizar Texto de puntos (ID esperado: pts-foco, pts-talento, etc.)
+            const elementoPts = document.getElementById(`pts-${id}`);
+            if (elementoPts) {
+                elementoPts.innerText = puntos;
+            }
 
-            // Estado visual de las tarjetas
+            // Actualizar estado visual de la card
             const yaHizoReto = p.ultimosRetos && p.ultimosRetos[id] === hoy;
             const card = document.getElementById(`card-${id}`);
             if (card) {
@@ -226,7 +243,9 @@
             }
             
             const badge = document.getElementById(`badge-${id}`);
-            if (badge) badge.style.display = yaHizoReto ? 'block' : 'none';
+            if (badge) {
+                badge.style.display = yaHizoReto ? 'block' : 'none';
+            }
         });
     }
 
