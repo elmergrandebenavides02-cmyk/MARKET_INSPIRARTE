@@ -108,34 +108,47 @@
 </div>
 
 <script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
     const CLAVE_CORRECTA = "tigo2026";
     let capActual = '';
 
+    // 1. Verificación de Acceso
     function checkAcceso() {
         if (localStorage.getItem('tigo_logged') === 'true') {
             document.getElementById('pantalla-login').style.display = 'none';
             document.getElementById('app-content').style.display = 'flex';
             actualizarInterfaz();
-        } else { document.getElementById('pantalla-login').style.display = 'flex'; }
+        } else { 
+            document.getElementById('pantalla-login').style.display = 'flex'; 
+        }
     }
 
     function verificarAcceso() {
         if (document.getElementById('input-password').value.toLowerCase() === CLAVE_CORRECTA) {
             localStorage.setItem('tigo_logged', 'true');
             checkAcceso();
-        } else { alert("Clave incorrecta"); }
+        } else { 
+            alert("Clave incorrecta"); 
+        }
     }
 
+    // 2. Navegación al Reto
     function irAPasillo(id) {
         capActual = id;
         const hoy = new Date().toDateString();
-        let p = JSON.parse(localStorage.getItem('pTigo')) || {ultimosRetos: {}};
+        let p = JSON.parse(localStorage.getItem('pTigo')) || {agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, ultimosRetos: {}};
         
-        // "capacidadDB" viene del archivo externo frases.js
+        // Carga la lista desde frases.js (asegúrate que capacidadDB esté definido allí)
+        if (typeof capacidadDB === 'undefined') {
+            alert("Error: Base de datos no cargada.");
+            return;
+        }
+
         const lista = capacidadDB[id];
         const randomItem = lista[Math.floor(Math.random() * lista.length)];
 
-        document.getElementById('titulo-pasillo').innerText = id;
+        document.getElementById('titulo-pasillo').innerText = id.toUpperCase();
         document.getElementById('frase-display').innerText = `"${randomItem.frase}"`;
         document.getElementById('reto-display').innerText = randomItem.reto;
 
@@ -153,36 +166,70 @@
         actualizarInterfaz();
     }
 
-    function completarReto(capacidad) {
-    // 1. Obtenemos lo que haya en localStorage o creamos un objeto vacío si no existe
-    let progreso = JSON.parse(localStorage.getItem('progresoMarket')) || {};
+    // 3. Lógica de "¡LO HARÉ HOY!" (Corregida con Confeti y Progreso)
+    function completarReto() {
+        const capacidad = capActual;
+        const hoy = new Date().toDateString();
+        
+        // Usamos una sola fuente de verdad: 'pTigo'
+        let p = JSON.parse(localStorage.getItem('pTigo')) || {agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, ultimosRetos: {}};
 
-    // 2. Si la capacidad (ej: 'foco') no existe en el progreso, la inicializamos
-    if (!progreso[capacidad]) {
-        progreso[capacidad] = 0;
+        // A. Actualizar progreso y bloqueo diario
+        p[capacidad] = (p[capacidad] || 0) + 1;
+        p.ultimosRetos[capacidad] = hoy;
+
+        // B. Guardar datos
+        localStorage.setItem('pTigo', JSON.stringify(p));
+
+        // C. Efecto de Confeti (Colores Tigo)
+        if (typeof confetti !== 'undefined') {
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#0033a0', '#ffcd00', '#ffffff']
+            });
+        }
+
+        // D. Mensaje personalizado
+        setTimeout(() => {
+            alert(`¡Reto de ${capacidad.toUpperCase()} aceptado!\n\n"Diciendo y Haciendo". ¡A demostrar tu talento hoy!`);
+            mostrarMenu(); // Regresa al menú y actualiza la interfaz
+        }, 500);
     }
 
-    // 3. Incrementamos y guardamos
-    progreso[capacidad]++;
-    localStorage.setItem('progresoMarket', JSON.stringify(progreso));
-    
-    alert("¡Reto aceptado! Sumaste un punto a " + capacidad);
-    location.reload(); // Para actualizar los contadores de la pantalla principal
-}
-
+    // 4. Actualización Visual de Barras y Contadores
     function actualizarInterfaz() {
         const hoy = new Date().toDateString();
         let p = JSON.parse(localStorage.getItem('pTigo')) || {agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, ultimosRetos: {}};
-        ["agilidad", "foco", "colaboracion", "integridad", "talento"].forEach(id => {
+        
+        const capacidades = ["agilidad", "foco", "colaboracion", "integridad", "talento"];
+
+        capacidades.forEach(id => {
             const puntos = p[id] || 0;
-            const perc = Math.min((puntos / 30) * 100, 100);
-            document.getElementById(`bar-${id}`).style.width = perc + '%';
-            document.getElementById(`pts-${id}`).innerText = puntos;
+            // Meta de 30 para tus invitados
+            const perc = Math.min((puntos / 30) * 100, 100); 
+
+            // Actualizar Barras (IDs deben ser bar-agilidad, bar-foco, etc.)
+            const barra = document.getElementById(`bar-${id}`);
+            if (barra) barra.style.width = perc + '%';
+
+            // Actualizar Números (IDs deben ser pts-agilidad, pts-foco, etc.)
+            const ptsTexto = document.getElementById(`pts-${id}`);
+            if (ptsTexto) ptsTexto.innerText = puntos;
+
+            // Estado visual de las tarjetas
             const yaHizoReto = p.ultimosRetos && p.ultimosRetos[id] === hoy;
-            document.getElementById(`card-${id}`).className = 'card-menu' + (yaHizoReto ? ' completado-hoy' : '');
-            document.getElementById(`badge-${id}`).style.display = yaHizoReto ? 'block' : 'none';
+            const card = document.getElementById(`card-${id}`);
+            if (card) {
+                card.className = 'card-menu' + (yaHizoReto ? ' completado-hoy' : '');
+            }
+            
+            const badge = document.getElementById(`badge-${id}`);
+            if (badge) badge.style.display = yaHizoReto ? 'block' : 'none';
         });
     }
+
     window.onload = checkAcceso;
 </script>
 </body>
