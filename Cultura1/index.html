@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market ADN Tigo - Bienestar & Niveles</title>
+    <title>Market ADN Tigo - Bienestar</title>
     
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -56,13 +56,27 @@
         .display-box { background: #fff; border-radius: 20px; padding: 20px; margin: 20px 0; border: 1px solid #eee; width: 100%; box-sizing: border-box; }
         .accion-box { background: #fff3cd; padding: 15px; border-left: 5px solid var(--tigo-yellow); margin-top: 20px; text-align: left; }
 
+        /* Estilos del Modal Personalizado (Para eliminar el mensaje del navegador) */
+        #custom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: white; width: 85%; max-width: 400px; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); animation: fadeIn 0.3s ease; }
+        
         #pantalla-instrucciones { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 100; box-sizing: border-box; display: none; }
         .instruccion-item { text-align: left; margin-bottom: 20px; font-size: 16px; line-height: 1.4; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <div id="custom-modal">
+        <div class="modal-content">
+            <h3 id="modal-titulo" style="color: var(--tigo-blue); margin-top: 0;">MARKET ADN</h3>
+            <p id="modal-mensaje" style="color: #444; line-height: 1.6; font-size: 16px;"></p>
+            <button class="btn-main" onclick="cerrarModalPersonalizado()">ACEPTAR</button>
+        </div>
+    </div>
+
     <div id="pantalla-login">
         <h1 style="color:var(--tigo-blue)">🚀 ADN TIG0 MARKET</h1>
         <p>Diciendo y Haciendo</p>
@@ -73,7 +87,7 @@
     <div id="pantalla-instrucciones">
         <h2 style="color:var(--tigo-blue)">Tu Camino al Éxito</h2>
         <div class="instruccion-item"><strong>🛒 Pasillos de Cultura:</strong> Elige una capacidad. Cada reto sumado te hará subir de nivel.</div>
-        <div class="instruccion-item"><strong>🎖️ Niveles ADN:</strong> Pasa de ser un Novato a un <strong>Embajador de Cultura</strong> logrando retos diarios.</div>
+        <div class="instruccion-item"><strong>🎖️ Niveles ADN:</strong> Pasa de Novato a <strong>Embajador de Cultura</strong> logrando retos diarios.</div>
         <div class="instruccion-item"><strong>⚓ El Ancla:</strong> Tu <strong>llavero</strong> es la señal. Míralo y recuerda: Diciendo y Haciendo.</div>
         <button class="btn-main" onclick="cerrarInstrucciones()">¡EMPEZAR EL CAMINO!</button>
     </div>
@@ -160,6 +174,19 @@
     const CLAVE_CORRECTA = "tigo2026";
     let capActual = '';
 
+    // --- MANEJO DEL MODAL PERSONALIZADO ---
+    function mostrarModalPropio(titulo, mensaje) {
+        document.getElementById('modal-titulo').innerText = titulo;
+        document.getElementById('modal-mensaje').innerHTML = mensaje;
+        document.getElementById('custom-modal').style.display = 'flex';
+    }
+
+    function cerrarModalPersonalizado() {
+        document.getElementById('custom-modal').style.display = 'none';
+        mostrarMenu();
+    }
+
+    // --- LÓGICA DE ACCESO ---
     function checkAcceso() {
         if (localStorage.getItem('tigo_logged') === 'true') {
             document.getElementById('pantalla-login').style.display = 'none';
@@ -179,7 +206,7 @@
             localStorage.setItem('tigo_logged', 'true');
             checkAcceso();
         } else {
-            alert("Clave incorrecta");
+            mostrarModalPropio("ACCESO", "Clave incorrecta. Inténtalo de nuevo.");
         }
     }
 
@@ -192,9 +219,10 @@
         document.getElementById('pantalla-instrucciones').style.display = 'none';
     }
 
+    // --- LÓGICA DE RETOS ---
     function irAPasillo(id) {
         if (typeof capacidadDB === 'undefined') {
-            alert("Error: No se detecta 'capacidadDB' en capacidad.js");
+            mostrarModalPropio("ERROR", "No se encontró el archivo de retos.");
             return;
         }
         capActual = id;
@@ -243,7 +271,7 @@
         };
 
         p[capActual] = (p[capActual] || 0) + 1;
-        if (!p.ultimosRetos) p.ultimosRetos = {};
+        p.ultimosRetos = p.ultimosRetos || {};
         p.ultimosRetos[capActual] = hoy;
 
         localStorage.setItem('pTigo', JSON.stringify(p));
@@ -253,8 +281,8 @@
         }
 
         setTimeout(() => {
-            alert("¡RETO ACTIVADO! 🚀\n\nRecuerda cumplir esta acción durante el día.\n\nTen tu ancla 'LLAAVERO' a la vista para que te lo recuerde. ¡Diciendo y Haciendo!");
-            mostrarMenu();
+            const msg = "🚀 ¡RETO ACTIVADO!<br><br>Recuerda cumplir esta acción durante el día.<br><br>Ten tu ancla <b>'LLAAVERO'</b> a la vista para que te lo recuerde. <br><br>¡Diciendo y Haciendo!";
+            mostrarModalPropio("MARKET ADN", msg);
         }, 500);
     }
 
@@ -281,19 +309,10 @@
             const puntos = p[id] || 0;
             const perc = Math.min((puntos / 30) * 100, 100);
             
-            // Barra de progreso
-            const bar = document.getElementById(`bar-${id}`);
-            if(bar) bar.style.width = perc + '%';
-            
-            // Puntos
-            const pts = document.getElementById(`pts-${id}`);
-            if(pts) pts.innerText = puntos;
+            if(document.getElementById(`bar-${id}`)) document.getElementById(`bar-${id}`).style.width = perc + '%';
+            if(document.getElementById(`pts-${id}`)) document.getElementById(`pts-${id}`).innerText = puntos;
+            if(document.getElementById(`nivel-${id}`)) document.getElementById(`nivel-${id}`).innerText = calcularNivel(puntos);
 
-            // NIVEL (Nueva función)
-            const nivelEl = document.getElementById(`nivel-${id}`);
-            if(nivelEl) nivelEl.innerText = calcularNivel(puntos);
-
-            // Badge hoy
             const yaHizoReto = p.ultimosRetos && p.ultimosRetos[id] === hoy;
             const card = document.getElementById(`card-${id}`);
             if(card) {
