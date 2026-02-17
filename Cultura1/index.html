@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Market ADN Tigo</title>
+    <title>Market ADN Tigo - Bienestar</title>
     
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -19,10 +19,13 @@
         }
 
         body { font-family: 'Arial', sans-serif; margin: 0; background-color: #f4f4f4; display: flex; justify-content: center; }
-        .container { width: 100%; max-width: 500px; background: white; min-height: 100vh; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .container { width: 100%; max-width: 500px; background: white; min-height: 100vh; box-shadow: 0 0 10px rgba(0,0,0,0.1); position: relative; }
         
-        header { background: var(--tigo-blue); color: white; text-align: center; padding: 20px; border-bottom: 5px solid var(--tigo-yellow); }
+        header { background: var(--tigo-blue); color: white; text-align: center; padding: 20px; border-bottom: 5px solid var(--tigo-yellow); position: relative; }
         
+        /* Icono de Ayuda */
+        .info-icon { position: absolute; right: 15px; top: 15px; background: white; color: var(--tigo-blue); border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; border: 2px solid var(--tigo-yellow); }
+
         .grid-container { padding: 20px; display: flex; flex-direction: column; gap: 15px; }
         
         .card-menu { 
@@ -43,27 +46,42 @@
         .stats { font-size: 14px; color: #666; display: flex; justify-content: space-between; align-items: center; }
         .badge { color: #28a745; font-weight: bold; font-size: 12px; display: none; }
 
-        #pantalla-login, #pantalla-reto { display: none; flex-direction: column; align-items: center; padding: 30px; text-align: center; }
+        #pantalla-login, #pantalla-reto, #pantalla-instrucciones { display: none; flex-direction: column; align-items: center; padding: 30px; text-align: center; }
         
         input { padding: 12px; width: 80%; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
-        .btn-main { background: var(--tigo-blue); color: white; border: none; padding: 15px 30px; border-radius: 30px; font-weight: bold; cursor: pointer; width: 100%; }
+        .btn-main { background: var(--tigo-blue); color: white; border: none; padding: 15px 30px; border-radius: 30px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
+        .btn-secundario { background: #eee; color: #333; border: none; padding: 10px 20px; border-radius: 30px; font-size: 14px; cursor: pointer; margin-top: 10px; width: 80%; }
         
-        .display-box { background: #fff; border-radius: 20px; padding: 20px; margin: 20px 0; border: 1px solid #eee; width: 100%; box-sizing: border-box; }
+        .display-box { background: #fff; border-radius: 20px; padding: 20px; margin: 20px 0; border: 1px solid #eee; width: 100%; box-sizing: border-box; position: relative; }
         .accion-box { background: #fff3cd; padding: 15px; border-left: 5px solid var(--tigo-yellow); margin-top: 20px; text-align: left; }
+
+        /* Estilos Modal Instrucciones */
+        #pantalla-instrucciones { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 100; box-sizing: border-box; }
+        .instruccion-item { text-align: left; margin-bottom: 15px; font-size: 15px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div id="pantalla-login">
-        <h1 style="color:var(--tigo-blue)">🚀 ADN TIG0 MARKET DE CULTURA</h1>
+        <h1 style="color:var(--tigo-blue)">🚀 ADN TIG0 MARKET</h1>
         <p>Diciendo y Haciendo</p>
         <input type="password" id="input-password" placeholder="Contraseña">
         <button class="btn-main" onclick="verificarAcceso()">ENTRAR</button>
     </div>
 
+    <div id="pantalla-instrucciones">
+        <h2 style="color:var(--tigo-blue)">¿Cómo funciona el Market?</h2>
+        <div class="instruccion-item"><strong>1. Elige un pasillo:</strong> Selecciona la capacidad que quieras trabajar hoy.</div>
+        <div class="instruccion-item"><strong>2. Encuentra tu reto:</strong> Lee la frase inspiradora y la acción del día.</div>
+        <div class="instruccion-item"><strong>3. ¡Acepta y actúa!:</strong> Al aceptar, el reto se activa. Tienes todo el día para cumplirlo.</div>
+        <div class="instruccion-item"><strong>4. Tu Ancla:</strong> No olvides mirar tu <strong>llavero</strong> físico; es tu recordatorio visual para mantener el ADN vivo.</div>
+        <button class="btn-main" onclick="cerrarInstrucciones()">¡ENTENDIDO!</button>
+    </div>
+
     <div id="app-content" style="display:none;">
         <header>
+            <div class="info-icon" onclick="mostrarInstrucciones()">?</div>
             <h1 style="margin:0; font-size: 24px;">MARKET DE CULTURA</h1>
             <p style="margin:5px 0 0 0;">Diciendo y Haciendo</p>
         </header>
@@ -72,46 +90,31 @@
             <div class="card-menu" id="card-agilidad" onclick="irAPasillo('agilidad')">
                 <button class="btn-capacidad" style="background:var(--tigo-light-blue)">AGILIDAD</button>
                 <div class="progress-container"><div id="bar-agilidad" class="progress-bar" style="background:var(--tigo-light-blue)"></div></div>
-                <div class="stats">
-                    <span><strong id="pts-agilidad">0</strong> retos logrados</span>
-                    <span id="badge-agilidad" class="badge">✔ HECHO HOY</span>
-                </div>
+                <div class="stats"><span><strong id="pts-agilidad">0</strong> retos</span><span id="badge-agilidad" class="badge">✔ HECHO HOY</span></div>
             </div>
 
             <div class="card-menu" id="card-foco" onclick="irAPasillo('foco')">
                 <button class="btn-capacidad" style="background:var(--tigo-orange)">FOCO</button>
                 <div class="progress-container"><div id="bar-foco" class="progress-bar" style="background:var(--tigo-orange)"></div></div>
-                <div class="stats">
-                    <span><strong id="pts-foco">0</strong> retos logrados</span>
-                    <span id="badge-foco" class="badge">✔ HECHO HOY</span>
-                </div>
+                <div class="stats"><span><strong id="pts-foco">0</strong> retos</span><span id="badge-foco" class="badge">✔ HECHO HOY</span></div>
             </div>
 
             <div class="card-menu" id="card-colaboracion" onclick="irAPasillo('colaboracion')">
                 <button class="btn-capacidad" style="background:var(--tigo-green)">COLABORACIÓN</button>
                 <div class="progress-container"><div id="bar-colaboracion" class="progress-bar" style="background:var(--tigo-green)"></div></div>
-                <div class="stats">
-                    <span><strong id="pts-colaboracion">0</strong> retos logrados</span>
-                    <span id="badge-colaboracion" class="badge">✔ HECHO HOY</span>
-                </div>
+                <div class="stats"><span><strong id="pts-colaboracion">0</strong> retos</span><span id="badge-colaboracion" class="badge">✔ HECHO HOY</span></div>
             </div>
 
             <div class="card-menu" id="card-integridad" onclick="irAPasillo('integridad')">
                 <button class="btn-capacidad" style="background:var(--tigo-purple)">INTEGRIDAD</button>
                 <div class="progress-container"><div id="bar-integridad" class="progress-bar" style="background:var(--tigo-purple)"></div></div>
-                <div class="stats">
-                    <span><strong id="pts-integridad">0</strong> retos logrados</span>
-                    <span id="badge-integridad" class="badge">✔ HECHO HOY</span>
-                </div>
+                <div class="stats"><span><strong id="pts-integridad">0</strong> retos</span><span id="badge-integridad" class="badge">✔ HECHO HOY</span></div>
             </div>
 
             <div class="card-menu" id="card-talento" onclick="irAPasillo('talento')">
                 <button class="btn-capacidad" style="background:var(--tigo-red)">TALENTO</button>
                 <div class="progress-container"><div id="bar-talento" class="progress-bar" style="background:var(--tigo-red)"></div></div>
-                <div class="stats">
-                    <span><strong id="pts-talento">0</strong> retos logrados</span>
-                    <span id="badge-talento" class="badge">✔ HECHO HOY</span>
-                </div>
+                <div class="stats"><span><strong id="pts-talento">0</strong> retos</span><span id="badge-talento" class="badge">✔ HECHO HOY</span></div>
             </div>
         </div>
 
@@ -124,8 +127,13 @@
                     <p id="reto-display" style="margin: 10px 0 0 0; color: #333;"></p>
                 </div>
             </div>
+            
             <button id="btn-aceptar" class="btn-main" onclick="completarReto()">¡LO HARÉ HOY!</button>
-            <p id="msg-bloqueo" style="color: #666; font-weight: bold; display:none;">¡Reto aceptado! Vuelve mañana por uno nuevo.</p>
+            
+            <button id="btn-otro" class="btn-secundario" onclick="cambiarReto()">🔄 Ver otra opción</button>
+            <button id="btn-compartir" class="btn-secundario" style="background:#d4edda;" onclick="compartirReto()">📤 Compartir reto</button>
+
+            <p id="msg-bloqueo" style="color: #666; font-weight: bold; display:none; margin-top:20px;">¡Reto aceptado! Vuelve mañana por uno nuevo.</p>
             <button onclick="mostrarMenu()" style="margin-top: 20px; border: none; background: none; color: var(--tigo-blue); text-decoration: underline; cursor: pointer;">Volver al mercado</button>
         </div>
     </div>
@@ -141,6 +149,11 @@
         if (localStorage.getItem('tigo_logged') === 'true') {
             document.getElementById('pantalla-login').style.display = 'none';
             document.getElementById('app-content').style.display = 'block';
+            
+            // Si es la primera vez hoy, mostrar instrucciones
+            if (!localStorage.getItem('instrucciones_vistas')) {
+                mostrarInstrucciones();
+            }
             actualizarInterfaz();
         } else {
             document.getElementById('pantalla-login').style.display = 'flex';
@@ -157,34 +170,59 @@
         }
     }
 
+    function mostrarInstrucciones() {
+        document.getElementById('pantalla-instrucciones').style.display = 'flex';
+    }
+
+    function cerrarInstrucciones() {
+        localStorage.setItem('instrucciones_vistas', 'true');
+        document.getElementById('pantalla-instrucciones').style.display = 'none';
+    }
+
     function irAPasillo(id) {
-        // Validación crítica: ¿Cargó capacidad.js?
         if (typeof capacidadDB === 'undefined') {
-            alert("Error crítico: No se encontró el archivo 'capacidad.js'. Verifica que esté en la misma carpeta.");
+            alert("Error: capacidad.js no cargado.");
             return;
         }
         capActual = id;
-        const hoy = new Date().toDateString();
-        let p = JSON.parse(localStorage.getItem('pTigo')) || {ultimosRetos: {}};
-        
-        const lista = capacidadDB[id];
-        const randomItem = lista[Math.floor(Math.random() * lista.length)];
-
-        document.getElementById('titulo-pasillo').innerText = id.toUpperCase();
-        document.getElementById('frase-display').innerText = `"${randomItem.frase}"`;
-        document.getElementById('reto-display').innerText = randomItem.reto;
-
-        const yaHizoReto = p.ultimosRetos && p.ultimosRetos[id] === hoy;
-        document.getElementById('btn-aceptar').style.display = yaHizoReto ? 'none' : 'block';
-        document.getElementById('msg-bloqueo').style.display = yaHizoReto ? 'block' : 'none';
+        cambiarReto(); // Carga un reto inicial
 
         document.getElementById('menu-principal').style.display = 'none';
         document.getElementById('pantalla-reto').style.display = 'flex';
     }
 
+    // Lógica para mostrar reto aleatorio (Separada para poder "ver otra opción")
+    function cambiarReto() {
+        const hoy = new Date().toDateString();
+        let p = JSON.parse(localStorage.getItem('pTigo')) || {ultimosRetos: {}};
+        
+        const lista = capacidadDB[capActual];
+        const randomItem = lista[Math.floor(Math.random() * lista.length)];
+
+        document.getElementById('titulo-pasillo').innerText = capActual.toUpperCase();
+        document.getElementById('frase-display').innerText = `"${randomItem.frase}"`;
+        document.getElementById('reto-display').innerText = randomItem.reto;
+
+        const yaHizoReto = p.ultimosRetos && p.ultimosRetos[capActual] === hoy;
+        
+        document.getElementById('btn-aceptar').style.display = yaHizoReto ? 'none' : 'block';
+        document.getElementById('btn-otro').style.display = yaHizoReto ? 'none' : 'block';
+        document.getElementById('btn-compartir').style.display = yaHizoReto ? 'none' : 'block';
+        document.getElementById('msg-bloqueo').style.display = yaHizoReto ? 'block' : 'none';
+    }
+
+    function compartirReto() {
+        const frase = document.getElementById('frase-display').innerText;
+        const reto = document.getElementById('reto-display').innerText;
+        const texto = `🚀 *Mi reto ADN Tigo de hoy:*\n\n${frase}\n\n⚡ *Acción:* ${reto}\n\n#DiciendoYHaciendo`;
+        
+        navigator.clipboard.writeText(texto).then(() => {
+            alert("¡Texto copiado! Pégalo en WhatsApp o Teams para inspirar a otros.");
+        });
+    }
+
     function completarReto() {
         const hoy = new Date().toDateString();
-        // Unificamos datos en pTigo para evitar errores de 'undefined'
         let p = JSON.parse(localStorage.getItem('pTigo')) || {
             agilidad:0, foco:0, colaboracion:0, integridad:0, talento:0, ultimosRetos: {}
         };
@@ -195,13 +233,12 @@
 
         localStorage.setItem('pTigo', JSON.stringify(p));
 
-        // Lanzar Confeti
         if (window.confetti) {
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#0033a0', '#ffcd00'] });
         }
 
         setTimeout(() => {
-            alert("¡Reto aceptado! Diciendo y Haciendo.");
+            alert("¡Reto activado! 🚀\n\nRecuerda cumplir esta acción durante el día.\n\nTen tu ancla 'llavero' a la vista para que no lo olvides. ¡Diciendo y Haciendo!");
             mostrarMenu();
         }, 500);
     }
