@@ -287,4 +287,18 @@
     function irAMenu() {
         document.getElementById('menu-principal').style.display = 'block';
         document.getElementById('pantalla-reto').style.display = 'none';
-        actual
+        actualizarBarrasMenu();
+    }
+
+    function abrirInfo() { document.getElementById('modal-info').style.display = 'flex'; }
+    function cerrarInfo() { document.getElementById('modal-info').style.display = 'none'; }
+    
+    function compartirWhatsApp() {
+        const texto = encodeURIComponent(`🚀 Como Embajador ADN TIGO, hoy impulso este cambio: ${document.getElementById('reto-display').innerText}`);
+        window.open(`https://wa.me/?text=${texto}`, '_blank');
+    }
+
+    window.onload = actualizarBarrasMenu;
+</script>
+</body>
+</html>
