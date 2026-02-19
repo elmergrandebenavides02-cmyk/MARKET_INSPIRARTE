@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADN TIGO - Embajadores de Cultura</title>
+    <title>ADN TIGO - Entrenamiento de Embajadores</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -94,18 +94,11 @@
         .btn-principal { width: 100%; padding: 18px; border-radius: 30px; border: none; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; background: var(--tigo-blue); }
         .btn-secundario { width: 100%; padding: 12px; background: none; border: 2px solid #ddd; border-radius: 30px; color: #888; margin-top: 10px; cursor: pointer; }
 
-        /* ESTILO BOTÓN SOPORTE */
         .btn-soporte {
             background-color: #fdfaf5; border: 2px solid var(--tigo-blue); color: var(--tigo-blue); 
             padding: 12px 25px; border-radius: 25px; font-weight: bold; cursor: pointer; 
             display: flex; align-items: center; justify-content: center; gap: 10px; 
             margin: 25px auto 0; text-decoration: none; font-size: 0.85rem; width: fit-content;
-        }
-
-        #instruccion-compromiso {
-            margin-top: 15px; font-size: 0.78rem; color: var(--tigo-blue); line-height: 1.5; 
-            background: #fff; padding: 15px; border-radius: 12px; border: 1px dashed var(--tigo-gold);
-            text-align: left; margin-bottom: 15px;
         }
 
         .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:6000; justify-content: center; align-items: center; padding: 20px; }
@@ -167,7 +160,6 @@
         <a href="https://wa.me/573244173977" target="_blank" class="btn-soporte">
             <span>💬</span> SOPORTE TÉCNICO
         </a>
-        <p style="text-align:center; font-size: 0.7rem; color: #888; margin-top: 10px;">¿Dudas con la plataforma? ¡Escríbenos!</p>
     </div>
 
     <div id="pantalla-reto">
@@ -187,9 +179,6 @@
                 <p id="reto-display" style="margin: 5px 0 0; font-size: 0.95rem; font-weight: bold;"></p>
             </div>
             <button id="btn-logrado" onclick="completarReto()" class="btn-principal">¡ACEPTO EL RETO!</button>
-            <div id="instruccion-compromiso">
-                📌 <strong>Rol del Gestor:</strong> Al aceptar, te comprometes a contagiar esta capacidad en tu equipo durante el día.
-            </div>
             <button class="btn-secundario" onclick="irAMenu()">← Volver al mapa</button>
         </div>
     </div>
@@ -197,16 +186,24 @@
 
 <div id="modal-info" class="modal">
     <div class="modal-content">
-        <h2 style="text-align:center; color: var(--tigo-blue);">🚀 Gestores de Cambio</h2>
-        <p>Esta es tu herramienta para <strong>impulsar nuestra cultura</strong>. Conviértete en un <strong>Embajador ADN Tigo</strong> capaz de contagiar el cambio.</p>
+        <h2 style="text-align:center; color: var(--tigo-blue);">🚀 Gimnasio ADN Tigo</h2>
+        <p>Esta es la herramienta oficial para <strong>entrenar las capacidades de nuestro ADN Tigo</strong> y convertirte en un verdadero <strong>Embajador y Gestor del Cambio</strong>.</p>
         
+        <h3>Tu entrenamiento:</h3>
+        <ul style="padding-left: 20px; list-style: none; font-size: 0.85rem;">
+            <li>📍 <strong>Elige tu Capacidad:</strong> Selecciona el frente de cultura que quieres fortalecer hoy.</li>
+            <li>⚡ <strong>Acepta el Reto:</strong> Pasa de la teoría a la práctica con misiones diarias.</li>
+            <li>🚀 <strong>Evoluciona:</strong> Recuerda que <strong>"La práctica hace al maestro"</strong>. Mira cómo creces:</li>
+        </ul>
+
         <div style="background: #f9f9f9; padding: 15px; border-radius: 15px; margin: 10px 0; border: 1px solid #eee; font-size: 0.75rem;">
             <p>🌱 <strong>Iniciado:</strong> 0-6 retos</p>
             <p>🌿 <strong>Aprendiz de Embajador:</strong> 7-13 retos</p>
             <p>🌳 <strong>Practicante del Cambio:</strong> 14-20 retos</p>
             <p style="color: var(--tigo-gold); font-weight: bold;">👑 Maestro / Gestor Senior: 21+ retos</p>
         </div>
-        <button onclick="cerrarInfo()" class="btn-principal">¡VAMOS!</button>
+
+        <button onclick="cerrarInfo()" class="btn-principal" style="margin-top:10px;">¡EMPEZAR ENTRENAMIENTO!</button>
     </div>
 </div>
 
@@ -240,7 +237,6 @@
         document.getElementById('menu-principal').style.display = 'none';
         document.getElementById('pantalla-reto').style.display = 'flex';
         document.getElementById('titulo-pasillo').innerText = cap.replace('colaboracion', 'colaboración');
-        
         const lista = capacidadDB[cap];
         const random = lista[Math.floor(Math.random() * lista.length)];
         document.getElementById('frase-display').innerText = `"${random.frase}"`;
@@ -291,18 +287,4 @@
     function irAMenu() {
         document.getElementById('menu-principal').style.display = 'block';
         document.getElementById('pantalla-reto').style.display = 'none';
-        actualizarBarrasMenu();
-    }
-
-    function abrirInfo() { document.getElementById('modal-info').style.display = 'flex'; }
-    function cerrarInfo() { document.getElementById('modal-info').style.display = 'none'; }
-    
-    function compartirWhatsApp() {
-        const texto = encodeURIComponent(`🚀 Como Embajador ADN TIGO, hoy impulso este cambio: ${document.getElementById('reto-display').innerText}`);
-        window.open(`https://wa.me/?text=${texto}`, '_blank');
-    }
-
-    window.onload = actualizarBarrasMenu;
-</script>
-</body>
-</html>
+        actual
