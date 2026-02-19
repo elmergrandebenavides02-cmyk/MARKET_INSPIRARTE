@@ -48,11 +48,18 @@
             background: white; border-radius: 15px; padding: 15px;
             border: 1px solid #eee; text-align: center; cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
         }
+        .card-menu:active { transform: scale(0.98); }
 
         .btn-categoria {
-            width: 100%; padding: 10px; border: none; border-radius: 10px;
-            color: white; font-weight: bold; margin-bottom: 8px; font-size: 0.75rem;
+            width: 100%; padding: 8px; border: none; border-radius: 10px;
+            color: white; font-weight: bold; margin-bottom: 5px; font-size: 0.7rem;
+        }
+
+        .frase-capacidad {
+            font-size: 0.75rem; font-weight: 700; color: var(--tigo-blue);
+            margin-bottom: 10px; min-height: 32px; display: flex; align-items: center; justify-content: center;
         }
 
         /* COLORES CAPACIDADES */
@@ -64,7 +71,7 @@
 
         .progress-container {
             width: 100%; background: #eee; height: 8px; border-radius: 10px;
-            overflow: hidden; margin: 10px 0;
+            overflow: hidden; margin: 5px 0;
         }
         .progress-fill { width: 0%; height: 100%; transition: width 0.8s ease; }
 
@@ -86,6 +93,14 @@
         
         .btn-principal { width: 100%; padding: 18px; border-radius: 30px; border: none; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; background: var(--tigo-blue); }
         .btn-secundario { width: 100%; padding: 12px; background: none; border: 2px solid #ddd; border-radius: 30px; color: #888; margin-top: 10px; cursor: pointer; }
+
+        /* ESTILO BOTÓN SOPORTE */
+        .btn-soporte {
+            background-color: #fdfaf5; border: 2px solid var(--tigo-blue); color: var(--tigo-blue); 
+            padding: 12px 25px; border-radius: 25px; font-weight: bold; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; gap: 10px; 
+            margin: 25px auto 0; text-decoration: none; font-size: 0.85rem; width: fit-content;
+        }
 
         #instruccion-compromiso {
             margin-top: 15px; font-size: 0.78rem; color: var(--tigo-blue); line-height: 1.5; 
@@ -115,30 +130,44 @@
         <div class="grid-pasillos">
             <div class="card-menu" onclick="irAPasillo('agilidad')">
                 <div class="btn-categoria color-agilidad">AGILIDAD</div>
+                <div class="frase-capacidad">"Diciendo y Haciendo"</div>
                 <div class="progress-container"><div id="bar-menu-agilidad" class="progress-fill color-agilidad"></div></div>
-                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-agilidad">0</span>/30 retos</p>
+                <p style="font-size: 0.6rem; margin:0;"><span id="mini-dias-agilidad">0</span>/30 retos</p>
             </div>
+            
             <div class="card-menu" onclick="irAPasillo('colaboracion')">
                 <div class="btn-categoria color-colaboracion">COLABORACIÓN</div>
+                <div class="frase-capacidad">"Juntos pa' las que sea"</div>
                 <div class="progress-container"><div id="bar-menu-colaboracion" class="progress-fill color-colaboracion"></div></div>
-                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-colaboracion">0</span>/30 retos</p>
+                <p style="font-size: 0.6rem; margin:0;"><span id="mini-dias-colaboracion">0</span>/30 retos</p>
             </div>
+            
             <div class="card-menu" onclick="irAPasillo('foco')">
                 <div class="btn-categoria color-foco">FOCO</div>
+                <div class="frase-capacidad">"Full Foco"</div>
                 <div class="progress-container"><div id="bar-menu-foco" class="progress-fill color-foco"></div></div>
-                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-foco">0</span>/30 retos</p>
+                <p style="font-size: 0.6rem; margin:0;"><span id="mini-dias-foco">0</span>/30 retos</p>
             </div>
+            
             <div class="card-menu" onclick="irAPasillo('integridad')">
                 <div class="btn-categoria color-integridad">INTEGRIDAD</div>
+                <div class="frase-capacidad">"No todo se vale"</div>
                 <div class="progress-container"><div id="bar-menu-integridad" class="progress-fill color-integridad"></div></div>
-                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-integridad">0</span>/30 retos</p>
+                <p style="font-size: 0.6rem; margin:0;"><span id="mini-dias-integridad">0</span>/30 retos</p>
             </div>
+            
             <div class="card-menu" onclick="irAPasillo('talento')" style="grid-column: span 2;">
                 <div class="btn-categoria color-talento">TALENTO TIGO</div>
+                <div class="frase-capacidad">"Protagonista de mi desarrollo"</div>
                 <div class="progress-container"><div id="bar-menu-talento" class="progress-fill color-talento"></div></div>
-                <p style="font-size: 0.65rem; margin:0;"><span id="mini-dias-talento">0</span>/30 retos</p>
+                <p style="font-size: 0.6rem; margin:0;"><span id="mini-dias-talento">0</span>/30 retos</p>
             </div>
         </div>
+
+        <a href="https://wa.me/573244173977" target="_blank" class="btn-soporte">
+            <span>💬</span> SOPORTE TÉCNICO
+        </a>
+        <p style="text-align:center; font-size: 0.7rem; color: #888; margin-top: 10px;">¿Dudas con la plataforma? ¡Escríbenos!</p>
     </div>
 
     <div id="pantalla-reto">
@@ -161,31 +190,23 @@
             <div id="instruccion-compromiso">
                 📌 <strong>Rol del Gestor:</strong> Al aceptar, te comprometes a contagiar esta capacidad en tu equipo durante el día.
             </div>
-            <button class="btn-secundario" onclick="irAMenu()">← Volver al mapa de capacidades</button>
+            <button class="btn-secundario" onclick="irAMenu()">← Volver al mapa</button>
         </div>
     </div>
 </div>
 
 <div id="modal-info" class="modal">
     <div class="modal-content">
-        <h2 style="text-align:center; color: var(--tigo-blue);">🚀 Bienvenidos, Gestores de Cambio</h2>
-        <p>Esta es tu herramienta para <strong>impulsar nuestra cultura</strong>. Aquí no solo entrenas tus capacidades, sino que te conviertes en un <strong>Embajador ADN Tigo</strong> capaz de contagiar el cambio.</p>
+        <h2 style="text-align:center; color: var(--tigo-blue);">🚀 Gestores de Cambio</h2>
+        <p>Esta es tu herramienta para <strong>impulsar nuestra cultura</strong>. Conviértete en un <strong>Embajador ADN Tigo</strong> capaz de contagiar el cambio.</p>
         
-        <h3>Tu misión:</h3>
-        <ul style="padding-left: 20px; list-style: none; font-size: 0.85rem;">
-            <li>📍 <strong>Elige tu Pasillo:</strong> ¿Dónde quieres generar impacto hoy?</li>
-            <li>⚡ <strong>Impulsa el Reto:</strong> Acepta el compromiso. Tu ejemplo es la chispa.</li>
-            <li>🚀 <strong>Evoluciona:</strong> Entre más retos logres, más fuerte será tu huella en la cultura.</li>
-        </ul>
-
         <div style="background: #f9f9f9; padding: 15px; border-radius: 15px; margin: 10px 0; border: 1px solid #eee; font-size: 0.75rem;">
             <p>🌱 <strong>Iniciado:</strong> 0-6 retos</p>
             <p>🌿 <strong>Aprendiz de Embajador:</strong> 7-13 retos</p>
             <p>🌳 <strong>Practicante del Cambio:</strong> 14-20 retos</p>
             <p style="color: var(--tigo-gold); font-weight: bold;">👑 Maestro / Gestor Senior: 21+ retos</p>
         </div>
-
-        <button onclick="cerrarInfo()" class="btn-principal">¡ENTENDIDO, VAMOS!</button>
+        <button onclick="cerrarInfo()" class="btn-principal">¡VAMOS!</button>
     </div>
 </div>
 
@@ -194,7 +215,6 @@
         <span class="insignia-maestro">🏆</span>
         <h2 style="color: var(--tigo-gold);">¡GESTOR DE CAMBIO SENIOR!</h2>
         <p id="mensaje-maestro" style="font-weight: bold; color: var(--tigo-blue);"></p>
-        <p style="font-size: 0.8rem;">Has demostrado ser un verdadero Embajador del ADN Tigo. ¡Sigue multiplicando nuestra cultura!</p>
         <button onclick="cerrarModalMaestro()" class="btn-principal" style="background: var(--tigo-gold); color: var(--tigo-blue);">CONTINUAR EL IMPACTO</button>
     </div>
 </div>
@@ -239,9 +259,7 @@
         if (progreso[capacidadActual] < 30) {
             progreso[capacidadActual]++;
             localStorage.setItem('progresoTigoEmbajador', JSON.stringify(progreso));
-            
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#00377d', '#f3b01a', '#00a1e1'] });
-
             if (progreso[capacidadActual] === 21) {
                 mostrarInsigniaMaestro();
             } else {
