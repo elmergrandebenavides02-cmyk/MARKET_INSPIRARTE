@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADN TIGO - Cultura en Acción</title>
+    <title>ADN TIGO - Embajadores de Cultura</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -48,7 +48,6 @@
             background: white; border-radius: 15px; padding: 15px;
             border: 1px solid #eee; text-align: center; cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            transition: 0.3s;
         }
 
         .btn-categoria {
@@ -69,7 +68,6 @@
         }
         .progress-fill { width: 0%; height: 100%; transition: width 0.8s ease; }
 
-        /* PANTALLA RETO */
         #pantalla-reto { display: none; padding: 20px; background: var(--fondo); flex-grow: 1; flex-direction: column; }
         .reto-main-card {
             background: white; border-radius: 25px; padding: 25px;
@@ -95,11 +93,10 @@
             text-align: left; margin-bottom: 15px;
         }
 
-        /* MODALES */
         .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:6000; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background:white; padding:30px; border-radius:20px; text-align:left; max-width:400px; width: 100%; position: relative; max-height: 90vh; overflow-y: auto; }
         
-        .insignia-maestro { color: var(--tigo-gold); font-size: 3rem; margin-bottom: 10px; display: block; }
+        .insignia-maestro { color: var(--tigo-gold); font-size: 3.5rem; margin-bottom: 10px; display: block; }
     </style>
 </head>
 <body>
@@ -107,7 +104,7 @@
 <div class="container">
     <header>
         <h1 style="margin:0; font-size: 1.5rem;">ADN TIGO CULTURA</h1>
-        <p style="margin:5px 0 0; opacity: 0.9;">Diciendo y Haciendo</p>
+        <p style="margin:5px 0 0; opacity: 0.9;">Embajadores y Gestores del Cambio</p>
     </header>
 
     <div id="menu-principal">
@@ -150,48 +147,55 @@
             <div class="progress-container" style="height: 12px; max-width: 80%; margin: 10px auto;">
                 <div id="bar-reto-detalle" class="progress-fill"></div>
             </div>
-            <p style="font-size: 0.8rem; color: #888;"><span id="porcentaje-txt">0%</span> completado</p>
+            <p style="font-size: 0.8rem; color: #888;"><span id="porcentaje-txt">0%</span> - Impacto de Embajador</p>
         </div>
 
         <div class="reto-main-card">
             <div id="frase-display" class="frase-quote">"..."</div>
-            <a href="javascript:void(0)" onclick="compartirWhatsApp()" class="btn-whatsapp">📱 Compartir con mi equipo</a>
+            <a href="javascript:void(0)" onclick="compartirWhatsApp()" class="btn-whatsapp">📱 Multiplicar el mensaje</a>
             <div class="reto-instruccion">
-                <strong style="font-size: 0.8rem; color: var(--tigo-blue);">⚡ RETO ADN TIGO:</strong>
-                <p id="reto-display" style="margin: 5px 0 0; font-size: 0.95rem;"></p>
+                <strong style="font-size: 0.8rem; color: var(--tigo-blue);">⚡ MISIÓN DE CAMBIO:</strong>
+                <p id="reto-display" style="margin: 5px 0 0; font-size: 0.95rem; font-weight: bold;"></p>
             </div>
-            <button id="btn-logrado" onclick="completarReto()" class="btn-principal">ACEPTO EL RETO / ¡LOGRADO!</button>
+            <button id="btn-logrado" onclick="completarReto()" class="btn-principal">¡ACEPTO EL RETO!</button>
             <div id="instruccion-compromiso">
-                📌 <strong>Compromiso Tigo:</strong> Al presionar el botón, activas tu mentalidad para vivir nuestra cultura hoy.
+                📌 <strong>Rol del Gestor:</strong> Al aceptar, te comprometes a contagiar esta capacidad en tu equipo durante el día.
             </div>
-            <button class="btn-secundario" onclick="irAMenu()">← Volver al inicio</button>
+            <button class="btn-secundario" onclick="irAMenu()">← Volver al mapa de capacidades</button>
         </div>
     </div>
 </div>
 
 <div id="modal-info" class="modal">
     <div class="modal-content">
-        <h2 style="text-align:center; color: var(--tigo-blue);">🚀 Cultura ADN Tigo</h2>
-        <p>Esta es tu herramienta para fortalecer las capacidades que nos hacen líderes.</p>
-        <h3>Tu evolución:</h3>
-        <div style="background: #f9f9f9; padding: 15px; border-radius: 15px; margin: 10px 0; border: 1px solid #eee; font-size: 0.8rem;">
+        <h2 style="text-align:center; color: var(--tigo-blue);">🚀 Bienvenidos, Gestores de Cambio</h2>
+        <p>Esta es tu herramienta para <strong>impulsar nuestra cultura</strong>. Aquí no solo entrenas tus capacidades, sino que te conviertes en un <strong>Embajador ADN Tigo</strong> capaz de contagiar el cambio.</p>
+        
+        <h3>Tu misión:</h3>
+        <ul style="padding-left: 20px; list-style: none; font-size: 0.85rem;">
+            <li>📍 <strong>Elige tu Pasillo:</strong> ¿Dónde quieres generar impacto hoy?</li>
+            <li>⚡ <strong>Impulsa el Reto:</strong> Acepta el compromiso. Tu ejemplo es la chispa.</li>
+            <li>🚀 <strong>Evoluciona:</strong> Entre más retos logres, más fuerte será tu huella en la cultura.</li>
+        </ul>
+
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 15px; margin: 10px 0; border: 1px solid #eee; font-size: 0.75rem;">
             <p>🌱 <strong>Iniciado:</strong> 0-6 retos</p>
-            <p>🌿 <strong>Aprendiz:</strong> 7-13 retos</p>
-            <p>🌳 <strong>Practicante:</strong> 14-20 retos</p>
-            <p style="color: var(--tigo-gold); font-weight: bold;">👑 Maestro: 21+ retos</p>
+            <p>🌿 <strong>Aprendiz de Embajador:</strong> 7-13 retos</p>
+            <p>🌳 <strong>Practicante del Cambio:</strong> 14-20 retos</p>
+            <p style="color: var(--tigo-gold); font-weight: bold;">👑 Maestro / Gestor Senior: 21+ retos</p>
         </div>
-        <h3>🔒 Privacidad</h3>
-        <p style="font-size: 0.85rem;">Tus datos son anónimos. El progreso se guarda solo en este celular.</p>
-        <button onclick="cerrarInfo()" class="btn-principal">¡VAMOS!</button>
+
+        <button onclick="cerrarInfo()" class="btn-principal">¡ENTENDIDO, VAMOS!</button>
     </div>
 </div>
 
 <div id="modal-maestro" class="modal">
     <div class="modal-content" style="text-align:center;">
-        <span class="insignia-maestro">👑</span>
-        <h2 style="color: var(--tigo-gold);">¡NUEVO NIVEL: MAESTRO!</h2>
-        <p id="mensaje-maestro"></p>
-        <button onclick="cerrarModalMaestro()" class="btn-principal" style="background: var(--tigo-gold); color: var(--tigo-blue);">CONTINUAR LIDERANDO</button>
+        <span class="insignia-maestro">🏆</span>
+        <h2 style="color: var(--tigo-gold);">¡GESTOR DE CAMBIO SENIOR!</h2>
+        <p id="mensaje-maestro" style="font-weight: bold; color: var(--tigo-blue);"></p>
+        <p style="font-size: 0.8rem;">Has demostrado ser un verdadero Embajador del ADN Tigo. ¡Sigue multiplicando nuestra cultura!</p>
+        <button onclick="cerrarModalMaestro()" class="btn-principal" style="background: var(--tigo-gold); color: var(--tigo-blue);">CONTINUAR EL IMPACTO</button>
     </div>
 </div>
 
@@ -199,7 +203,7 @@
 <script src="capacidad.js"></script>
 <script>
     let capacidadActual = '';
-    let progreso = JSON.parse(localStorage.getItem('progresoTigoCultura')) || { agilidad: 0, colaboracion: 0, foco: 0, integridad: 0, talento: 0 };
+    let progreso = JSON.parse(localStorage.getItem('progresoTigoEmbajador')) || { agilidad: 0, colaboracion: 0, foco: 0, integridad: 0, talento: 0 };
 
     function actualizarBarrasMenu() {
         for (let cap in progreso) {
@@ -234,35 +238,31 @@
     function completarReto() {
         if (progreso[capacidadActual] < 30) {
             progreso[capacidadActual]++;
-            localStorage.setItem('progresoTigoCultura', JSON.stringify(progreso));
+            localStorage.setItem('progresoTigoEmbajador', JSON.stringify(progreso));
             
-            // Lluvia de confeti
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#00377d', '#f3b01a', '#00a1e1'] });
 
-            // Verificar si subió a Maestro
             if (progreso[capacidadActual] === 21) {
                 mostrarInsigniaMaestro();
             } else {
                 setTimeout(irAMenu, 2000);
             }
         } else {
-            alert("¡Has completado todos los retos de este pasillo! Sigue viviendo la cultura Tigo.");
             irAMenu();
         }
     }
 
     function mostrarInsigniaMaestro() {
         const msjs = {
-            agilidad: "¡Eres un referente de la agilidad! Decir y hacer es tu nuevo estándar.",
-            colaboracion: "¡Llegaste a las que sea! Eres un pilar de apoyo para todo el equipo.",
-            foco: "¡Full Foco! Tu capacidad de concentración está en nivel superior.",
-            integridad: "¡Líder íntegro! Eres el ejemplo de que no todo se vale.",
-            talento: "¡Protagonista total! Has tomado las riendas de tu desarrollo en Tigo."
+            agilidad: "¡Eres un gran Embajador de la Agilidad! Estás transformando procesos y eliminando barreras.",
+            colaboracion: "¡Máximo Gestor de Cambio! Tu capacidad para unir al equipo está impulsando nuestra cultura.",
+            foco: "¡Referente de Foco! Ayudas a que el equipo se mantenga en lo que realmente genera impacto.",
+            integridad: "¡Custodio de la Cultura! Tu integridad es el estándar que todos queremos seguir.",
+            talento: "¡Gestor del Futuro! Eres el motor que impulsa el desarrollo de quienes te rodean."
         };
         document.getElementById('mensaje-maestro').innerText = msjs[capacidadActual];
         document.getElementById('modal-maestro').style.display = 'flex';
-        // Confeti dorado especial
-        confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 }, colors: ['#f3b01a', '#ffffff'] });
+        confetti({ particleCount: 300, spread: 100, origin: { y: 0.5 }, colors: ['#f3b01a', '#ffffff', '#00377d'] });
     }
 
     function cerrarModalMaestro() {
@@ -280,7 +280,7 @@
     function cerrarInfo() { document.getElementById('modal-info').style.display = 'none'; }
     
     function compartirWhatsApp() {
-        const texto = encodeURIComponent(`🚀 Hoy acepté este reto de Cultura ADN TIGO: ${document.getElementById('reto-display').innerText}`);
+        const texto = encodeURIComponent(`🚀 Como Embajador ADN TIGO, hoy impulso este cambio: ${document.getElementById('reto-display').innerText}`);
         window.open(`https://wa.me/?text=${texto}`, '_blank');
     }
 
