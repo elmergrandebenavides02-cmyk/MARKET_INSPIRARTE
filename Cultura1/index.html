@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ADN TIGO - Entrenamiento de Embajadores</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
         :root {
             --tigo-blue: #00377d;
@@ -18,29 +20,39 @@
         body { font-family: 'Montserrat', sans-serif; background-color: #d1d9e0; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
         .container { width: 100%; max-width: 450px; background: var(--blanco); box-shadow: 0 0 50px rgba(0,0,0,0.2); display: flex; flex-direction: column; position: relative; }
         header { background: linear-gradient(135deg, var(--tigo-blue), var(--tigo-light-blue)); color: white; text-align: center; padding: 30px 20px; border-bottom: 6px solid var(--tigo-gold); }
-        #menu-principal { padding: 20px; display: block; }
+        
+        #pantalla-demo, #pantalla-expirado, #menu-principal, #pantalla-reto { display: none; }
+        
+        .login-box { padding: 40px 20px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+        .timer-badge { background: #fff3cd; color: #856404; padding: 5px 15px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; margin-bottom: 10px; display: inline-block; }
+
+        #menu-principal { padding: 20px; }
         .grid-pasillos { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .card-menu { background: white; border-radius: 15px; padding: 15px; border: 1px solid #eee; text-align: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        
         .btn-categoria { width: 100%; padding: 8px; border: none; border-radius: 10px; color: white; font-weight: bold; margin-bottom: 5px; font-size: 0.7rem; }
         .frase-capacidad { font-size: 0.75rem; font-weight: 700; color: var(--tigo-blue); margin-bottom: 10px; min-height: 32px; display: flex; align-items: center; justify-content: center; }
+        
         .color-agilidad { background-color: #00a1e1; }
         .color-colaboracion { background-color: #00377d; }
         .color-foco { background-color: #f3b01a; color: #00377d !important; }
         .color-integridad { background-color: #722f37; }
         .color-talento { background-color: #00c389; }
+        
         .progress-container { width: 100%; background: #eee; height: 8px; border-radius: 10px; overflow: hidden; margin: 5px 0; }
         .progress-fill { width: 0%; height: 100%; transition: width 0.8s ease; }
-        #pantalla-reto { display: none; padding: 20px; background: var(--fondo); flex-grow: 1; flex-direction: column; }
-        .reto-main-card { background: white; border-radius: 25px; padding: 25px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); text-align: center; }
-        .frase-quote { font-size: 1.1rem; font-style: italic; margin-bottom: 20px; min-height: 70px; display: flex; align-items: center; justify-content: center; line-height: 1.4; color: #333; }
-        .btn-whatsapp { background: var(--whatsapp); color: white; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 0.85rem; }
-        .reto-instruccion { background: #e3f2fd; padding: 15px; border-left: 5px solid var(--tigo-light-blue); text-align: left; margin-bottom: 15px; border-radius: 0 10px 10px 0; }
+        
         .btn-principal { width: 100%; padding: 18px; border-radius: 30px; border: none; color: white; font-size: 1rem; font-weight: bold; cursor: pointer; background: var(--tigo-blue); margin-bottom: 10px; }
         .btn-secundario { width: 100%; padding: 12px; background: #fff; border: 2px solid #ddd; border-radius: 30px; color: #666; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
-        .btn-soporte { background-color: #fdfaf5; border: 2px solid var(--tigo-blue); color: var(--tigo-blue); padding: 12px 25px; border-radius: 25px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin: 25px auto 0; text-decoration: none; font-size: 0.85rem; width: fit-content; }
+        .btn-soporte { background-color: #fdfaf5; border: 2px solid var(--tigo-blue); color: var(--tigo-blue); padding: 12px 25px; border-radius: 25px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin: 15px auto 0; text-decoration: none; font-size: 0.85rem; width: 90%; }
+
+        .nivel-tag { font-size: 0.55rem; font-weight: bold; color: var(--tigo-blue); text-transform: uppercase; display: block; margin-top: 5px; }
+
         .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:6000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background:white; padding:30px; border-radius:20px; text-align:left; max-width:400px; width: 100%; position: relative; max-height: 90vh; overflow-y: auto; }
-        .insignia-maestro { color: var(--tigo-gold); font-size: 3.5rem; margin-bottom: 10px; display: block; }
+        .modal-content { background:white; padding:30px; border-radius:20px; text-align:center; max-width:400px; width: 100%; }
+        
+        .time-picker-container { margin: 15px 0; background: #f0f4f8; padding: 15px; border-radius: 15px; border: 1px dashed var(--tigo-light-blue); }
+        input[type="time"] { padding: 10px; border-radius: 10px; border: 1px solid var(--tigo-blue); font-family: 'Montserrat'; font-weight: bold; color: var(--tigo-blue); outline: none; }
     </style>
 </head>
 <body>
@@ -48,11 +60,26 @@
 <div class="container">
     <header>
         <h1 style="margin:0; font-size: 1.5rem;">ADN TIGO CULTURA</h1>
-        <p style="margin:5px 0 0; opacity: 0.9;">Embajadores y Gestores del Cambio</p>
+        <p style="margin:5px 0 0; opacity: 0.9;">Embajadores del Cambio</p>
     </header>
 
+    <div id="pantalla-demo" class="login-box">
+        <h2 style="color: var(--tigo-blue);">¡Hola, Embajador!</h2>
+        <p>Entrena tus capacidades de cultura en el Market.</p>
+        <div class="timer-badge">⏱️ ACCESO DEMO: 3 DÍAS</div>
+        <button onclick="iniciarDemo()" class="btn-principal" style="background: var(--tigo-gold); color: var(--tigo-blue); margin-top:20px;">COMENZAR AHORA</button>
+    </div>
+
+    <div id="pantalla-expirado" class="login-box">
+        <span style="font-size: 4rem;">🔒</span>
+        <h2 style="color: var(--tigo-blue);">TIEMPO AGOTADO</h2>
+        <p>Tu acceso demo ha finalizado. Solicita tu acceso permanente.</p>
+        <a href="https://wa.me/573244173977" target="_blank" class="btn-principal">SOPORTE TÉCNICO</a>
+    </div>
+
     <div id="menu-principal">
-        <div style="text-align: right; padding: 0 0 15px 0;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 0 15px 0;">
+            <div id="demo-tag" style="font-size: 0.65rem; color: #999; font-weight: bold; border: 1px solid #ddd; padding: 2px 8px; border-radius: 10px;">MODO DEMO</div>
             <button onclick="abrirInfo()" style="background: none; border: 1px solid #ccc; border-radius: 50%; width: 32px; height: 32px; color: #888; font-weight: bold; cursor: pointer;">i</button>
         </div>
 
@@ -61,32 +88,41 @@
                 <div class="btn-categoria color-agilidad">AGILIDAD</div>
                 <div class="frase-capacidad">"Diciendo y Haciendo"</div>
                 <div class="progress-container"><div id="bar-menu-agilidad" class="progress-fill color-agilidad"></div></div>
-                <p style="font-size: 0.6rem; margin:0;"><span id="mini-dias-agilidad">0</span>/30 retos</p>
+                <span id="nivel-agilidad" class="nivel-tag">Novato ADN</span>
             </div>
             <div class="card-menu" onclick="irAPasillo('colaboracion')">
                 <div class="btn-categoria color-colaboracion">COLABORACIÓN</div>
                 <div class="frase-capacidad">"Juntos pa' las que sea"</div>
                 <div class="progress-container"><div id="bar-menu-colaboracion" class="progress-fill color-colaboracion"></div></div>
-                <p style="font-size: 0.6rem; margin:0;"><span id="mini-dias-colaboracion">0</span>/30 retos</p>
+                <span id="nivel-colaboracion" class="nivel-tag">Novato ADN</span>
             </div>
             <div class="card-menu" onclick="irAPasillo('foco')">
                 <div class="btn-categoria color-foco">FOCO</div>
                 <div class="frase-capacidad">"Full Foco"</div>
                 <div class="progress-container"><div id="bar-menu-foco" class="progress-fill color-foco"></div></div>
-                <p style="font-size: 0.6rem; margin:0;"><span id="mini-dias-foco">0</span>/30 retos</p>
+                <span id="nivel-foco" class="nivel-tag">Novato ADN</span>
             </div>
             <div class="card-menu" onclick="irAPasillo('integridad')">
                 <div class="btn-categoria color-integridad">INTEGRIDAD</div>
                 <div class="frase-capacidad">"No todo se vale"</div>
                 <div class="progress-container"><div id="bar-menu-integridad" class="progress-fill color-integridad"></div></div>
-                <p style="font-size: 0.6rem; margin:0;"><span id="mini-dias-integridad">0</span>/30 retos</p>
+                <span id="nivel-integridad" class="nivel-tag">Novato ADN</span>
             </div>
             <div class="card-menu" onclick="irAPasillo('talento')" style="grid-column: span 2;">
                 <div class="btn-categoria color-talento">TALENTO TIGO</div>
                 <div class="frase-capacidad">"Protagonista de mi desarrollo"</div>
                 <div class="progress-container"><div id="bar-menu-talento" class="progress-fill color-talento"></div></div>
-                <p style="font-size: 0.6rem; margin:0;"><span id="mini-dias-talento">0</span>/30 retos</p>
+                <span id="nivel-talento" class="nivel-tag">Novato ADN</span>
             </div>
+        </div>
+
+        <div class="time-picker-container">
+            <p style="font-size: 0.75rem; margin-top: 0; font-weight: bold; color: var(--tigo-blue);">⏰ CONFIGURA TU ALERTA DIARIA</p>
+            <div style="display: flex; align-items: center; justify-content: center;">
+                <input type="time" id="hora-usuario" value="08:30">
+                <button onclick="agendarCalendario()" style="background: var(--tigo-light-blue); color: white; border: none; padding: 10px 15px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-left: 10px;">ACTIVAR</button>
+            </div>
+            <p style="font-size: 0.6rem; color: #666; margin-bottom: 0;">Recibe un mensaje motivador cada mañana.</p>
         </div>
 
         <a href="https://wa.me/573244173977" target="_blank" class="btn-soporte">💬 SOPORTE TÉCNICO</a>
@@ -98,71 +134,114 @@
             <div class="progress-container" style="height: 12px; max-width: 80%; margin: 10px auto;">
                 <div id="bar-reto-detalle" class="progress-fill"></div>
             </div>
-            <p style="font-size: 0.8rem; color: #888;"><span id="porcentaje-txt">0%</span> - Impacto de Embajador</p>
+            <p style="font-size: 0.8rem; color: #888;"><span id="porcentaje-txt">0%</span> de maestría</p>
         </div>
 
         <div class="reto-main-card">
             <div id="frase-display" class="frase-quote">"..."</div>
-            <a href="javascript:void(0)" onclick="compartirWhatsApp()" class="btn-whatsapp">📱 Multiplicar el mensaje</a>
             <div class="reto-instruccion">
-                <strong style="font-size: 0.8rem; color: var(--tigo-blue);">⚡ MISIÓN DE CAMBIO:</strong>
+                <strong style="font-size: 0.8rem; color: var(--tigo-blue);">⚡ MISIÓN DE HOY:</strong>
                 <p id="reto-display" style="margin: 5px 0 0; font-size: 0.95rem; font-weight: bold;"></p>
             </div>
-            
-            <button id="btn-logrado" onclick="completarReto()" class="btn-principal">¡ACEPTO EL RETO!</button>
-            
-            <button onclick="generarNuevoReto()" class="btn-secundario">🔄 VER OTRO RETO</button>
-            
-            <button class="btn-secundario" style="border:none; color:#999;" onclick="irAMenu()">← Volver al mapa</button>
+            <button onclick="completarReto()" class="btn-principal">¡ACEPTO EL RETO!</button>
+            <button onclick="generarNuevoReto()" class="btn-secundario">🔄 VER OTRO</button>
+            <button onclick="irAMenu()" class="btn-secundario" style="border:none; color:#999;">← VOLVER</button>
         </div>
     </div>
 </div>
 
 <div id="modal-info" class="modal">
     <div class="modal-content">
-        <h2 style="text-align:center; color: var(--tigo-blue);">🚀 Gimnasio ADN Tigo</h2>
-        <p>Esta es la herramienta oficial para <strong>entrenar las capacidades de nuestro ADN Tigo</strong>.</p>
-        <h3>Tu entrenamiento:</h3>
-        <ul style="padding-left: 20px; list-style: none; font-size: 0.85rem;">
-            <li>📍 <strong>Elige tu Capacidad:</strong> Fortalece el frente de cultura que desees.</li>
-            <li>⚡ <strong>Acepta el Reto:</strong> Pasa a la acción con misiones diarias.</li>
-            <li>🚀 <strong>Evoluciona:</strong> <strong>"La práctica hace al maestro"</strong>.</li>
-        </ul>
-        <div style="background: #f9f9f9; padding: 15px; border-radius: 15px; margin: 10px 0; border: 1px solid #eee; font-size: 0.75rem;">
-            <p>🌱 <strong>Iniciado:</strong> 0-6 retos</p>
-            <p>🌿 <strong>Aprendiz de Embajador:</strong> 7-13 retos</p>
-            <p>🌳 <strong>Practicante del Cambio:</strong> 14-20 retos</p>
-            <p style="color: var(--tigo-gold); font-weight: bold;">👑 Maestro / Gestor Senior: 21+ retos</p>
-        </div>
-        <button onclick="cerrarInfo()" class="btn-principal">¡EMPEZAR ENTRENAMIENTO!</button>
+        <h2 style="color: var(--tigo-blue);">Gimnasio ADN</h2>
+        <p style="font-size: 0.9rem;">Mejora tus capacidades diarias y evoluciona como Embajador.</p>
+        <button onclick="cerrarInfo()" class="btn-principal">¡ENTENDIDO!</button>
     </div>
 </div>
 
-<div id="modal-maestro" class="modal">
-    <div class="modal-content" style="text-align:center;">
-        <span class="insignia-maestro">🏆</span>
-        <h2 style="color: var(--tigo-gold);">¡GESTOR DE CAMBIO SENIOR!</h2>
-        <p id="mensaje-maestro" style="font-weight: bold; color: var(--tigo-blue);"></p>
-        <button onclick="cerrarModalMaestro()" class="btn-principal" style="background: var(--tigo-gold); color: var(--tigo-blue);">CONTINUAR EL IMPACTO</button>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script src="capacidad.js"></script>
 <script>
     let capacidadActual = '';
     let progreso = JSON.parse(localStorage.getItem('progresoTigoEmbajador')) || { agilidad: 0, colaboracion: 0, foco: 0, integridad: 0, talento: 0 };
 
-    function abrirInfo() { document.getElementById('modal-info').style.display = 'flex'; }
-    function cerrarInfo() { document.getElementById('modal-info').style.display = 'none'; }
+    function verificarAcceso() {
+        const fechaInicio = localStorage.getItem('fecha_inicio_demo');
+        if (!fechaInicio) {
+            document.getElementById('pantalla-demo').style.display = 'flex';
+        } else {
+            const ahora = new Date().getTime();
+            const tresDiasEnMs = 3 * 24 * 60 * 60 * 1000;
+            if (ahora - fechaInicio > tresDiasEnMs) {
+                document.getElementById('pantalla-expirado').style.display = 'flex';
+            } else {
+                document.getElementById('menu-principal').style.display = 'block';
+                actualizarInterfaz();
+            }
+        }
+    }
 
-    function actualizarBarrasMenu() {
+    function iniciarDemo() {
+        localStorage.setItem('fecha_inicio_demo', new Date().getTime());
+        location.reload();
+    }
+
+    // --- FUNCIÓN DE CALENDARIO CON MOTIVADOR ALEATORIO ---
+    function agendarCalendario() {
+        const horaSeleccionada = document.getElementById('hora-usuario').value;
+        if (!horaSeleccionada) return;
+
+        const frasesMotivadoras = [
+            "🚀 ¡Hoy es un gran día para transformar la cultura! Tu reto te espera.",
+            "🔥 Diciendo y haciendo: El ADN Tigo se vive desde el primer minuto.",
+            "💪 Un pequeño cambio hoy genera un gran impacto mañana. ¡A darle!",
+            "✨ El liderazgo no se dice, se hace. ¿Listo para tu misión de hoy?",
+            "🏆 Los grandes equipos se construyen con pequeñas acciones. ¡Vamos!"
+        ];
+
+        const fraseAleatoria = frasesMotivadoras[Math.floor(Math.random() * frasesMotivadoras.length)];
+        const [hrs, mins] = horaSeleccionada.split(':');
+        
+        const inicio = new Date();
+        inicio.setDate(inicio.getDate() + 1);
+        inicio.setHours(hrs, mins, 0);
+
+        const fechaFormato = inicio.toISOString().replace(/-|:|\.\d+/g, "");
+        
+        const icsBody = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+DTSTART:${fechaFormato}
+DTEND:${fechaFormato}
+RRULE:FREQ=DAILY;INTERVAL=1
+SUMMARY:⚡ MI RETO ADN TIGO
+DESCRIPTION:${fraseAleatoria} Entra aquí: ${window.location.href}
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR`;
+
+        const blob = new Blob([icsBody], { type: 'text/calendar' });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'recordatorio_tigo.ics';
+        link.click();
+        
+        alert("¡Todo listo! Recibirás este mensaje mañana a las " + horaSeleccionada + ":\n\n" + fraseAleatoria);
+    }
+
+    function obtenerNivel(p) {
+        if (p >= 26) return "Embajador 👑";
+        if (p >= 16) return "Maestro 🌳";
+        if (p >= 6) return "Practicante 🌿";
+        return "Novato ADN 🌱";
+    }
+
+    function actualizarInterfaz() {
         for (let cap in progreso) {
             const p = (progreso[cap] / 30) * 100;
-            if(document.getElementById(`bar-menu-${cap}`)) {
-                document.getElementById(`bar-menu-${cap}`).style.width = p + '%';
-                document.getElementById(`mini-dias-${cap}`).innerText = progreso[cap];
-            }
+            if(document.getElementById(`bar-menu-${cap}`)) document.getElementById(`bar-menu-${cap}`).style.width = p + '%';
+            if(document.getElementById(`nivel-${cap}`)) document.getElementById(`nivel-${cap}`).innerText = obtenerNivel(progreso[cap]);
         }
     }
 
@@ -170,60 +249,37 @@
         capacidadActual = cap;
         document.getElementById('menu-principal').style.display = 'none';
         document.getElementById('pantalla-reto').style.display = 'flex';
-        document.getElementById('titulo-pasillo').innerText = cap.replace('colaboracion', 'colaboración');
+        document.getElementById('titulo-pasillo').innerText = cap;
         generarNuevoReto();
-        actualizarDetalleReto();
-    }
-
-    // FUNCIÓN PARA EL BOTÓN DE "VER OTRO RETO"
-    function generarNuevoReto() {
-        const lista = capacidadDB[capacidadActual];
-        const random = lista[Math.floor(Math.random() * lista.length)];
-        document.getElementById('frase-display').innerText = `"${random.frase}"`;
-        document.getElementById('reto-display').innerText = random.reto;
-    }
-
-    function actualizarDetalleReto() {
-        const p = (progreso[capacidadActual] / 30) * 100;
+        const p = (progreso[cap] / 30) * 100;
         document.getElementById('bar-reto-detalle').style.width = p + '%';
-        document.getElementById('bar-reto-detalle').className = `progress-fill color-${capacidadActual}`;
         document.getElementById('porcentaje-txt').innerText = Math.round(p) + '%';
     }
 
+    function generarNuevoReto() {
+        const lista = capacidadDB[capacidadActual];
+        const item = lista[Math.floor(Math.random() * lista.length)];
+        document.getElementById('frase-display').innerText = `"${item.frase}"`;
+        document.getElementById('reto-display').innerText = item.reto;
+    }
+
     function completarReto() {
-        if (progreso[capacidadActual] < 30) {
-            progreso[capacidadActual]++;
-            localStorage.setItem('progresoTigoEmbajador', JSON.stringify(progreso));
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#00377d', '#f3b01a', '#00a1e1'] });
-            if (progreso[capacidadActual] === 21) {
-                mostrarInsigniaMaestro();
-            } else {
-                setTimeout(irAMenu, 2000);
-            }
-        } else { irAMenu(); }
+        progreso[capacidadActual] = Math.min(progreso[capacidadActual] + 1, 30);
+        localStorage.setItem('progresoTigoEmbajador', JSON.stringify(progreso));
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+        setTimeout(irAMenu, 1500);
     }
 
-    function mostrarInsigniaMaestro() {
-        const msjs = {
-            agilidad: "¡Eres un gran Embajador de la Agilidad!",
-            colaboracion: "¡Máximo Gestor de Cambio!",
-            foco: "¡Referente de Foco!",
-            integridad: "¡Custodio de la Cultura!",
-            talento: "¡Gestor del Futuro!"
-        };
-        document.getElementById('mensaje-maestro').innerText = msjs[capacidadActual];
-        document.getElementById('modal-maestro').style.display = 'flex';
-        confetti({ particleCount: 300, spread: 100, origin: { y: 0.5 }, colors: ['#f3b01a', '#ffffff', '#00377d'] });
+    function irAMenu() { 
+        document.getElementById('menu-principal').style.display = 'block'; 
+        document.getElementById('pantalla-reto').style.display = 'none'; 
+        actualizarInterfaz(); 
     }
+    
+    function abrirInfo() { document.getElementById('modal-info').style.display = 'flex'; }
+    function cerrarInfo() { document.getElementById('modal-info').style.display = 'none'; }
 
-    function cerrarModalMaestro() { document.getElementById('modal-maestro').style.display = 'none'; irAMenu(); }
-    function irAMenu() { document.getElementById('menu-principal').style.display = 'block'; document.getElementById('pantalla-reto').style.display = 'none'; actualizarBarrasMenu(); }
-    function compartirWhatsApp() {
-        const texto = encodeURIComponent(`🚀 Como Embajador ADN TIGO, hoy impulso este cambio: ${document.getElementById('reto-display').innerText}`);
-        window.open(`https://wa.me/?text=${texto}`, '_blank');
-    }
-
-    window.onload = actualizarBarrasMenu;
+    window.onload = verificarAcceso;
 </script>
 </body>
 </html>
