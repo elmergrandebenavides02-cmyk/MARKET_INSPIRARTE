@@ -6,8 +6,6 @@
     <title>ADN TIGO - El Market</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
-    <script src="retos.js"></script>
 
     <style>
         :root {
@@ -71,6 +69,7 @@
     <div id="menu-principal">
         <h3 style="color: var(--tigo-blue); margin-top: 0; font-size: 1rem;">Selecciona una Capacidad:</h3>
         <div class="grid-pasillos" id="grid-pasillos"></div>
+        
         <div class="alerta-box">
             <p style="margin:0 0 10px; font-size: 0.75rem; font-weight: bold; color: var(--tigo-blue);">⏰ CONFIGURA TU ALERTA DIARIA</p>
             <input type="time" id="hora-user" value="08:00" style="padding: 8px; border-radius: 8px; border: 1px solid var(--tigo-blue);">
@@ -107,7 +106,40 @@
 </div>
 
 <script>
-    // Configuración visual
+    // ==========================================
+    // BASE DE DATOS: ENRIQUECE TUS FRASES AQUÍ
+    // ==========================================
+    const capacidad = {
+        "agilidad": [
+            { "frase": "La agilidad es pivotar sin perder el equilibrio.", "reto": "Cambia una prioridad que no esté dando resultados hoy." },
+            { "frase": "Menos burocracia, más acción.", "reto": "Resuelve un pendiente por chat en vez de agendar una reunión." },
+            { "frase": "La velocidad es buena, pero la dirección es mejor.", "reto": "Define el objetivo de tu reunión en el primer minuto." },
+            { "frase": "Equivócate rápido, aprende más rápido.", "reto": "Comparte un error reciente y qué aprendiste de él." },
+            { "frase": "La perfección es enemiga de lo hecho.", "reto": "Lanza esa idea al 80%, no esperes al 100%." }
+        ],
+        "colaboracion": [
+            { "frase": "Juntos pa' las que sea: el apoyo mutuo es ley.", "reto": "Ofrece ayuda a alguien de otra área hoy." },
+            { "frase": "Si quieres ir rápido ve solo, si quieres llegar lejos ve acompañado.", "reto": "Busca un socio para tu próximo proyecto." },
+            { "frase": "El talento gana juegos, el equipo campeonatos.", "reto": "Reconoce el logro de un compañero en público." }
+        ],
+        "foco": [
+            { "frase": "Foco es decir NO a lo urgente para atender lo importante.", "reto": "Rechaza una reunión donde no eres esencial hoy." },
+            { "frase": "Donde va tu atención, va tu energía.", "reto": "Apaga notificaciones por 2 horas para avanzar en tu prioridad #1." }
+        ],
+        "integridad": [
+            { "frase": "Integridad es hacer lo correcto aunque nadie te mire.", "reto": "Reporta un error propio antes de que alguien más lo note." },
+            { "frase": "No todo se vale: tus valores son tu brújula.", "reto": "Si ves algo que no está bien, levanta la mano y dilo." }
+        ],
+        "talento": [
+            { "frase": "Eres protagonista de tu propio desarrollo.", "reto": "Dedica 15 minutos hoy a aprender algo totalmente nuevo." },
+            { "frase": "Tu mejor versión está por venir.", "reto": "Aprende un nuevo truco en una herramienta que usas diario." }
+        ]
+    };
+
+    // ==========================================
+    // LÓGICA DE LA APLICACIÓN
+    // ==========================================
+    
     const configUI = {
         agilidad: { nombre: "Agilidad", color: "color-agilidad" },
         colaboracion: { nombre: "Colaboración", color: "color-colaboracion" },
@@ -125,7 +157,6 @@
         grid.innerHTML = '';
         const hoy = new Date().toDateString();
 
-        // Lee de la variable global 'capacidad' definida en retos.js
         for (let key in capacidad) {
             const estaBloqueado = datos.bloqueos[key] === hoy;
             const card = document.createElement('div');
@@ -162,11 +193,12 @@
 
     function generarReto() {
         const opciones = capacidad[capActual];
-        if (!opciones) return;
+        if (!opciones || opciones.length === 0) return;
         
         const actualTxt = document.getElementById('reto-display').innerText;
         let nuevoReto;
         
+        // Lógica para que al dar clic cambie la opción obligatoriamente
         do {
             nuevoReto = opciones[Math.floor(Math.random() * opciones.length)];
         } while (nuevoReto.reto === actualTxt && opciones.length > 1);
