@@ -14,13 +14,17 @@
             --tigo-gold: #f3b01a;
             --whatsapp: #25D366;
             --blanco: #ffffff;
+            --ayuda-bg: #f8f9fa;
         }
 
-        body { font-family: 'Montserrat', sans-serif; background-color: #d1d9e0; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
-        .container { width: 100%; max-width: 450px; background: var(--blanco); box-shadow: 0 0 50px rgba(0,0,0,0.2); display: flex; flex-direction: column; }
+        body { font-family: 'Montserrat', sans-serif; background-color: #d1d9e0; margin: 0; display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden; }
+        .container { width: 100%; max-width: 450px; background: var(--blanco); box-shadow: 0 0 50px rgba(0,0,0,0.2); display: flex; flex-direction: column; position: relative; min-height: 100vh; }
         
         header { background: linear-gradient(135deg, var(--tigo-blue), var(--tigo-light-blue)); color: white; text-align: center; padding: 25px 20px; border-bottom: 6px solid var(--tigo-gold); }
         
+        #pantalla-bienvenida { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--blanco); z-index: 2000; padding: 30px; box-sizing: border-box; display: flex; flex-direction: column; overflow-y: auto; }
+        .instrucciones-item { margin-bottom: 15px; font-size: 0.9rem; line-height: 1.4; }
+
         #menu-principal, #pantalla-reto { padding: 30px 25px; box-sizing: border-box; }
         
         .grid-pasillos { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
@@ -42,25 +46,47 @@
         .mini-bar-container { width: 100%; background: #eee; height: 8px; border-radius: 10px; overflow: hidden; margin: 10px 0; }
         .mini-bar-fill { height: 100%; width: 0%; transition: width 0.5s; }
 
+        .btn-principal { width: 100%; padding: 18px; border-radius: 35px; border: none; color: white; font-size: 1rem; font-weight: bold; cursor: pointer; background: var(--tigo-blue); margin-top: 10px; }
+        .btn-whatsapp { width: 100%; padding: 14px; background: var(--whatsapp); color: white; border: none; border-radius: 35px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; text-decoration: none; font-size: 0.9rem; }
+        .btn-secundario { width: 100%; padding: 12px; background: transparent; border: 2px solid #eee; border-radius: 35px; color: #888; font-weight: bold; cursor: pointer; margin-bottom: 8px; }
+        
         .reto-main-card { background: white; border-radius: 25px; padding: 30px 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; margin-top: 10px; border: 1px solid #f0f0f0; }
         .frase-quote { font-size: 1.1rem; color: var(--tigo-blue); font-weight: bold; margin-bottom: 20px; line-height: 1.4; font-style: italic; min-height: 80px; display: flex; align-items: center; justify-content: center; }
-        
-        .instrucciones-caja { background: #fdfdfd; padding: 20px; border-radius: 15px; border-left: 6px solid var(--tigo-gold); margin-bottom: 25px; text-align: left; }
-        .instrucciones-caja strong { color: var(--tigo-blue); font-size: 0.8rem; display: block; margin-bottom: 8px; }
-        
-        .btn-principal { width: 100%; padding: 18px; border-radius: 35px; border: none; color: white; font-size: 1rem; font-weight: bold; cursor: pointer; background: var(--tigo-blue); margin-bottom: 15px; }
-        .btn-secundario { width: 100%; padding: 12px; background: transparent; border: 2px solid #eee; border-radius: 35px; color: #888; font-weight: bold; cursor: pointer; margin-bottom: 8px; }
-        .btn-whatsapp { width: 100%; padding: 14px; background: var(--whatsapp); color: white; border: none; border-radius: 35px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; text-decoration: none; font-size: 0.9rem; }
 
-        .custom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 55, 125, 0.9); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .btn-ayuda-soporte { width: 100%; padding: 12px; background: var(--ayuda-bg); color: var(--tigo-blue); border: 1px solid #ddd; border-radius: 15px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px; text-decoration: none; font-size: 0.8rem; }
+        
+        .custom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 55, 125, 0.9); z-index: 3000; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background: white; padding: 30px; border-radius: 25px; text-align: center; max-width: 380px; width: 100%; }
-
-        .alerta-box { margin-top: 20px; padding: 15px; background: #f0f4f8; border-radius: 15px; text-align: center; border: 1px dashed var(--tigo-light-blue); }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <div id="pantalla-bienvenida">
+        <h2 style="color: var(--tigo-blue); text-align: center; margin-top: 0;">Bienvenidos al Market Inspirarte<br><small style="color: var(--tigo-light-blue);">CULTURA ADN TIGO</small></h2>
+        <p style="font-size: 0.9rem; color: #555;">Este no es solo un sitio web; es tu espacio para transformar el ADN TIGO en acciones reales.</p>
+        
+        <h4 style="color: var(--tigo-blue); margin-bottom: 10px;">¿Cómo funciona tu ruta?</h4>
+        <div class="instrucciones-item">📍 <strong>Elige una capacidad:</strong> Explora los pasillos del Market.</div>
+        <div class="instrucciones-item">⚡ <strong>Acepta el Reto:</strong> Lee tu frase y activa tu compromiso diario.</div>
+        <div class="instrucciones-item">🚀 <strong>Sube de Nivel:</strong> La repetición crea hábito:
+            <div style="margin-top:10px; background: #f9f9f9; padding: 10px; border-radius: 10px; font-size: 0.85rem;">
+                🌱 Iniciado: 0 - 6 días<br>
+                🌿 Avanzado: 7 - 13 días<br>
+                🌳 Maestro: 14 - 20 días<br>
+                👑 Leyenda: +21 días
+            </div>
+        </div>
+
+        <div style="font-size: 0.75rem; color: #888; margin-top: 15px;">
+            🛡️ <strong>Privacidad:</strong> Eres anónimo. No guardamos tus datos.<br>
+            💾 <strong>Memoria Local:</strong> Tu progreso vive solo en este celular.<br>
+            ⚠️ <strong>Importante:</strong> Si borras datos del navegador, vuelves a 0.
+        </div>
+
+        <button onclick="cerrarBienvenida()" class="btn-principal" style="margin-top: 25px; background: var(--tigo-gold); color: var(--tigo-blue);">¡ENTENDIDO, VAMOS!</button>
+    </div>
+
     <header>
         <h1 style="margin:0; font-size: 1.4rem;">EL MARKET</h1>
         <p style="margin:5px 0 0; font-size: 0.85rem; opacity: 0.9;">Enkanta2 "dos manos un encanto"</p>
@@ -69,77 +95,58 @@
     <div id="menu-principal">
         <h3 style="color: var(--tigo-blue); margin-top: 0; font-size: 1rem;">Selecciona una Capacidad:</h3>
         <div class="grid-pasillos" id="grid-pasillos"></div>
-        
-        <div class="alerta-box">
-            <p style="margin:0 0 10px; font-size: 0.75rem; font-weight: bold; color: var(--tigo-blue);">⏰ CONFIGURA TU ALERTA DIARIA</p>
-            <input type="time" id="hora-user" value="08:00" style="padding: 8px; border-radius: 8px; border: 1px solid var(--tigo-blue);">
-            <button onclick="agendarEvento()" style="background: var(--tigo-blue); color: white; border: none; padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-left: 5px;">ACTIVAR</button>
-        </div>
+        <a href="https://wa.me/573244173977?text=Hola%20equipo%20Enkanta2" target="_blank" class="btn-ayuda-soporte">🆘 NECESITO AYUDA</a>
     </div>
 
     <div id="pantalla-reto" style="display:none;">
-        <h2 id="titulo-pasillo" style="text-align: center; color: var(--tigo-blue); text-transform: uppercase; margin-bottom: 10px;"></h2>
-        <div class="mini-bar-container" style="width: 80%; margin: 0 auto 20px; height: 10px;">
-            <div id="bar-progreso-detalle" class="mini-bar-fill"></div>
-        </div>
+        <h2 id="titulo-pasillo" style="text-align: center; color: var(--tigo-blue); text-transform: uppercase; margin-bottom: 5px;"></h2>
+        <div id="status-evolucion" style="text-align: center; font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; color: #666;"></div>
+        <div class="mini-bar-container" style="width: 80%; margin: 0 auto 20px; height: 10px;"><div id="bar-progreso-detalle" class="mini-bar-fill"></div></div>
+        
         <div class="reto-main-card">
             <div id="frase-display" class="frase-quote"></div>
-            <div class="instrucciones-caja">
-                <strong>⚡ MISIÓN SUGERIDA:</strong>
+            <div style="background: #fdfdfd; padding: 20px; border-radius: 15px; border-left: 6px solid var(--tigo-gold); margin-bottom: 25px; text-align: left;">
+                <strong style="color: var(--tigo-blue); font-size: 0.8rem; display: block; margin-bottom: 8px;">⚡ MISIÓN SUGERIDA:</strong>
                 <div id="reto-display" style="font-size: 0.95rem; line-height: 1.4; color: #333; font-weight: 500;"></div>
             </div>
             <button onclick="confirmarMision()" class="btn-principal">¡ACEPTO EL RETO!</button>
             <a id="btn-share-wa" href="#" target="_blank" class="btn-whatsapp">🟢 COMPARTIR MI RETO</a>
             <button onclick="generarReto()" class="btn-secundario">🔄 VER OTRA OPCIÓN</button>
-            <button onclick="volverMenu()" class="btn-secundario" style="border: none; margin-top: 5px;">← VOLVER AL MARKET</button>
+            <button onclick="volverMenu()" class="btn-secundario" style="border: none;">← VOLVER AL MARKET</button>
         </div>
     </div>
 </div>
 
 <div id="modal-confirmacion" class="custom-modal">
     <div class="modal-content">
-        <span style="font-size: 3rem; display: block; margin-bottom: 15px;">🚀</span>
-        <h2 style="color: var(--tigo-blue); margin-top: 0;">¡RETO ACTIVADO!</h2>
-        <p style="color: #555; line-height: 1.6; margin-bottom: 25px;">Has aceptado el reto para hoy.<br><strong>¡Diciendo y Haciendo!</strong></p>
+        <span id="emoji-exito" style="font-size: 4rem; display: block; margin-bottom: 15px;">🚀</span>
+        <h2 id="titulo-modal" style="color: var(--tigo-blue); margin-top: 0;">¡RETO ACTIVADO!</h2>
+        <p id="texto-modal" style="color: #555; line-height: 1.6; margin-bottom: 25px;">Has aceptado el reto para hoy.<br><strong>¡Diciendo y Haciendo!</strong></p>
         <button onclick="cerrarYVolver()" class="btn-principal" style="margin-bottom: 0;">¡ENTENDIDO!</button>
     </div>
 </div>
 
 <script>
-    // ==========================================
-    // BASE DE DATOS: ENRIQUECE TUS FRASES AQUÍ
-    // ==========================================
+    // BASE DE DATOS PARA ENRIQUECER
     const capacidad = {
         "agilidad": [
             { "frase": "La agilidad es pivotar sin perder el equilibrio.", "reto": "Cambia una prioridad que no esté dando resultados hoy." },
-            { "frase": "Menos burocracia, más acción.", "reto": "Resuelve un pendiente por chat en vez de agendar una reunión." },
-            { "frase": "La velocidad es buena, pero la dirección es mejor.", "reto": "Define el objetivo de tu reunión en el primer minuto." },
-            { "frase": "Equivócate rápido, aprende más rápido.", "reto": "Comparte un error reciente y qué aprendiste de él." },
-            { "frase": "La perfección es enemiga de lo hecho.", "reto": "Lanza esa idea al 80%, no esperes al 100%." }
+            { "frase": "Menos burocracia, más acción.", "reto": "Resuelve un pendiente por chat en vez de agendar una reunión." }
         ],
         "colaboracion": [
-            { "frase": "Juntos pa' las que sea: el apoyo mutuo es ley.", "reto": "Ofrece ayuda a alguien de otra área hoy." },
-            { "frase": "Si quieres ir rápido ve solo, si quieres llegar lejos ve acompañado.", "reto": "Busca un socio para tu próximo proyecto." },
-            { "frase": "El talento gana juegos, el equipo campeonatos.", "reto": "Reconoce el logro de un compañero en público." }
+            { "frase": "Juntos pa' las que sea: el apoyo mutuo es ley.", "reto": "Ofrece ayuda a alguien de otra área hoy." }
         ],
         "foco": [
-            { "frase": "Foco es decir NO a lo urgente para atender lo importante.", "reto": "Rechaza una reunión donde no eres esencial hoy." },
-            { "frase": "Donde va tu atención, va tu energía.", "reto": "Apaga notificaciones por 2 horas para avanzar en tu prioridad #1." }
+            { "frase": "Donde va tu atención, va tu energía.", "reto": "Apaga notificaciones por 2 horas hoy." }
         ],
         "integridad": [
-            { "frase": "Integridad es hacer lo correcto aunque nadie te mire.", "reto": "Reporta un error propio antes de que alguien más lo note." },
-            { "frase": "No todo se vale: tus valores son tu brújula.", "reto": "Si ves algo que no está bien, levanta la mano y dilo." }
+            { "frase": "La transparencia genera tranquilidad.", "reto": "Reporta un error propio antes de que alguien más lo note." }
         ],
         "talento": [
-            { "frase": "Eres protagonista de tu propio desarrollo.", "reto": "Dedica 15 minutos hoy a aprender algo totalmente nuevo." },
-            { "frase": "Tu mejor versión está por venir.", "reto": "Aprende un nuevo truco en una herramienta que usas diario." }
+            { "frase": "Tu mejor versión está por venir.", "reto": "Dedica 15 minutos hoy a aprender algo nuevo." }
         ]
     };
 
-    // ==========================================
-    // LÓGICA DE LA APLICACIÓN
-    // ==========================================
-    
     const configUI = {
         agilidad: { nombre: "Agilidad", color: "color-agilidad" },
         colaboracion: { nombre: "Colaboración", color: "color-colaboracion" },
@@ -151,6 +158,15 @@
     let capActual = '';
     let datos = JSON.parse(localStorage.getItem('market_data')) || { progreso: {}, bloqueos: {} };
 
+    function cerrarBienvenida() { document.getElementById('pantalla-bienvenida').style.display = 'none'; }
+
+    function obtenerNivel(puntos) {
+        if (puntos >= 21) return { texto: "Leyenda 👑", pts: puntos };
+        if (puntos >= 14) return { texto: "Maestro 🌳", pts: puntos };
+        if (puntos >= 7) return { texto: "Avanzado 🌿", pts: puntos };
+        return { texto: "Iniciado 🌱", pts: puntos };
+    }
+
     function renderizarMenu() {
         const grid = document.getElementById('grid-pasillos');
         if(!grid) return;
@@ -159,19 +175,16 @@
 
         for (let key in capacidad) {
             const estaBloqueado = datos.bloqueos[key] === hoy;
+            const nivel = obtenerNivel(datos.progreso[key] || 0);
             const card = document.createElement('div');
             card.className = `card-menu ${estaBloqueado ? 'bloqueado' : ''}`;
             if (!estaBloqueado) card.onclick = () => irAPasillo(key);
 
-            const nivelProgreso = datos.progreso[key] || 0;
             const ui = configUI[key] || { nombre: key, color: "color-agilidad" };
-
             card.innerHTML = `
                 <div class="btn-categoria ${ui.color}">${ui.nombre}</div>
-                <div class="mini-bar-container"><div class="mini-bar-fill ${ui.color}" style="width: ${nivelProgreso * 10}%"></div></div>
-                <div style="font-size: 0.6rem; font-weight: bold; color: #666;">
-                    ${nivelProgreso >= 5 ? "Maestro ADN 🌳" : "Novato ADN 🌱"}
-                </div>
+                <div class="mini-bar-container"><div class="mini-bar-fill ${ui.color}" style="width: ${Math.min((nivel.pts / 21) * 100, 100)}%"></div></div>
+                <div style="font-size: 0.65rem; font-weight: bold; color: #666;">${nivel.texto}</div>
                 <div class="lock-icon">🔒</div>
             `;
             grid.appendChild(card);
@@ -183,40 +196,46 @@
         document.getElementById('menu-principal').style.display = 'none';
         document.getElementById('pantalla-reto').style.display = 'block';
         document.getElementById('titulo-pasillo').innerText = configUI[id]?.nombre || id;
-        
+        const nivel = obtenerNivel(datos.progreso[id] || 0);
+        document.getElementById('status-evolucion').innerText = `Tu Estatus: ${nivel.texto}`;
         const barra = document.getElementById('bar-progreso-detalle');
         barra.className = 'mini-bar-fill ' + (configUI[id]?.color || "");
-        barra.style.width = ((datos.progreso[id] || 0) * 10) + '%';
-        
+        barra.style.width = Math.min((nivel.pts / 21) * 100, 100) + '%';
         generarReto();
     }
 
     function generarReto() {
         const opciones = capacidad[capActual];
-        if (!opciones || opciones.length === 0) return;
-        
         const actualTxt = document.getElementById('reto-display').innerText;
         let nuevoReto;
-        
-        // Lógica para que al dar clic cambie la opción obligatoriamente
-        do {
-            nuevoReto = opciones[Math.floor(Math.random() * opciones.length)];
-        } while (nuevoReto.reto === actualTxt && opciones.length > 1);
-
+        do { nuevoReto = opciones[Math.floor(Math.random() * opciones.length)]; } while (nuevoReto.reto === actualTxt && opciones.length > 1);
         document.getElementById('frase-display').innerText = `"${nuevoReto.frase}"`;
         document.getElementById('reto-display').innerText = nuevoReto.reto;
-        
         const msj = encodeURIComponent(`🚀 *RETO ADN TIGO*\n\n"${nuevoReto.frase}"\n\n*Acción:* ${nuevoReto.reto}`);
         document.getElementById('btn-share-wa').href = `https://wa.me/?text=${msj}`;
     }
 
     function confirmarMision() {
         const hoy = new Date().toDateString();
-        datos.progreso[capActual] = Math.min((datos.progreso[capActual] || 0) + 1, 10);
+        datos.progreso[capActual] = (datos.progreso[capActual] || 0) + 1;
         datos.bloqueos[capActual] = hoy;
         localStorage.setItem('market_data', JSON.stringify(datos));
         
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+        const nivel = obtenerNivel(datos.progreso[capActual]);
+        
+        // Efecto especial para Leyendas
+        if(datos.progreso[capActual] === 21) {
+            document.getElementById('emoji-exito').innerText = "👑";
+            document.getElementById('titulo-modal').innerText = "¡NUEVA LEYENDA!";
+            document.getElementById('texto-modal').innerHTML = "¡Increíble! Has alcanzado el nivel máximo en esta capacidad.<br><strong>Enkanta2 premia tu constancia.</strong>";
+            confetti({ particleCount: 300, spread: 100, origin: { y: 0.5 } });
+        } else {
+            document.getElementById('emoji-exito').innerText = nivel.texto.split(' ')[1];
+            document.getElementById('titulo-modal').innerText = "¡RETO ACTIVADO!";
+            document.getElementById('texto-modal').innerHTML = "Has aceptado el reto para hoy.<br><strong>¡Diciendo y Haciendo!</strong>";
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+        }
+        
         document.getElementById('modal-confirmacion').style.display = 'flex';
     }
 
@@ -229,14 +248,6 @@
         document.getElementById('menu-principal').style.display = 'block';
         document.getElementById('pantalla-reto').style.display = 'none';
         renderizarMenu();
-    }
-
-    function agendarEvento() {
-        const icsBody = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nSUMMARY:🚀 Reto ADN Tigo\nRRULE:FREQ=DAILY\nEND:VEVENT\nEND:VCALENDAR`;
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(new Blob([icsBody], { type: 'text/calendar' }));
-        link.download = 'recordatorio_adn.ics';
-        link.click();
     }
 
     window.onload = renderizarMenu;
