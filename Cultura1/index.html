@@ -476,22 +476,24 @@
         const input = document.getElementById('pass-field').value.trim();
         const ahora = new Date().getTime();
 
-        // REVISAR SI LA LLAVE YA FUE USADA Y EXPIRÓ
+        // 1. REVISAR BLACKLIST (Si ya expiró antes)
         let blacklist = JSON.parse(localStorage.getItem('market_blacklist') || "[]");
         if (blacklist.includes(input)) {
             mostrarErrorAcceso("Esta llave de acceso ya fue utilizada y expiró. Ponte en contacto con el administrador de la app ENKANTA2 WA:+57 3244173977");
             return;
         }
 
+        // 2. VALIDAR CLAVES
         if (LLAVES_PERMANENTE.includes(input)) {
             localStorage.setItem('market_sesion_activa', 'true');
             localStorage.setItem('market_expiracion', 'nunca');
+            localStorage.setItem('market_key_usada', input); // Guardamos siempre la llave
             entrarAlMarket();
         } 
         else if (LLAVES_DEMO.includes(input)) {
             const fechaExpiracion = ahora + (HORAS_DURACION_DEMO * 60 * 60 * 1000);
             localStorage.setItem('market_sesion_activa', 'true');
-            localStorage.setItem('market_key_usada', input); // Guardar para blacklist futura
+            localStorage.setItem('market_key_usada', input); // Guardamos la llave para el futuro
             localStorage.setItem('market_expiracion', fechaExpiracion);
             entrarAlMarket();
         } 
@@ -499,7 +501,6 @@
             alert("Llave no válida. Verifica con el administrador.");
         }
     }
-
     function entrarAlMarket() {
         document.getElementById('pantalla-login').style.display = 'none';
         renderizarMenu();
@@ -507,27 +508,35 @@
     }
 
     function validarSesion() {
-        const activa = localStorage.getItem('market_sesion_activa');
         const expiracion = localStorage.getItem('market_expiracion');
+        const llaveUsada = localStorage.getItem('market_key_usada');
         
-        if (!activa || !expiracion) return false;
+        if (!expiracion) return false;
         if (expiracion === 'nunca') return true;
 
         const ahora = new Date().getTime();
         
-        // --- AQUÍ ESTÁ EL AJUSTE ---
         if (ahora > parseInt(expiracion)) {
-            // 1. Identificamos qué clave se usó
-            const llaveUsada = localStorage.getItem('market_key_usada');
-            
+            // Si ya expiró, la mandamos a la lista negra antes de borrar nada
             if (llaveUsada) {
-                // 2. La metemos a la lista negra (Blacklist)
                 let blacklist = JSON.parse(localStorage.getItem('market_blacklist') || "[]");
                 if (!blacklist.includes(llaveUsada)) {
                     blacklist.push(llaveUsada);
                     localStorage.setItem('market_blacklist', JSON.stringify(blacklist));
                 }
             }
+            
+            // Limpiamos pero dejamos la blacklist intacta
+            localStorage.removeItem('market_sesion_activa');
+            localStorage.removeItem('market_expiracion');
+            // NO borramos market_key_usada aquí para que el sistema sepa qué llave bloquear
+            
+            // MOSTRAR EL MENSAJE AUTOMÁTICAMENTE
+            mostrarErrorAcceso("Esta llave de acceso ya fue utilizada y expiró. Ponte en contacto con el administrador de la app ENKANTA2 WA:+57 3244173977");
+            return false;
+        }
+        return true;
+    }
             
             // 3. Limpiamos la sesión para que lo mande al login
             localStorage.removeItem('market_sesion_activa');
