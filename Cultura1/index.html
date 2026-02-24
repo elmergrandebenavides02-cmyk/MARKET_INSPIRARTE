@@ -19,62 +19,326 @@
             --ayuda-bg: #f8f9fa;
         }
 
-        body { font-family: 'Montserrat', sans-serif; background-color: #d1d9e0; margin: 0; display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden; }
-        .container { width: 100%; max-width: 450px; background: var(--blanco); box-shadow: 0 0 50px rgba(0,0,0,0.2); display: flex; flex-direction: column; position: relative; min-height: 100vh; }
-        
-        header { background: linear-gradient(135deg, var(--tigo-blue), var(--tigo-light-blue)); color: white; text-align: center; padding: 25px 20px; border-bottom: 6px solid var(--tigo-gold); position: relative; }
-        
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: #d1d9e0; 
+            margin: 0; 
+            padding: 0;
+            display: flex; 
+            justify-content: center; 
+            min-height: 100vh; 
+            overflow-x: hidden; 
+        }
+
+        .container { 
+            width: 100%; 
+            max-width: 450px; 
+            background: var(--blanco); 
+            box-shadow: 0 0 50px rgba(0,0,0,0.2); 
+            display: flex; 
+            flex-direction: column; 
+            position: relative; 
+            min-height: 100vh; 
+        }
+
+        /* PANTALLA DE ACCESO (PASSWORD) */
+        #pantalla-login { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: var(--tigo-blue); 
+            z-index: 5000; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 40px; 
+            box-sizing: border-box; 
+            text-align: center; 
+            color: white;
+        }
+
+        .input-password { 
+            padding: 15px; 
+            width: 80%; 
+            border-radius: 12px; 
+            border: none; 
+            margin: 25px 0; 
+            font-size: 1.4rem; 
+            text-align: center; 
+            font-weight: bold;
+            letter-spacing: 8px;
+            color: var(--tigo-blue);
+            outline: none;
+        }
+
+        header { 
+            background: linear-gradient(135deg, var(--tigo-blue), var(--tigo-light-blue)); 
+            color: white; 
+            text-align: center; 
+            padding: 25px 20px; 
+            border-bottom: 6px solid var(--tigo-gold); 
+            position: relative; 
+        }
+
         .btn-info-guia {
-            position: absolute; right: 15px; top: 20px; width: 30px; height: 30px;
-            background: rgba(255, 255, 255, 0.2); border: 2px solid white; border-radius: 50%;
-            color: white; font-weight: bold; cursor: pointer; display: flex;
-            align-items: center; justify-content: center; font-size: 1.2rem;
-            transition: all 0.3s; z-index: 10;
+            position: absolute; 
+            right: 15px; 
+            top: 20px; 
+            width: 32px; 
+            height: 32px;
+            background: rgba(255, 255, 255, 0.2); 
+            border: 2px solid white; 
+            border-radius: 50%;
+            color: white; 
+            font-weight: bold; 
+            cursor: pointer; 
+            display: flex;
+            align-items: center; 
+            justify-content: center; 
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            z-index: 10;
         }
 
         /* Pantalla Bienvenida */
-        #pantalla-bienvenida { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--blanco); z-index: 2000; padding: 30px; box-sizing: border-box; display: none; flex-direction: column; overflow-y: auto; }
-        .instrucciones-item { margin-bottom: 15px; font-size: 0.9rem; line-height: 1.4; }
+        #pantalla-bienvenida { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: var(--blanco); 
+            z-index: 2000; 
+            padding: 30px; 
+            box-sizing: border-box; 
+            display: none; 
+            flex-direction: column; 
+            overflow-y: auto; 
+        }
 
-        #menu-principal, #pantalla-reto { padding: 30px 25px; box-sizing: border-box; }
-        
-        /* Estilos Tarjeta Hábito en pantalla principal */
-        .seccion-habito { background: #fff9eb; border: 2px dashed var(--tigo-gold); border-radius: 20px; padding: 20px; margin-bottom: 25px; text-align: center; }
-        .input-hora { padding: 10px; border-radius: 10px; border: 1px solid var(--tigo-gold); font-family: 'Montserrat'; font-weight: bold; color: var(--tigo-blue); outline: none; }
+        .instrucciones-item { 
+            margin-bottom: 15px; 
+            font-size: 0.9rem; 
+            line-height: 1.5; 
+            color: #333;
+        }
 
-        .grid-pasillos { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card-menu { background: white; border-radius: 15px; padding: 15px; border: 1px solid #eee; text-align: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative; transition: transform 0.2s; }
-        .card-menu.bloqueado { opacity: 0.6; cursor: not-allowed; background: #f9f9f9; }
-        .lock-icon { display: none; font-size: 1.5rem; margin-top: 10px; }
+        #menu-principal, #pantalla-reto { 
+            padding: 25px; 
+            box-sizing: border-box; 
+        }
+
+        /* Estilos Tarjeta Hábito */
+        .seccion-habito { 
+            background: #fff9eb; 
+            border: 2px dashed var(--tigo-gold); 
+            border-radius: 20px; 
+            padding: 20px; 
+            margin-bottom: 25px; 
+            text-align: center; 
+        }
+
+        .input-hora { 
+            padding: 12px; 
+            border-radius: 10px; 
+            border: 1px solid var(--tigo-gold); 
+            font-family: 'Montserrat'; 
+            font-weight: bold; 
+            color: var(--tigo-blue); 
+            outline: none; 
+        }
+
+        .grid-pasillos { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px; 
+        }
+
+        .card-menu { 
+            background: white; 
+            border-radius: 15px; 
+            padding: 15px; 
+            border: 1px solid #eee; 
+            text-align: center; 
+            cursor: pointer; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            position: relative; 
+            transition: transform 0.2s, box-shadow 0.2s; 
+        }
+
+        .card-menu:active { transform: scale(0.95); }
+
+        .card-menu.bloqueado { 
+            opacity: 0.6; 
+            cursor: not-allowed; 
+            background: #f9f9f9; 
+        }
+
+        .lock-icon { 
+            display: none; 
+            font-size: 1.5rem; 
+            margin-top: 10px; 
+        }
+
         .card-menu.bloqueado .lock-icon { display: block; }
 
-        .btn-categoria { width: 100%; padding: 8px; border: none; border-radius: 8px; color: white; font-weight: bold; margin-bottom: 8px; font-size: 0.7rem; text-transform: uppercase; }
-        
+        .btn-categoria { 
+            width: 100%; 
+            padding: 8px; 
+            border: none; 
+            border-radius: 8px; 
+            color: white; 
+            font-weight: bold; 
+            margin-bottom: 8px; 
+            font-size: 0.7rem; 
+            text-transform: uppercase; 
+        }
+
         .color-agilidad { background-color: #00a1e1; }
         .color-colaboracion { background-color: #00377d; }
         .color-foco { background-color: #f3b01a; color: #00377d !important; }
         .color-integridad { background-color: #722f37; }
         .color-talento { background-color: #6a1b9a; }
 
-        .mini-bar-container { width: 100%; background: #eee; height: 8px; border-radius: 10px; overflow: hidden; margin: 10px 0; }
-        .mini-bar-fill { height: 100%; width: 0%; transition: width 0.5s; }
+        .mini-bar-container { 
+            width: 100%; 
+            background: #eee; 
+            height: 8px; 
+            border-radius: 10px; 
+            overflow: hidden; 
+            margin: 10px 0; 
+        }
 
-        .btn-principal { width: 100%; padding: 16px; border-radius: 12px; border: none; color: white; font-size: 1rem; font-weight: 700; cursor: pointer; background: var(--tigo-blue); margin-bottom: 12px; text-transform: uppercase; transition: 0.3s; }
-        .btn-principal:active { transform: scale(0.98); }
-        
-        .btn-whatsapp { width: 100%; padding: 14px; background: var(--whatsapp); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; text-decoration: none; font-size: 0.9rem; box-sizing: border-box; }
-        .btn-secundario { width: 100%; padding: 12px; background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 12px; color: #666; font-weight: 600; cursor: pointer; margin-bottom: 8px; font-size: 0.85rem; }
+        .mini-bar-fill { 
+            height: 100%; 
+            width: 0%; 
+            transition: width 0.5s; 
+        }
 
-        .reto-main-card { background: white; border-radius: 25px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; border: 1px solid #f0f0f0; }
-        .frase-quote { font-size: 1.1rem; color: var(--tigo-blue); font-weight: bold; margin-bottom: 20px; line-height: 1.4; font-style: italic; min-height: 80px; display: flex; align-items: center; justify-content: center; }
-        
-        .custom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 55, 125, 0.9); z-index: 3000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: white; padding: 30px; border-radius: 25px; text-align: center; max-width: 380px; width: 100%; }
-        
-        .btn-ayuda-soporte { width: 100%; padding: 12px; background: var(--ayuda-bg); color: var(--tigo-blue); border: 1px solid #ddd; border-radius: 15px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px; text-decoration: none; font-size: 0.8rem; }
+        .btn-principal { 
+            width: 100%; 
+            padding: 16px; 
+            border-radius: 12px; 
+            border: none; 
+            color: white; 
+            font-size: 1rem; 
+            font-weight: 700; 
+            cursor: pointer; 
+            background: var(--tigo-blue); 
+            margin-bottom: 12px; 
+            text-transform: uppercase; 
+            transition: 0.3s; 
+        }
+
+        .btn-whatsapp { 
+            width: 100%; 
+            padding: 14px; 
+            background: var(--whatsapp); 
+            color: white; 
+            border: none; 
+            border-radius: 12px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px; 
+            margin-bottom: 12px; 
+            text-decoration: none; 
+            font-size: 0.9rem; 
+            box-sizing: border-box; 
+        }
+
+        .btn-secundario { 
+            width: 100%; 
+            padding: 12px; 
+            background: #f8f9fa; 
+            border: 1px solid #e0e0e0; 
+            border-radius: 12px; 
+            color: #666; 
+            font-weight: 600; 
+            cursor: pointer; 
+            margin-bottom: 8px; 
+            font-size: 0.85rem; 
+        }
+
+        .reto-main-card { 
+            background: white; 
+            border-radius: 25px; 
+            padding: 25px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+            text-align: center; 
+            border: 1px solid #f0f0f0; 
+        }
+
+        .frase-quote { 
+            font-size: 1.1rem; 
+            color: var(--tigo-blue); 
+            font-weight: bold; 
+            margin-bottom: 20px; 
+            line-height: 1.4; 
+            font-style: italic; 
+            min-height: 80px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+
+        .custom-modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0, 55, 125, 0.9); 
+            z-index: 3000; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 20px; 
+        }
+
+        .modal-content { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 25px; 
+            text-align: center; 
+            max-width: 380px; 
+            width: 100%; 
+        }
+
+        .btn-ayuda-soporte { 
+            width: 100%; 
+            padding: 12px; 
+            background: var(--ayuda-bg); 
+            color: var(--tigo-blue); 
+            border: 1px solid #ddd; 
+            border-radius: 15px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            margin-top: 20px; 
+            text-decoration: none; 
+            font-size: 0.8rem; 
+        }
     </style>
 </head>
 <body>
+
+<div id="pantalla-login">
+    <h2 style="margin-bottom: 10px;">MARKET INSPIRARTE</h2>
+    <p style="font-size: 0.8rem; opacity: 0.8;">CULTURA ADN TIGO</p>
+    <p style="font-size: 0.9rem; margin-top: 20px;">Ingresa el código de acceso:</p>
+    <input type="password" id="pass-field" class="input-password" placeholder="••••">
+    <button onclick="verificarAcceso()" class="btn-principal" style="background: var(--tigo-gold); color: var(--tigo-blue); width: 80%;">ENTRAR</button>
+    <p style="font-size: 0.7rem; margin-top: 30px; opacity: 0.7;">Un producto de Enkanta2 "dos manos un encanto"</p>
+</div>
 
 <div class="container">
     <div id="pantalla-bienvenida">
@@ -85,7 +349,7 @@
         <div class="instrucciones-item">📍 <strong>Elige una capacidad:</strong> Explora los pasillos del Market.</div>
         <div class="instrucciones-item">⚡ <strong>Acepta el Reto:</strong> Lee tu frase y activa tu compromiso diario.</div>
         <div class="instrucciones-item">🚀 <strong>Sube de Nivel:</strong> La repetición crea hábito:
-            <div style="margin-top:10px; background: #f9f9f9; padding: 10px; border-radius: 10px; font-size: 0.85rem;">
+            <div style="margin-top:10px; background: #f9f9f9; padding: 12px; border-radius: 12px; font-size: 0.85rem; border: 1px solid #eee;">
                 🌱 Iniciado: 0 - 6 días<br>
                 🌿 Avanzado: 7 - 13 días<br>
                 🌳 Maestro: 14 - 20 días<br>
@@ -93,10 +357,10 @@
             </div>
         </div>
 
-        <div style="font-size: 0.75rem; color: #888; margin-top: 15px;">
+        <div style="font-size: 0.75rem; color: #888; margin-top: 20px; background: #fff4f4; padding: 10px; border-radius: 8px;">
             🛡️ <strong>Privacidad:</strong> No guardamos tus datos. Eres anónimo.<br>
             💾 <strong>Memoria Local:</strong> Tu progreso vive solo en este celular.<br>
-            ⚠️ <strong>Aviso:</strong> Si borras el historial, tu progreso volverá a 0.
+            ⚠️ <strong>Aviso:</strong> Si borras el historial, tu progreso volverá a 0 y deberás ingresar la clave de nuevo.
         </div>
 
         <button onclick="cerrarBienvenida()" class="btn-principal" style="margin-top: 25px; background: var(--tigo-gold); color: var(--tigo-blue);">¡ENTENDIDO, VAMOS!</button>
@@ -113,7 +377,6 @@
             <div style="font-size: 1.5rem; margin-bottom: 5px;">🔔</div>
             <strong style="color: var(--tigo-blue); font-size: 0.9rem; display: block;">PROGRAMA TU RECORDATORIO</strong>
             <p style="font-size: 0.75rem; color: #666; margin: 5px 0 15px;">Crea el hábito. Elige una hora para recibir una alerta diaria:</p>
-            
             <div style="display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap;">
                 <input type="time" id="hora-alerta" class="input-hora" value="08:00">
                 <button onclick="crearAlertaCalendario()" class="btn-principal" style="margin-bottom: 0; padding: 10px 15px; font-size: 0.75rem; width: auto; background: var(--tigo-gold); color: var(--tigo-blue);">
@@ -162,7 +425,22 @@
 </div>
 
 <script>
-    // 2. Conexión con la base de datos externa capacidad.js
+    // --- SEGURIDAD ---
+    const CLAVE_CORRECTA = "TIGO2026";
+
+    function verificarAcceso() {
+        const input = document.getElementById('pass-field').value;
+        if(input === CLAVE_CORRECTA) {
+            localStorage.setItem('market_acceso', 'true');
+            document.getElementById('pantalla-login').style.display = 'none';
+            checkBienvenida();
+            renderizarMenu();
+        } else {
+            alert("Código incorrecto. Contacta al administrador.");
+        }
+    }
+
+    // --- LÓGICA DEL MARKET ---
     const capacidad = capacidadDB; 
 
     const configUI = {
@@ -176,36 +454,16 @@
     let capActual = '';
     let datos = JSON.parse(localStorage.getItem('market_data')) || { progreso: {}, bloqueos: {}, ultima_bienvenida: "" };
 
-    // --- FUNCIONALIDAD DE RECORDATORIO DIARIO ---
-    function crearAlertaCalendario() {
-        const hora = document.getElementById('hora-alerta').value;
-        if(!hora) return alert("Selecciona una hora primero.");
-
-        const [h, m] = hora.split(':');
-        const titulo = encodeURIComponent("🚀 Mi Reto ADN Tigo - El Market");
-        const detalles = encodeURIComponent("¡Es hora de fortalecer tu cultura! Ingresa aquí para tu reto de hoy: " + window.location.href);
-        
-        const fecha = new Date();
-        fecha.setHours(h, m, 0);
-        
-        const isoStart = fecha.toISOString().replace(/-|:|\.\d+/g, "");
-        const isoEnd = new Date(fecha.getTime() + 15*60000).toISOString().replace(/-|:|\.\d+/g, "");
-
-        // URL para Google Calendar con regla de repetición diaria (RRULE)
-        const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${titulo}&details=${detalles}&dates=${isoStart}/${isoEnd}&recur=RRULE:FREQ=DAILY`;
-
-        alert("Se abrirá tu calendario. Haz clic en 'Guardar' para activar tu recordatorio diario.");
-        window.open(googleUrl, '_blank');
-    }
-
-    // --- LÓGICA DE NAVEGACIÓN Y PROGRESO ---
     function checkBienvenida() {
         const hoy = new Date().toDateString();
-        // Si no ha entrado hoy o es la primera vez, muestra bienvenida
-        if (datos.ultima_bienvenida !== hoy) mostrarBienvenida();
+        if (datos.ultima_bienvenida !== hoy) {
+            mostrarBienvenida();
+        }
     }
 
-    function mostrarBienvenida() { document.getElementById('pantalla-bienvenida').style.display = 'flex'; }
+    function mostrarBienvenida() { 
+        document.getElementById('pantalla-bienvenida').style.display = 'flex'; 
+    }
 
     function cerrarBienvenida() {
         datos.ultima_bienvenida = new Date().toDateString();
@@ -222,11 +480,11 @@
 
     function renderizarMenu() {
         const grid = document.getElementById('grid-pasillos');
+        if(!grid) return;
         grid.innerHTML = '';
         const hoy = new Date().toDateString();
 
         for (let key in capacidad) {
-            // Un reto por pasillo al día
             const estaBloqueado = datos.bloqueos[key] === hoy;
             const nivel = obtenerNivel(datos.progreso[key] || 0);
             const ui = configUI[key];
@@ -279,7 +537,6 @@
 
     function confirmarMision() {
         const hoy = new Date().toDateString();
-        
         datos.progreso[capActual] = (datos.progreso[capActual] || 0) + 1;
         datos.bloqueos[capActual] = hoy;
         localStorage.setItem('market_data', JSON.stringify(datos));
@@ -289,12 +546,10 @@
         if(datos.progreso[capActual] >= 21) {
             document.getElementById('emoji-exito').innerText = "👑";
             document.getElementById('titulo-modal').innerText = "¡NUEVA LEYENDA!";
-            document.getElementById('texto-modal').innerHTML = "¡Increíble! Has alcanzado el nivel máximo en esta capacidad.<br><strong>Enkanta2 premia tu constancia.</strong>";
             confetti({ particleCount: 400, spread: 120, origin: { y: 0.5 } });
         } else {
-            document.getElementById('emoji-exito').innerText = nivel.texto.split(' ')[1];
+            document.getElementById('emoji-exito').innerText = nivel.texto.split(' ')[1] || "🚀";
             document.getElementById('titulo-modal').innerText = "¡RETO ACTIVADO!";
-            document.getElementById('texto-modal').innerHTML = "Has aceptado el reto para hoy.<br><strong>¡Diciendo y Haciendo!</strong>";
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
         }
         document.getElementById('modal-confirmacion').style.display = 'flex';
@@ -311,9 +566,30 @@
         renderizarMenu();
     }
 
+    function crearAlertaCalendario() {
+        const hora = document.getElementById('hora-alerta').value;
+        if(!hora) return alert("Selecciona una hora.");
+        const [h, m] = hora.split(':');
+        const titulo = encodeURIComponent("🚀 Mi Reto ADN Tigo - El Market");
+        const detalles = encodeURIComponent("¡Es hora de tu reto diario! " + window.location.href);
+        const fecha = new Date();
+        fecha.setHours(h, m, 0);
+        const isoStart = fecha.toISOString().replace(/-|:|\.\d+/g, "");
+        const isoEnd = new Date(fecha.getTime() + 15*60000).toISOString().replace(/-|:|\.\d+/g, "");
+        const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${titulo}&details=${detalles}&dates=${isoStart}/${isoEnd}&recur=RRULE:FREQ=DAILY`;
+        alert("Se abrirá tu calendario. Haz clic en 'Guardar' para activar tu recordatorio diario.");
+        window.open(googleUrl, '_blank');
+    }
+
+    // Al cargar la página
     window.onload = () => {
-        renderizarMenu();
-        checkBienvenida();
+        if(localStorage.getItem('market_acceso') === 'true') {
+            document.getElementById('pantalla-login').style.display = 'none';
+            renderizarMenu();
+            checkBienvenida();
+        } else {
+            document.getElementById('pantalla-login').style.display = 'flex';
+        }
     };
 </script>
 </body>
