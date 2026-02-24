@@ -295,7 +295,7 @@
             width: 100%; 
             height: 100%; 
             background: rgba(0, 55, 125, 0.9); 
-            z-index: 3000; 
+            z-index: 6000; 
             justify-content: center; 
             align-items: center; 
             padding: 20px; 
@@ -327,28 +327,29 @@
             text-decoration: none; 
             font-size: 0.8rem; 
         }
-        /* Estilo para el Modal de Error Enkanta2 */
-.modal-error-content {
-    background: white;
-    padding: 30px;
-    border-radius: 25px;
-    text-align: center;
-    max-width: 380px;
-    width: 90%;
-    border-top: 8px solid #ff4d4d; /* Rojo de alerta */
-}
 
-.btn-soporte-wa {
-    display: inline-block;
-    width: 100%;
-    padding: 15px;
-    background: var(--whatsapp);
-    color: white;
-    text-decoration: none;
-    border-radius: 12px;
-    font-weight: bold;
-    margin-top: 20px;
-}
+        /* Estilo para el Modal de Error Enkanta2 */
+        .modal-error-content {
+            background: white;
+            padding: 30px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 380px;
+            width: 90%;
+            border-top: 8px solid #ff4d4d;
+        }
+
+        .btn-soporte-wa {
+            display: inline-block;
+            width: 100%;
+            padding: 15px;
+            background: var(--whatsapp);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -377,12 +378,6 @@
                 🌳 Maestro: 14 - 20 días<br>
                 👑 Leyenda: +21 días
             </div>
-        </div>
-
-        <div style="font-size: 0.75rem; color: #888; margin-top: 20px; background: #fff4f4; padding: 10px; border-radius: 8px;">
-            🛡️ <strong>Privacidad:</strong> No guardamos tus datos. Eres anónimo.<br>
-            💾 <strong>Memoria Local:</strong> Tu progreso vive solo en este celular.<br>
-            ⚠️ <strong>Aviso:</strong> Si borras el historial, tu progreso volverá a 0 y deberás ingresar la clave de nuevo.
         </div>
 
         <button onclick="cerrarBienvenida()" class="btn-principal" style="margin-top: 25px; background: var(--tigo-gold); color: var(--tigo-blue);">¡ENTENDIDO, VAMOS!</button>
@@ -445,6 +440,7 @@
         <button onclick="cerrarYVolver()" class="btn-principal" style="margin-bottom: 0;">¡ENTENDIDO!</button>
     </div>
 </div>
+
 <div id="modal-error-acceso" class="custom-modal">
     <div class="modal-error-content">
         <span style="font-size: 4rem; display: block; margin-bottom: 15px;">⚠️</span>
@@ -452,20 +448,19 @@
         <p id="mensaje-error-texto" style="font-size: 0.9rem; color: #555; line-height: 1.5;"></p>
         <a href="https://wa.me/573244173977?text=Hola%20Enkanta2,%20mi%20llave%20de%20acceso%20ha%20expirado" 
            target="_blank" class="btn-soporte-wa">
-           CONTACTAR SOPORTE ENKANTA2
+            CONTACTAR SOPORTE ENKANTA2
         </a>
-        <button onclick="document.getElementById('modal-error-acceso').style.display='none'" 
-                class="btn-secundario" style="margin-top: 15px; border: none; background: transparent;">Cerrar</button>
+        <button onclick="location.reload()" class="btn-secundario" style="margin-top: 15px; border: none; background: transparent;">Reintentar</button>
     </div>
 </div>
+
 <script>
     // ==========================================
     // CONFIGURACIÓN DE LLAVEROS - ENKANTA2
     // ==========================================
     const LLAVES_DEMO = ["MarketDemo72", "TigoTemporal", "MarketCulFeb26"];
     const LLAVES_PERMANENTE = ["Enkanta2VIP", "TIGO_FULL_2026", "AdminMarket"];
-    //const HORAS_DURACION_DEMO = 72;
-    const DURACION_DEMO_HORAS = 0.016;
+    const DURACION_DEMO_HORAS = 0.016; // 1 MINUTO PARA TUS PRUEBAS (Cámbialo a 72 después)
 
     function mostrarErrorAcceso(msj) {
         document.getElementById('mensaje-error-texto').innerText = msj;
@@ -476,24 +471,22 @@
         const input = document.getElementById('pass-field').value.trim();
         const ahora = new Date().getTime();
 
-        // 1. REVISAR BLACKLIST (Si ya expiró antes)
         let blacklist = JSON.parse(localStorage.getItem('market_blacklist') || "[]");
         if (blacklist.includes(input)) {
-            mostrarErrorAcceso("Esta llave de acceso ya fue utilizada y expiró. Ponte en contacto con el administrador de la app ENKANTA2 WA:+57 3244173977");
+            mostrarErrorAcceso("Esta llave de acceso ya fue utilizada y expiró. Ponte en contacto con Enkanta2.");
             return;
         }
 
-        // 2. VALIDAR CLAVES
         if (LLAVES_PERMANENTE.includes(input)) {
             localStorage.setItem('market_sesion_activa', 'true');
             localStorage.setItem('market_expiracion', 'nunca');
-            localStorage.setItem('market_key_usada', input); // Guardamos siempre la llave
+            localStorage.setItem('market_key_usada', input);
             entrarAlMarket();
         } 
         else if (LLAVES_DEMO.includes(input)) {
-            const fechaExpiracion = ahora + (HORAS_DURACION_DEMO * 60 * 60 * 1000);
+            const fechaExpiracion = ahora + (DURACION_DEMO_HORAS * 60 * 60 * 1000);
             localStorage.setItem('market_sesion_activa', 'true');
-            localStorage.setItem('market_key_usada', input); // Guardamos la llave para el futuro
+            localStorage.setItem('market_key_usada', input);
             localStorage.setItem('market_expiracion', fechaExpiracion);
             entrarAlMarket();
         } 
@@ -501,23 +494,17 @@
             alert("Llave no válida. Verifica con el administrador.");
         }
     }
-    function entrarAlMarket() {
-        document.getElementById('pantalla-login').style.display = 'none';
-        renderizarMenu();
-        checkBienvenida();
-    }
 
     function validarSesion() {
+        const activa = localStorage.getItem('market_sesion_activa');
         const expiracion = localStorage.getItem('market_expiracion');
         const llaveUsada = localStorage.getItem('market_key_usada');
         
-        if (!expiracion) return false;
+        if (!activa || !expiracion) return false;
         if (expiracion === 'nunca') return true;
 
         const ahora = new Date().getTime();
-        
         if (ahora > parseInt(expiracion)) {
-            // Si ya expiró, la mandamos a la lista negra antes de borrar nada
             if (llaveUsada) {
                 let blacklist = JSON.parse(localStorage.getItem('market_blacklist') || "[]");
                 if (!blacklist.includes(llaveUsada)) {
@@ -525,32 +512,24 @@
                     localStorage.setItem('market_blacklist', JSON.stringify(blacklist));
                 }
             }
-            
-            // Limpiamos pero dejamos la blacklist intacta
             localStorage.removeItem('market_sesion_activa');
             localStorage.removeItem('market_expiracion');
-            // NO borramos market_key_usada aquí para que el sistema sepa qué llave bloquear
-            
-            // MOSTRAR EL MENSAJE AUTOMÁTICAMENTE
-            mostrarErrorAcceso("Esta llave de acceso ya fue utilizada y expiró. Ponte en contacto con el administrador de la app ENKANTA2 WA:+57 3244173977");
+            mostrarErrorAcceso("Tu llave de acceso temporal ha expirado. Contacta a Enkanta2 para renovarla.");
             return false;
         }
         return true;
     }
-            
-            // 3. Limpiamos la sesión para que lo mande al login
-            localStorage.removeItem('market_sesion_activa');
-            localStorage.removeItem('market_expiracion');
-            localStorage.removeItem('market_key_usada'); // Limpiamos la clave activa
-            return false;
-        }
-        return true;
-    }
-    // El resto de las funciones (renderizarMenu, confirmarMision, etc.) 
-    // se mantienen igual que en el código anterior.
-    // --- LÓGICA DEL MARKET ---
-    const capacidad = capacidadDB; 
 
+    function entrarAlMarket() {
+        document.getElementById('pantalla-login').style.display = 'none';
+        renderizarMenu();
+        checkBienvenida();
+    }
+
+    // ==========================================
+    // LÓGICA DE NEGOCIO ORIGINAL
+    // ==========================================
+    const capacidad = capacidadDB; 
     const configUI = {
         agilidad: { nombre: "Agilidad", color: "color-agilidad" },
         colaboracion: { nombre: "Colaboración", color: "color-colaboracion" },
@@ -564,15 +543,10 @@
 
     function checkBienvenida() {
         const hoy = new Date().toDateString();
-        if (datos.ultima_bienvenida !== hoy) {
-            mostrarBienvenida();
-        }
+        if (datos.ultima_bienvenida !== hoy) mostrarBienvenida();
     }
 
-    function mostrarBienvenida() { 
-        document.getElementById('pantalla-bienvenida').style.display = 'flex'; 
-    }
-
+    function mostrarBienvenida() { document.getElementById('pantalla-bienvenida').style.display = 'flex'; }
     function cerrarBienvenida() {
         datos.ultima_bienvenida = new Date().toDateString();
         localStorage.setItem('market_data', JSON.stringify(datos));
@@ -619,11 +593,9 @@
         
         const nivel = obtenerNivel(datos.progreso[id] || 0);
         document.getElementById('status-evolucion').innerText = `Tu Estatus: ${nivel.texto}`;
-        
         const barra = document.getElementById('bar-progreso-detalle');
         barra.className = 'mini-bar-fill ' + configUI[id].color;
         barra.style.width = Math.min((nivel.pts / 21) * 100, 100) + '%';
-        
         generarReto();
     }
 
@@ -631,10 +603,8 @@
         const opciones = capacidad[capActual];
         const actualTxt = document.getElementById('reto-display').innerText;
         let nuevoReto;
-        
-        do { 
-            nuevoReto = opciones[Math.floor(Math.random() * opciones.length)]; 
-        } while (nuevoReto.reto === actualTxt && opciones.length > 1);
+        do { nuevoReto = opciones[Math.floor(Math.random() * opciones.length)]; } 
+        while (nuevoReto.reto === actualTxt && opciones.length > 1);
         
         document.getElementById('frase-display').innerText = `"${nuevoReto.frase}"`;
         document.getElementById('reto-display').innerText = nuevoReto.reto;
@@ -649,16 +619,12 @@
         datos.bloqueos[capActual] = hoy;
         localStorage.setItem('market_data', JSON.stringify(datos));
         
-        const nivel = obtenerNivel(datos.progreso[capActual]);
-        
         if(datos.progreso[capActual] >= 21) {
             document.getElementById('emoji-exito').innerText = "👑";
-            document.getElementById('titulo-modal').innerText = "¡NUEVA LEYENDA!";
-            confetti({ particleCount: 400, spread: 120, origin: { y: 0.5 } });
+            confetti({ particleCount: 400, spread: 120 });
         } else {
-            document.getElementById('emoji-exito').innerText = nivel.texto.split(' ')[1] || "🚀";
-            document.getElementById('titulo-modal').innerText = "¡RETO ACTIVADO!";
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            document.getElementById('emoji-exito').innerText = "🚀";
+            confetti({ particleCount: 150, spread: 70 });
         }
         document.getElementById('modal-confirmacion').style.display = 'flex';
     }
@@ -676,26 +642,14 @@
 
     function crearAlertaCalendario() {
         const hora = document.getElementById('hora-alerta').value;
-        if(!hora) return alert("Selecciona una hora.");
         const [h, m] = hora.split(':');
-        const titulo = encodeURIComponent("🚀 Mi Reto ADN Tigo - El Market");
-        const detalles = encodeURIComponent("¡Es hora de tu reto diario! " + window.location.href);
-        const fecha = new Date();
-        fecha.setHours(h, m, 0);
-        const isoStart = fecha.toISOString().replace(/-|:|\.\d+/g, "");
-        const isoEnd = new Date(fecha.getTime() + 15*60000).toISOString().replace(/-|:|\.\d+/g, "");
-        const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${titulo}&details=${detalles}&dates=${isoStart}/${isoEnd}&recur=RRULE:FREQ=DAILY`;
-        alert("Se abrirá tu calendario. Haz clic en 'Guardar' para activar tu recordatorio diario.");
+        const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=Mi%20Reto%20ADN%20Tigo&recur=RRULE:FREQ=DAILY`;
         window.open(googleUrl, '_blank');
     }
 
-    // Al cargar la página
     window.onload = () => {
-        if (validarSesion()) {
-            entrarAlMarket();
-        } else {
-            document.getElementById('pantalla-login').style.display = 'flex';
-        }
+        if (validarSesion()) entrarAlMarket();
+        else document.getElementById('pantalla-login').style.display = 'flex';
     };
 </script>
 </body>
