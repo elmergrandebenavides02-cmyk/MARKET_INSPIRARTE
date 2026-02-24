@@ -513,18 +513,25 @@
         if (expiracion === 'nunca') return true;
 
         const ahora = new Date().getTime();
+        
+        // --- AQUÍ ESTÁ EL AJUSTE ---
         if (ahora > parseInt(expiracion)) {
-            // BLOQUEO Y LISTA NEGRA
+            // 1. Identificamos qué clave se usó
             const llaveUsada = localStorage.getItem('market_key_usada');
+            
             if (llaveUsada) {
+                // 2. La metemos a la lista negra (Blacklist)
                 let blacklist = JSON.parse(localStorage.getItem('market_blacklist') || "[]");
                 if (!blacklist.includes(llaveUsada)) {
                     blacklist.push(llaveUsada);
                     localStorage.setItem('market_blacklist', JSON.stringify(blacklist));
                 }
             }
+            
+            // 3. Limpiamos la sesión para que lo mande al login
             localStorage.removeItem('market_sesion_activa');
             localStorage.removeItem('market_expiracion');
+            localStorage.removeItem('market_key_usada'); // Limpiamos la clave activa
             return false;
         }
         return true;
