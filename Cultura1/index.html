@@ -327,6 +327,28 @@
             text-decoration: none; 
             font-size: 0.8rem; 
         }
+        /* Estilo para el Modal de Error Enkanta2 */
+.modal-error-content {
+    background: white;
+    padding: 30px;
+    border-radius: 25px;
+    text-align: center;
+    max-width: 380px;
+    width: 90%;
+    border-top: 8px solid #ff4d4d; /* Rojo de alerta */
+}
+
+.btn-soporte-wa {
+    display: inline-block;
+    width: 100%;
+    padding: 15px;
+    background: var(--whatsapp);
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: bold;
+    margin-top: 20px;
+}
     </style>
 </head>
 <body>
@@ -423,47 +445,57 @@
         <button onclick="cerrarYVolver()" class="btn-principal" style="margin-bottom: 0;">¡ENTENDIDO!</button>
     </div>
 </div>
-
+<div id="modal-error-acceso" class="custom-modal">
+    <div class="modal-error-content">
+        <span style="font-size: 4rem; display: block; margin-bottom: 15px;">⚠️</span>
+        <h2 style="color: var(--tigo-blue); margin: 0 0 10px 0;">ACCESO EXPIRADO</h2>
+        <p id="mensaje-error-texto" style="font-size: 0.9rem; color: #555; line-height: 1.5;"></p>
+        <a href="https://wa.me/573244173977?text=Hola%20Enkanta2,%20mi%20llave%20de%20acceso%20ha%20expirado" 
+           target="_blank" class="btn-soporte-wa">
+           CONTACTAR SOPORTE ENKANTA2
+        </a>
+        <button onclick="document.getElementById('modal-error-acceso').style.display='none'" 
+                class="btn-secundario" style="margin-top: 15px; border: none; background: transparent;">Cerrar</button>
+    </div>
+</div>
 <script>
     // ==========================================
     // CONFIGURACIÓN DE LLAVEROS - ENKANTA2
     // ==========================================
-    
-    // 1. CLAVES TEMPORALES (Solo duran 3 días)
-    const LLAVES_DEMO = [
-        "MarketDemo72", 
-        "TigoTemporal",
-        "MarketCulFeb26"
-    ];
+    const LLAVES_DEMO = ["MarketDemo72", "TigoTemporal", "MarketCulFeb26"];
+    const LLAVES_PERMANENTE = ["Enkanta2VIP", "TIGO_FULL_2026", "AdminMarket"];
+    const HORAS_DURACION_DEMO = 72;
 
-    // 2. CLAVES PERMANENTES (Duran hasta que borren historial)
-    const LLAVES_PERMANENTE = [
-        "Enkanta2VIP", 
-        "TIGO_FULL_2026",
-        "AdminMarket"
-    ];
-
-    const HORAS_DURACION_DEMO = 72; // 3 días
+    function mostrarErrorAcceso(msj) {
+        document.getElementById('mensaje-error-texto').innerText = msj;
+        document.getElementById('modal-error-acceso').style.display = 'flex';
+    }
 
     function verificarAcceso() {
         const input = document.getElementById('pass-field').value.trim();
         const ahora = new Date().getTime();
 
-        // OPCIÓN A: ¿Es una clave Permanente?
+        // REVISAR SI LA LLAVE YA FUE USADA Y EXPIRÓ
+        let blacklist = JSON.parse(localStorage.getItem('market_blacklist') || "[]");
+        if (blacklist.includes(input)) {
+            mostrarErrorAcceso("Esta llave de acceso ya fue utilizada y expiró. Ponte en contacto con el administrador de la app ENKANTA2 WA:+57 3244173977");
+            return;
+        }
+
         if (LLAVES_PERMANENTE.includes(input)) {
-            localStorage.setItem('market_acceso_tipo', 'permanente');
-            localStorage.setItem('market_expiracion', 'nunca'); // No expira por tiempo
+            localStorage.setItem('market_sesion_activa', 'true');
+            localStorage.setItem('market_expiracion', 'nunca');
             entrarAlMarket();
         } 
-        // OPCIÓN B: ¿Es una clave Demo?
         else if (LLAVES_DEMO.includes(input)) {
             const fechaExpiracion = ahora + (HORAS_DURACION_DEMO * 60 * 60 * 1000);
-            localStorage.setItem('market_acceso_tipo', 'demo');
+            localStorage.setItem('market_sesion_activa', 'true');
+            localStorage.setItem('market_key_usada', input); // Guardar para blacklist futura
             localStorage.setItem('market_expiracion', fechaExpiracion);
             entrarAlMarket();
         } 
         else {
-            alert("Llave no válida. Por favor verifica con el administrador.");
+            alert("Llave no válida. Verifica con el administrador.");
         }
     }
 
@@ -474,23 +506,29 @@
     }
 
     function validarSesion() {
+        const activa = localStorage.getItem('market_sesion_activa');
         const expiracion = localStorage.getItem('market_expiracion');
         
-        if (!expiracion) return false; // No hay registro, pedir clave
-
-        // Si es permanente, el valor es 'nunca', siempre devuelve true
+        if (!activa || !expiracion) return false;
         if (expiracion === 'nunca') return true;
 
-        // Si es demo, comparamos tiempos
         const ahora = new Date().getTime();
         if (ahora > parseInt(expiracion)) {
-            localStorage.clear(); // Limpiamos todo porque expiró
+            // BLOQUEO Y LISTA NEGRA
+            const llaveUsada = localStorage.getItem('market_key_usada');
+            if (llaveUsada) {
+                let blacklist = JSON.parse(localStorage.getItem('market_blacklist') || "[]");
+                if (!blacklist.includes(llaveUsada)) {
+                    blacklist.push(llaveUsada);
+                    localStorage.setItem('market_blacklist', JSON.stringify(blacklist));
+                }
+            }
+            localStorage.removeItem('market_sesion_activa');
+            localStorage.removeItem('market_expiracion');
             return false;
         }
-        
         return true;
     }
-
     // El resto de las funciones (renderizarMenu, confirmarMision, etc.) 
     // se mantienen igual que en el código anterior.
     // --- LÓGICA DEL MARKET ---
@@ -636,10 +674,8 @@
 
     // Al cargar la página
     window.onload = () => {
-        if(localStorage.getItem('market_acceso') === 'true') {
-            document.getElementById('pantalla-login').style.display = 'none';
-            renderizarMenu();
-            checkBienvenida();
+        if (validarSesion()) {
+            entrarAlMarket();
         } else {
             document.getElementById('pantalla-login').style.display = 'flex';
         }
