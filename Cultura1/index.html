@@ -7,6 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
+    <script src="capacidad.js"></script>
+
     <style>
         :root {
             --tigo-blue: #00377d;
@@ -22,7 +24,6 @@
         
         header { background: linear-gradient(135deg, var(--tigo-blue), var(--tigo-light-blue)); color: white; text-align: center; padding: 25px 20px; border-bottom: 6px solid var(--tigo-gold); position: relative; }
         
-        /* Botón de Información Flotante */
         .btn-info-guia {
             position: absolute; right: 15px; top: 20px; width: 30px; height: 30px;
             background: rgba(255, 255, 255, 0.2); border: 2px solid white; border-radius: 50%;
@@ -30,18 +31,18 @@
             align-items: center; justify-content: center; font-size: 1.2rem;
             transition: all 0.3s; z-index: 10;
         }
-        .btn-info-guia:hover { background: white; color: var(--tigo-blue); }
 
-        /* Pantalla de Bienvenida */
         #pantalla-bienvenida { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--blanco); z-index: 2000; padding: 30px; box-sizing: border-box; display: none; flex-direction: column; overflow-y: auto; }
         .instrucciones-item { margin-bottom: 15px; font-size: 0.9rem; line-height: 1.4; }
 
         #menu-principal, #pantalla-reto { padding: 30px 25px; box-sizing: border-box; }
         
-        .grid-pasillos { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+        /* Estilos Tarjeta Hábito */
+        .seccion-habito { background: #fff9eb; border: 2px dashed var(--tigo-gold); border-radius: 20px; padding: 20px; margin-bottom: 25px; text-align: center; }
+        .input-hora { padding: 10px; border-radius: 10px; border: 1px solid var(--tigo-gold); font-family: 'Montserrat'; font-weight: bold; color: var(--tigo-blue); outline: none; }
+
+        .grid-pasillos { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .card-menu { background: white; border-radius: 15px; padding: 15px; border: 1px solid #eee; text-align: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative; transition: transform 0.2s; }
-        .card-menu:active { transform: scale(0.95); }
-        
         .card-menu.bloqueado { opacity: 0.6; cursor: not-allowed; background: #f9f9f9; }
         .lock-icon { display: none; font-size: 1.5rem; margin-top: 10px; }
         .card-menu.bloqueado .lock-icon { display: block; }
@@ -57,67 +58,34 @@
         .mini-bar-container { width: 100%; background: #eee; height: 8px; border-radius: 10px; overflow: hidden; margin: 10px 0; }
         .mini-bar-fill { height: 100%; width: 0%; transition: width 0.5s; }
 
-        .btn-principal { 
-            width: 100%; padding: 16px; border-radius: 12px; border: none; color: white; 
-            font-size: 1rem; font-weight: 700; cursor: pointer; background: var(--tigo-blue); 
-            margin-bottom: 12px; transition: background 0.3s; text-transform: uppercase;
-        }
-
-        .btn-whatsapp { 
-            width: 100%; padding: 14px; background: var(--whatsapp); color: white; 
-            border: none; border-radius: 12px; font-weight: 700; cursor: pointer; 
-            display: flex; align-items: center; justify-content: center; gap: 10px; 
-            margin-bottom: 12px; text-decoration: none; font-size: 0.9rem; box-sizing: border-box;
-        }
-
-        .btn-secundario { 
-            width: 100%; padding: 12px; background: #f8f9fa; border: 1px solid #e0e0e0; 
-            border-radius: 12px; color: #666; font-weight: 600; cursor: pointer; 
-            margin-bottom: 8px; font-size: 0.85rem; transition: all 0.2s;
-        }
-
-        .reto-main-card { 
-            background: white; border-radius: 25px; padding: 25px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; 
-            margin-top: 10px; border: 1px solid #f0f0f0; display: flex; flex-direction: column; 
-        }
-
-        .frase-quote { font-size: 1.1rem; color: var(--tigo-blue); font-weight: bold; margin-bottom: 20px; line-height: 1.4; font-style: italic; min-height: 80px; display: flex; align-items: center; justify-content: center; }
-
-        .btn-ayuda-soporte { width: 100%; padding: 12px; background: var(--ayuda-bg); color: var(--tigo-blue); border: 1px solid #ddd; border-radius: 15px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px; text-decoration: none; font-size: 0.8rem; }
+        .btn-principal { width: 100%; padding: 16px; border-radius: 12px; border: none; color: white; font-size: 1rem; font-weight: 700; cursor: pointer; background: var(--tigo-blue); margin-bottom: 12px; text-transform: uppercase; transition: 0.3s; }
+        .btn-principal:active { transform: scale(0.98); }
         
-        /* Modales */
+        .btn-whatsapp { width: 100%; padding: 14px; background: var(--whatsapp); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; text-decoration: none; font-size: 0.9rem; box-sizing: border-box; }
+        .btn-secundario { width: 100%; padding: 12px; background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 12px; color: #666; font-weight: 600; cursor: pointer; margin-bottom: 8px; font-size: 0.85rem; }
+
+        .reto-main-card { background: white; border-radius: 25px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; border: 1px solid #f0f0f0; }
+        .frase-quote { font-size: 1.1rem; color: var(--tigo-blue); font-weight: bold; margin-bottom: 20px; line-height: 1.4; font-style: italic; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+        
         .custom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 55, 125, 0.9); z-index: 3000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: white; padding: 30px; border-radius: 25px; text-align: center; max-width: 380px; width: 100%; transition: all 0.3s; }
-        .modal-leyenda { background: linear-gradient(135deg, #fff7e6 0%, #ffffff 100%); border: 3px solid var(--tigo-gold); }
+        .modal-content { background: white; padding: 30px; border-radius: 25px; text-align: center; max-width: 380px; width: 100%; }
+        
+        .btn-ayuda-soporte { width: 100%; padding: 12px; background: var(--ayuda-bg); color: var(--tigo-blue); border: 1px solid #ddd; border-radius: 15px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px; text-decoration: none; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div id="pantalla-bienvenida">
-        <h2 style="color: var(--tigo-blue); text-align: center; margin-top: 0;">Bienvenidos al Market Inspirarte<br><small style="color: var(--tigo-light-blue);">CULTURA ADN TIGO</small></h2>
-        <p style="font-size: 0.9rem; color: #555;">Este no es solo un sitio web; es tu espacio para transformar el ADN TIGO en acciones reales.</p>
+        <h2 style="color: var(--tigo-blue); text-align: center; margin-top: 0;">Market Inspirarte<br><small style="color: var(--tigo-light-blue);">CULTURA ADN TIGO</small></h2>
+        <p style="font-size: 0.9rem; color: #555;">Este es tu espacio para transformar el ADN TIGO en acciones reales.</p>
         
-        <h4 style="color: var(--tigo-blue); margin-bottom: 10px;">¿Cómo funciona tu ruta?</h4>
-        <div class="instrucciones-item">📍 <strong>Elige una capacidad:</strong> Explora los pasillos del Market.</div>
-        <div class="instrucciones-item">⚡ <strong>Acepta el Reto:</strong> Lee tu frase y activa tu compromiso diario.</div>
-        <div class="instrucciones-item">🚀 <strong>Sube de Nivel:</strong> La repetición crea hábito:
-            <div style="margin-top:10px; background: #f9f9f9; padding: 10px; border-radius: 10px; font-size: 0.85rem;">
-                🌱 Iniciado: 0 - 6 días<br>
-                🌿 Avanzado: 7 - 13 días<br>
-                🌳 Maestro: 14 - 20 días<br>
-                👑 Leyenda: +21 días
-            </div>
-        </div>
+        <h4 style="color: var(--tigo-blue); margin-bottom: 10px;">Tu ruta de crecimiento:</h4>
+        <div class="instrucciones-item">📍 <strong>Pasillos:</strong> Elige una capacidad para trabajar hoy.</div>
+        <div class="instrucciones-item">⚡ <strong>Reto:</strong> Acepta la misión diaria y marca tu progreso.</div>
+        <div class="instrucciones-item">🚀 <strong>Evolución:</strong> Suma días y conviértete en Leyenda Tigo.</div>
 
-        <div style="font-size: 0.75rem; color: #888; margin-top: 15px;">
-            🛡️ <strong>Privacidad:</strong> No guardamos tus datos. Eres anónimo.<br>
-            💾 <strong>Memoria Local:</strong> Tu progreso vive solo en este celular.<br>
-            ⚠️ <strong>Aviso:</strong> Si borras el historial, tu progreso volverá a 0.
-        </div>
-
-        <button onclick="cerrarBienvenida()" class="btn-principal" style="margin-top: 25px; background: var(--tigo-gold); color: var(--tigo-blue);">¡ENTENDIDO, VAMOS!</button>
+        <button onclick="cerrarBienvenida()" class="btn-principal" style="margin-top: 25px; background: var(--tigo-gold); color: var(--tigo-blue);">¡EMPEZAR AHORA!</button>
     </div>
 
     <header>
@@ -127,27 +95,43 @@
     </header>
 
     <div id="menu-principal">
+        <div class="seccion-habito">
+            <div style="font-size: 1.5rem; margin-bottom: 5px;">🔔</div>
+            <strong style="color: var(--tigo-blue); font-size: 0.9rem; display: block;">PROGRAMA TU RECORDATORIO</strong>
+            <p style="font-size: 0.75rem; color: #666; margin: 5px 0 15px;">Crea el hábito. Elige una hora para recibir una alerta diaria:</p>
+            
+            <div style="display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap;">
+                <input type="time" id="hora-alerta" class="input-hora" value="08:00">
+                <button onclick="crearAlertaCalendario()" class="btn-principal" style="margin-bottom: 0; padding: 10px 15px; font-size: 0.75rem; width: auto; background: var(--tigo-gold); color: var(--tigo-blue);">
+                    ACTIVAR ALERTA
+                </button>
+            </div>
+        </div>
+
         <h3 style="color: var(--tigo-blue); margin-top: 0; font-size: 1rem;">Selecciona una Capacidad:</h3>
         <div class="grid-pasillos" id="grid-pasillos"></div>
+        
         <a href="https://wa.me/573244173977?text=Hola%20equipo%20Enkanta2" target="_blank" class="btn-ayuda-soporte">🆘 NECESITO AYUDA</a>
     </div>
 
     <div id="pantalla-reto" style="display:none;">
         <h2 id="titulo-pasillo" style="text-align: center; color: var(--tigo-blue); text-transform: uppercase; margin-bottom: 5px;"></h2>
-        <div id="status-evolucion" style="text-align: center; font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; color: #666;"></div>
-        <div class="mini-bar-container" style="width: 80%; margin: 0 auto 15px; height: 10px;"><div id="bar-progreso-detalle" class="mini-bar-fill"></div></div>
+        <div id="status-evolucion" style="text-align: center; font-size: 0.8rem; font-weight: bold; color: #666;"></div>
+        <div class="mini-bar-container" style="width: 80%; margin: 10px auto 20px;"><div id="bar-progreso-detalle" class="mini-bar-fill"></div></div>
         
         <div class="reto-main-card">
             <div id="frase-display" class="frase-quote"></div>
-            <div style="background: #fdfdfd; padding: 20px; border-radius: 15px; border-left: 6px solid var(--tigo-gold); margin-bottom: 15px; text-align: left;">
+            <div style="background: #fdfdfd; padding: 20px; border-radius: 15px; border-left: 6px solid var(--tigo-gold); margin-bottom: 20px; text-align: left;">
                 <strong style="color: var(--tigo-blue); font-size: 0.8rem; display: block; margin-bottom: 8px;">⚡ MISIÓN SUGERIDA:</strong>
                 <div id="reto-display" style="font-size: 0.95rem; line-height: 1.4; color: #333; font-weight: 500;"></div>
             </div>
 
             <button onclick="confirmarMision()" class="btn-principal">¡ACEPTO EL RETO!</button>
+            
             <a id="btn-share-wa" href="#" target="_blank" class="btn-whatsapp">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="18" height="18"> COMPARTIR MI RETO
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="18" height="18"> COMPARTIR RETO
             </a>
+            
             <button onclick="generarReto()" class="btn-secundario">🔄 VER OTRO RETO</button>
             <button onclick="volverMenu()" class="btn-secundario" style="border: none; background: transparent; color: #999;">← VOLVER AL MARKET</button>
         </div>
@@ -159,30 +143,13 @@
         <span id="emoji-exito" style="font-size: 4rem; display: block; margin-bottom: 15px;">🚀</span>
         <h2 id="titulo-modal" style="color: var(--tigo-blue); margin-top: 0;">¡RETO ACTIVADO!</h2>
         <p id="texto-modal" style="color: #555; line-height: 1.6; margin-bottom: 25px;">Has aceptado el reto para hoy.<br><strong>¡Diciendo y Haciendo!</strong></p>
-        <button id="btn-modal-close" onclick="cerrarYVolver()" class="btn-principal" style="margin-bottom: 0;">¡ENTENDIDO!</button>
+        <button onclick="cerrarYVolver()" class="btn-principal" style="margin-bottom: 0;">¡ENTENDIDO!</button>
     </div>
 </div>
 
 <script>
-    const capacidad = {
-        "agilidad": [
-            { "frase": "La agilidad es pivotar sin perder el equilibrio.", "reto": "Cambia una prioridad que no esté dando resultados hoy." },
-            { "frase": "Menos burocracia, más acción.", "reto": "Resuelve un pendiente por chat en vez de agendar una reunión." }
-        ],
-        "colaboracion": [
-            { "frase": "Juntos pa' las que sea: el apoyo mutuo es ley.", "reto": "Ofrece ayuda a alguien de otra área hoy." },
-            { "frase": "Trata a todos con el mismo respeto.", "reto": "Saluda y agradece hoy a cada persona con la que interactúes." }
-        ],
-        "foco": [
-            { "frase": "Donde va tu atención, va tu energía.", "reto": "Apaga notificaciones por 2 horas hoy para avanzar en tu prioridad #1." }
-        ],
-        "integridad": [
-            { "frase": "La transparencia genera tranquilidad.", "reto": "Reporta un error propio antes de que alguien más lo note." }
-        ],
-        "talento": [
-            { "frase": "Tu mejor versión está por venir.", "reto": "Dedica 15 minutos hoy a aprender algo nuevo." }
-        ]
-    };
+    // 2. Conexión con la base de datos externa capacidad.js
+    const capacidad = capacidadDB; 
 
     const configUI = {
         agilidad: { nombre: "Agilidad", color: "color-agilidad" },
@@ -195,21 +162,38 @@
     let capActual = '';
     let datos = JSON.parse(localStorage.getItem('market_data')) || { progreso: {}, bloqueos: {}, ultima_bienvenida: "" };
 
-    // Función para manejar la lógica de bienvenida diaria
+    // --- FUNCIONALIDAD DE RECORDATORIO (CALENDARIO) ---
+    function crearAlertaCalendario() {
+        const hora = document.getElementById('hora-alerta').value;
+        if(!hora) return alert("Selecciona una hora primero.");
+
+        const [h, m] = hora.split(':');
+        const titulo = encodeURIComponent("🚀 Mi Reto ADN Tigo - El Market");
+        const detalles = encodeURIComponent("¡Es hora de fortalecer tu cultura! Ingresa aquí para tu reto de hoy: " + window.location.href);
+        
+        const fecha = new Date();
+        fecha.setHours(h, m, 0);
+        
+        const isoStart = fecha.toISOString().replace(/-|:|\.\d+/g, "");
+        const isoEnd = new Date(fecha.getTime() + 15*60000).toISOString().replace(/-|:|\.\d+/g, "");
+
+        // URL para Google Calendar con regla de repetición diaria (RRULE)
+        const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${titulo}&details=${detalles}&dates=${isoStart}/${isoEnd}&recur=RRULE:FREQ=DAILY`;
+
+        alert("Se abrirá tu calendario. Haz clic en 'Guardar' para recibir tu notificación diaria.");
+        window.open(googleUrl, '_blank');
+    }
+
+    // --- LÓGICA DE NAVEGACIÓN Y PROGRESO ---
     function checkBienvenida() {
         const hoy = new Date().toDateString();
-        if (datos.ultima_bienvenida !== hoy) {
-            mostrarBienvenida();
-        }
+        if (datos.ultima_bienvenida !== hoy) mostrarBienvenida();
     }
 
-    function mostrarBienvenida() {
-        document.getElementById('pantalla-bienvenida').style.display = 'flex';
-    }
+    function mostrarBienvenida() { document.getElementById('pantalla-bienvenida').style.display = 'flex'; }
 
     function cerrarBienvenida() {
-        const hoy = new Date().toDateString();
-        datos.ultima_bienvenida = hoy;
+        datos.ultima_bienvenida = new Date().toDateString();
         localStorage.setItem('market_data', JSON.stringify(datos));
         document.getElementById('pantalla-bienvenida').style.display = 'none';
     }
@@ -229,11 +213,12 @@
         for (let key in capacidad) {
             const estaBloqueado = datos.bloqueos[key] === hoy;
             const nivel = obtenerNivel(datos.progreso[key] || 0);
+            const ui = configUI[key];
+            
             const card = document.createElement('div');
             card.className = `card-menu ${estaBloqueado ? 'bloqueado' : ''}`;
             if (!estaBloqueado) card.onclick = () => irAPasillo(key);
 
-            const ui = configUI[key];
             card.innerHTML = `
                 <div class="btn-categoria ${ui.color}">${ui.nombre}</div>
                 <div class="mini-bar-container"><div class="mini-bar-fill ${ui.color}" style="width: ${Math.min((nivel.pts / 21) * 100, 100)}%"></div></div>
@@ -249,11 +234,14 @@
         document.getElementById('menu-principal').style.display = 'none';
         document.getElementById('pantalla-reto').style.display = 'block';
         document.getElementById('titulo-pasillo').innerText = configUI[id].nombre;
+        
         const nivel = obtenerNivel(datos.progreso[id] || 0);
         document.getElementById('status-evolucion').innerText = `Tu Estatus: ${nivel.texto}`;
+        
         const barra = document.getElementById('bar-progreso-detalle');
         barra.className = 'mini-bar-fill ' + configUI[id].color;
         barra.style.width = Math.min((nivel.pts / 21) * 100, 100) + '%';
+        
         generarReto();
     }
 
@@ -261,33 +249,33 @@
         const opciones = capacidad[capActual];
         const actualTxt = document.getElementById('reto-display').innerText;
         let nuevoReto;
-        do { nuevoReto = opciones[Math.floor(Math.random() * opciones.length)]; } while (nuevoReto.reto === actualTxt && opciones.length > 1);
+        
+        // Aleatoriedad entre los retos del archivo capacidad.js
+        do { 
+            nuevoReto = opciones[Math.floor(Math.random() * opciones.length)]; 
+        } while (nuevoReto.reto === actualTxt && opciones.length > 1);
+        
         document.getElementById('frase-display').innerText = `"${nuevoReto.frase}"`;
         document.getElementById('reto-display').innerText = nuevoReto.reto;
+        
         const msj = encodeURIComponent(`🚀 *RETO ADN TIGO*\n\n"${nuevoReto.frase}"\n\n*Acción:* ${nuevoReto.reto}`);
         document.getElementById('btn-share-wa').href = `https://wa.me/?text=${msj}`;
     }
 
     function confirmarMision() {
         const hoy = new Date().toDateString();
+        
+        // Solo un reto por pasillo al día
         datos.progreso[capActual] = (datos.progreso[capActual] || 0) + 1;
         datos.bloqueos[capActual] = hoy;
         localStorage.setItem('market_data', JSON.stringify(datos));
         
         const nivel = obtenerNivel(datos.progreso[capActual]);
-        const modalBox = document.getElementById('modal-box');
-        const btnModal = document.getElementById('btn-modal-close');
         
-        modalBox.classList.remove('modal-leyenda');
-        btnModal.style.background = 'var(--tigo-blue)';
-
         if(datos.progreso[capActual] >= 21) {
-            modalBox.classList.add('modal-leyenda');
             document.getElementById('emoji-exito').innerText = "👑";
             document.getElementById('titulo-modal').innerText = "¡NUEVA LEYENDA!";
             document.getElementById('texto-modal').innerHTML = "¡Increíble! Has alcanzado el nivel máximo en esta capacidad.<br><strong>Enkanta2 premia tu constancia.</strong>";
-            btnModal.style.background = 'var(--tigo-gold)';
-            btnModal.style.color = 'var(--tigo-blue)';
             confetti({ particleCount: 400, spread: 120, origin: { y: 0.5 } });
         } else {
             document.getElementById('emoji-exito').innerText = nivel.texto.split(' ')[1];
