@@ -32,12 +32,13 @@
             transition: all 0.3s; z-index: 10;
         }
 
+        /* Pantalla Bienvenida */
         #pantalla-bienvenida { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--blanco); z-index: 2000; padding: 30px; box-sizing: border-box; display: none; flex-direction: column; overflow-y: auto; }
         .instrucciones-item { margin-bottom: 15px; font-size: 0.9rem; line-height: 1.4; }
 
         #menu-principal, #pantalla-reto { padding: 30px 25px; box-sizing: border-box; }
         
-        /* Estilos Tarjeta Hábito */
+        /* Estilos Tarjeta Hábito en pantalla principal */
         .seccion-habito { background: #fff9eb; border: 2px dashed var(--tigo-gold); border-radius: 20px; padding: 20px; margin-bottom: 25px; text-align: center; }
         .input-hora { padding: 10px; border-radius: 10px; border: 1px solid var(--tigo-gold); font-family: 'Montserrat'; font-weight: bold; color: var(--tigo-blue); outline: none; }
 
@@ -77,15 +78,28 @@
 
 <div class="container">
     <div id="pantalla-bienvenida">
-        <h2 style="color: var(--tigo-blue); text-align: center; margin-top: 0;">Market Inspirarte<br><small style="color: var(--tigo-light-blue);">CULTURA ADN TIGO</small></h2>
-        <p style="font-size: 0.9rem; color: #555;">Este es tu espacio para transformar el ADN TIGO en acciones reales.</p>
+        <h2 style="color: var(--tigo-blue); text-align: center; margin-top: 0;">Bienvenidos al Market Inspirarte<br><small style="color: var(--tigo-light-blue);">CULTURA ADN TIGO</small></h2>
+        <p style="font-size: 0.9rem; color: #555;">Este no es solo un sitio web; es tu espacio para transformar el ADN TIGO en acciones reales.</p>
         
-        <h4 style="color: var(--tigo-blue); margin-bottom: 10px;">Tu ruta de crecimiento:</h4>
-        <div class="instrucciones-item">📍 <strong>Pasillos:</strong> Elige una capacidad para trabajar hoy.</div>
-        <div class="instrucciones-item">⚡ <strong>Reto:</strong> Acepta la misión diaria y marca tu progreso.</div>
-        <div class="instrucciones-item">🚀 <strong>Evolución:</strong> Suma días y conviértete en Leyenda Tigo.</div>
+        <h4 style="color: var(--tigo-blue); margin-bottom: 10px;">¿Cómo funciona tu ruta?</h4>
+        <div class="instrucciones-item">📍 <strong>Elige una capacidad:</strong> Explora los pasillos del Market.</div>
+        <div class="instrucciones-item">⚡ <strong>Acepta el Reto:</strong> Lee tu frase y activa tu compromiso diario.</div>
+        <div class="instrucciones-item">🚀 <strong>Sube de Nivel:</strong> La repetición crea hábito:
+            <div style="margin-top:10px; background: #f9f9f9; padding: 10px; border-radius: 10px; font-size: 0.85rem;">
+                🌱 Iniciado: 0 - 6 días<br>
+                🌿 Avanzado: 7 - 13 días<br>
+                🌳 Maestro: 14 - 20 días<br>
+                👑 Leyenda: +21 días
+            </div>
+        </div>
 
-        <button onclick="cerrarBienvenida()" class="btn-principal" style="margin-top: 25px; background: var(--tigo-gold); color: var(--tigo-blue);">¡EMPEZAR AHORA!</button>
+        <div style="font-size: 0.75rem; color: #888; margin-top: 15px;">
+            🛡️ <strong>Privacidad:</strong> No guardamos tus datos. Eres anónimo.<br>
+            💾 <strong>Memoria Local:</strong> Tu progreso vive solo en este celular.<br>
+            ⚠️ <strong>Aviso:</strong> Si borras el historial, tu progreso volverá a 0.
+        </div>
+
+        <button onclick="cerrarBienvenida()" class="btn-principal" style="margin-top: 25px; background: var(--tigo-gold); color: var(--tigo-blue);">¡ENTENDIDO, VAMOS!</button>
     </div>
 
     <header>
@@ -162,7 +176,7 @@
     let capActual = '';
     let datos = JSON.parse(localStorage.getItem('market_data')) || { progreso: {}, bloqueos: {}, ultima_bienvenida: "" };
 
-    // --- FUNCIONALIDAD DE RECORDATORIO (CALENDARIO) ---
+    // --- FUNCIONALIDAD DE RECORDATORIO DIARIO ---
     function crearAlertaCalendario() {
         const hora = document.getElementById('hora-alerta').value;
         if(!hora) return alert("Selecciona una hora primero.");
@@ -180,13 +194,14 @@
         // URL para Google Calendar con regla de repetición diaria (RRULE)
         const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${titulo}&details=${detalles}&dates=${isoStart}/${isoEnd}&recur=RRULE:FREQ=DAILY`;
 
-        alert("Se abrirá tu calendario. Haz clic en 'Guardar' para recibir tu notificación diaria.");
+        alert("Se abrirá tu calendario. Haz clic en 'Guardar' para activar tu recordatorio diario.");
         window.open(googleUrl, '_blank');
     }
 
     // --- LÓGICA DE NAVEGACIÓN Y PROGRESO ---
     function checkBienvenida() {
         const hoy = new Date().toDateString();
+        // Si no ha entrado hoy o es la primera vez, muestra bienvenida
         if (datos.ultima_bienvenida !== hoy) mostrarBienvenida();
     }
 
@@ -211,6 +226,7 @@
         const hoy = new Date().toDateString();
 
         for (let key in capacidad) {
+            // Un reto por pasillo al día
             const estaBloqueado = datos.bloqueos[key] === hoy;
             const nivel = obtenerNivel(datos.progreso[key] || 0);
             const ui = configUI[key];
@@ -250,7 +266,6 @@
         const actualTxt = document.getElementById('reto-display').innerText;
         let nuevoReto;
         
-        // Aleatoriedad entre los retos del archivo capacidad.js
         do { 
             nuevoReto = opciones[Math.floor(Math.random() * opciones.length)]; 
         } while (nuevoReto.reto === actualTxt && opciones.length > 1);
@@ -265,7 +280,6 @@
     function confirmarMision() {
         const hoy = new Date().toDateString();
         
-        // Solo un reto por pasillo al día
         datos.progreso[capActual] = (datos.progreso[capActual] || 0) + 1;
         datos.bloqueos[capActual] = hoy;
         localStorage.setItem('market_data', JSON.stringify(datos));
