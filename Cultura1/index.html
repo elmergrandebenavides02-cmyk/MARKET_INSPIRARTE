@@ -425,21 +425,74 @@
 </div>
 
 <script>
-    // --- SEGURIDAD ---
-    const CLAVE_CORRECTA = "TIGO2026";
+    // ==========================================
+    // CONFIGURACIÓN DE LLAVEROS - ENKANTA2
+    // ==========================================
+    
+    // 1. CLAVES TEMPORALES (Solo duran 3 días)
+    const LLAVES_DEMO = [
+        "MarketDemo72", 
+        "TigoTemporal",
+        "MarketCulFeb26"
+    ];
+
+    // 2. CLAVES PERMANENTES (Duran hasta que borren historial)
+    const LLAVES_PERMANENTE = [
+        "Enkanta2VIP", 
+        "TIGO_FULL_2026",
+        "AdminMarket"
+    ];
+
+    const HORAS_DURACION_DEMO = 72; // 3 días
 
     function verificarAcceso() {
-        const input = document.getElementById('pass-field').value;
-        if(input === CLAVE_CORRECTA) {
-            localStorage.setItem('market_acceso', 'true');
-            document.getElementById('pantalla-login').style.display = 'none';
-            checkBienvenida();
-            renderizarMenu();
-        } else {
-            alert("Código incorrecto. Contacta al administrador.");
+        const input = document.getElementById('pass-field').value.trim();
+        const ahora = new Date().getTime();
+
+        // OPCIÓN A: ¿Es una clave Permanente?
+        if (LLAVES_PERMANENTE.includes(input)) {
+            localStorage.setItem('market_acceso_tipo', 'permanente');
+            localStorage.setItem('market_expiracion', 'nunca'); // No expira por tiempo
+            entrarAlMarket();
+        } 
+        // OPCIÓN B: ¿Es una clave Demo?
+        else if (LLAVES_DEMO.includes(input)) {
+            const fechaExpiracion = ahora + (HORAS_DURACION_DEMO * 60 * 60 * 1000);
+            localStorage.setItem('market_acceso_tipo', 'demo');
+            localStorage.setItem('market_expiracion', fechaExpiracion);
+            entrarAlMarket();
+        } 
+        else {
+            alert("Llave no válida. Por favor verifica con el administrador.");
         }
     }
 
+    function entrarAlMarket() {
+        document.getElementById('pantalla-login').style.display = 'none';
+        renderizarMenu();
+        checkBienvenida();
+    }
+
+    function validarSesion() {
+        const expiracion = localStorage.getItem('market_expiracion');
+        
+        if (!expiracion) return false; // No hay registro, pedir clave
+
+        // Si es permanente, el valor es 'nunca', siempre devuelve true
+        if (expiracion === 'nunca') return true;
+
+        // Si es demo, comparamos tiempos
+        const ahora = new Date().getTime();
+        if (ahora > parseInt(expiracion)) {
+            localStorage.clear(); // Limpiamos todo porque expiró
+            return false;
+        }
+        
+        return true;
+    }
+
+    // El resto de las funciones (renderizarMenu, confirmarMision, etc.) 
+    // se mantienen igual que en el código anterior.
     // --- LÓGICA DEL MARKET ---
     const capacidad = capacidadDB; 
 
