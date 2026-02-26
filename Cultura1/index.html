@@ -193,13 +193,16 @@
             color: white; 
             font-weight: bold; 
             margin-bottom: 8px; 
-            font-size: 0.7rem; 
+            font-size: 0.65rem; 
             text-transform: uppercase; 
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .color-agilidad { background-color: #00a1e1; }
         .color-colaboracion { background-color: #00377d; }
-        .color-foco { background-color: #f3b01a; color: #00377d !important; }
         .color-integridad { background-color: #722f37; }
         .color-talento { background-color: #6a1b9a; }
 
@@ -328,7 +331,6 @@
             font-size: 0.8rem; 
         }
 
-        /* Estilo para el Modal de Error Enkanta2 */
         .modal-error-content {
             background: white;
             padding: 30px;
@@ -355,32 +357,32 @@
 <body>
 
 <div id="pantalla-login">
-    <h2 style="margin-bottom: 10px;">MARKET INSPIRARTE</h2>
-    <p style="font-size: 0.8rem; opacity: 0.8;">CULTURA ADN TIGO</p>
-    <p style="font-size: 0.9rem; margin-top: 20px;">Ingresa el código de acceso:</p>
+    <h2 style="margin-bottom: 10px;">MARKET InspirARTE</h2>
+    <p style="font-size: 1.1rem; font-weight: bold; color: var(--tigo-gold);">CULTURA ADN TIGO</p>
+    <p style="font-size: 0.9rem; margin-top: 20px;">Ingresa tu código de acceso:</p>
     <input type="password" id="pass-field" class="input-password" placeholder="••••">
-    <button onclick="verificarAcceso()" class="btn-principal" style="background: var(--tigo-gold); color: var(--tigo-blue); width: 80%;">ENTRAR</button>
+    <button onclick="verificarAcceso()" class="btn-principal" style="background: var(--tigo-gold); color: var(--tigo-blue); width: 80%;">DECODIFICAR ADN</button>
     <p style="font-size: 0.7rem; margin-top: 30px; opacity: 0.7;">Un producto de Enkanta2 "dos manos un encanto"</p>
 </div>
 
 <div class="container">
     <div id="pantalla-bienvenida">
-        <h2 style="color: var(--tigo-blue); text-align: center; margin-top: 0;">Bienvenidos al Market Inspirarte<br><small style="color: var(--tigo-light-blue);">CULTURA ADN TIGO</small></h2>
+        <h2 style="color: var(--tigo-blue); text-align: center; margin-top: 0;">Market InspirARTE<br><small style="color: var(--tigo-light-blue);">CULTURA ADN TIGO</small></h2>
         <p style="font-size: 0.9rem; color: #555;">Este no es solo un sitio web; es tu espacio para transformar el ADN TIGO en acciones reales.</p>
         
-        <h4 style="color: var(--tigo-blue); margin-bottom: 10px;">¿Cómo funciona tu ruta?</h4>
-        <div class="instrucciones-item">📍 <strong>Elige una capacidad:</strong> Explora los pasillos del Market.</div>
-        <div class="instrucciones-item">⚡ <strong>Acepta el Reto:</strong> Lee tu frase y activa tu compromiso diario.</div>
-        <div class="instrucciones-item">🚀 <strong>Sube de Nivel:</strong> La repetición crea hábito:
+        <h4 style="color: var(--tigo-blue); margin-bottom: 10px;">Evolución de tu ADN Cultural:</h4>
+        <div class="instrucciones-item">📍 <strong>Hélices ADN:</strong> Explora las capacidades del equipo.</div>
+        <div class="instrucciones-item">⚡ <strong>Acepta el Reto:</strong> Sincroniza tu comportamiento hoy.</div>
+        <div class="instrucciones-item">🚀 <strong>Sube de Nivel:</strong> La repetición integra el ADN:
             <div style="margin-top:10px; background: #f9f9f9; padding: 12px; border-radius: 12px; font-size: 0.85rem; border: 1px solid #eee;">
-                🌱 Iniciado: 0 - 6 días<br>
-                🌿 Avanzado: 7 - 13 días<br>
-                🌳 Maestro: 14 - 20 días<br>
-                👑 Leyenda: +21 días
+                🧬 Célula Base: 0 - 6 genes<br>
+                🏗️ Estructura: 7 - 13 genes<br>
+                ✅ ADN Integrado: 14 - 20 genes<br>
+                👑 Maestría ADN: +21 genes
             </div>
         </div>
 
-        <button onclick="cerrarBienvenida()" class="btn-principal" style="margin-top: 25px; background: var(--tigo-gold); color: var(--tigo-blue);">¡ENTENDIDO, VAMOS!</button>
+        <button onclick="cerrarBienvenida()" class="btn-principal" style="margin-top: 25px; background: var(--tigo-gold); color: var(--tigo-blue);">¡EMPEZAR SECUENCIA!</button>
     </div>
 
     <header>
@@ -393,7 +395,7 @@
         <div class="seccion-habito">
             <div style="font-size: 1.5rem; margin-bottom: 5px;">🔔</div>
             <strong style="color: var(--tigo-blue); font-size: 0.9rem; display: block;">PROGRAMA TU RECORDATORIO</strong>
-            <p style="font-size: 0.75rem; color: #666; margin: 5px 0 15px;">Crea el hábito. Elige una hora para recibir una alerta diaria:</p>
+            <p style="font-size: 0.75rem; color: #666; margin: 5px 0 15px;">Sincroniza tu ADN. Elige una hora para tu alerta diaria:</p>
             <div style="display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap;">
                 <input type="time" id="hora-alerta" class="input-hora" value="08:00">
                 <button onclick="crearAlertaCalendario()" class="btn-principal" style="margin-bottom: 0; padding: 10px 15px; font-size: 0.75rem; width: auto; background: var(--tigo-gold); color: var(--tigo-blue);">
@@ -402,7 +404,7 @@
             </div>
         </div>
 
-        <h3 style="color: var(--tigo-blue); margin-top: 0; font-size: 1rem;">Selecciona una Capacidad:</h3>
+        <h3 style="color: var(--tigo-blue); margin-top: 0; font-size: 1rem;">Selecciona una Capacidad ADN:</h3>
         <div class="grid-pasillos" id="grid-pasillos"></div>
         
         <a href="https://wa.me/573244173977?text=Hola%20equipo%20Enkanta2" target="_blank" class="btn-ayuda-soporte">🆘 NECESITO AYUDA</a>
@@ -416,17 +418,17 @@
         <div class="reto-main-card">
             <div id="frase-display" class="frase-quote"></div>
             <div style="background: #fdfdfd; padding: 20px; border-radius: 15px; border-left: 6px solid var(--tigo-gold); margin-bottom: 20px; text-align: left;">
-                <strong style="color: var(--tigo-blue); font-size: 0.8rem; display: block; margin-bottom: 8px;">⚡ MISIÓN SUGERIDA:</strong>
+                <strong style="color: var(--tigo-blue); font-size: 0.8rem; display: block; margin-bottom: 8px;">⚡ SECUENCIA SUGERIDA:</strong>
                 <div id="reto-display" style="font-size: 0.95rem; line-height: 1.4; color: #333; font-weight: 500;"></div>
             </div>
 
-            <button onclick="confirmarMision()" class="btn-principal">¡ACEPTO EL RETO!</button>
+            <button onclick="confirmarMision()" class="btn-principal">¡INTEGRAR A MI ADN TIGO!</button>
             
             <a id="btn-share-wa" href="#" target="_blank" class="btn-whatsapp">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="18" height="18"> COMPARTIR RETO
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="18" height="18"> COMPARTIR EN RED
             </a>
             
-            <button onclick="generarReto()" class="btn-secundario">🔄 VER OTRO RETO</button>
+            <button onclick="generarReto()" class="btn-secundario">🔄 VER OTRA SECUENCIA</button>
             <button onclick="volverMenu()" class="btn-secundario" style="border: none; background: transparent; color: #999;">← VOLVER AL MARKET</button>
         </div>
     </div>
@@ -434,9 +436,9 @@
 
 <div id="modal-confirmacion" class="custom-modal">
     <div id="modal-box" class="modal-content">
-        <span id="emoji-exito" style="font-size: 4rem; display: block; margin-bottom: 15px;">🚀</span>
-        <h2 id="titulo-modal" style="color: var(--tigo-blue); margin-top: 0;">¡RETO ACTIVADO!</h2>
-        <p id="texto-modal" style="color: #555; line-height: 1.6; margin-bottom: 25px;">Has aceptado el reto para hoy.<br><strong>¡Diciendo y Haciendo!</strong></p>
+        <span id="emoji-exito" style="font-size: 4rem; display: block; margin-bottom: 15px;">🧬</span>
+        <h2 id="titulo-modal" style="color: var(--tigo-blue); margin-top: 0;">¡ADN ACTUALIZADO!</h2>
+        <p id="texto-modal" style="color: #555; line-height: 1.6; margin-bottom: 25px;">Has integrado este comportamiento hoy.<br><strong>¡Viviendo el ADN Tigo!</strong></p>
         <button onclick="cerrarYVolver()" class="btn-principal" style="margin-bottom: 0;">¡ENTENDIDO!</button>
     </div>
 </div>
@@ -456,11 +458,11 @@
 
 <script>
     // ==========================================
-    // CONFIGURACIÓN DE LLAVEROS - ENKANTA2
+    // LLAVES - ENKANTA2 ORIGINALES
     // ==========================================
-    const LLAVES_DEMO = ["MarketDemo72", "TigoTemporal", "MarketCulFeb26"];
-    const LLAVES_PERMANENTE = ["Enkanta2VIP", "TIGO_FULL_2026", "AdminMarket"];
-    const DURACION_DEMO_HORAS = 72; // 3 DIAS
+    const LLAVES_DEMO = ["MarketDemo72", "TigoTemporal", "MarketCulFeb26", "bienestar3d"];
+    const LLAVES_PERMANENTE = ["Enkanta2VIP", "TIGO_FULL_2026", "AdminMarket", "market2026"];
+    const DURACION_DEMO_HORAS = 72;
 
     function mostrarErrorAcceso(msj) {
         document.getElementById('mensaje-error-texto').innerText = msj;
@@ -470,8 +472,8 @@
     function verificarAcceso() {
         const input = document.getElementById('pass-field').value.trim();
         const ahora = new Date().getTime();
-
         let blacklist = JSON.parse(localStorage.getItem('market_blacklist') || "[]");
+
         if (blacklist.includes(input)) {
             mostrarErrorAcceso("Esta llave de acceso ya fue utilizada y expiró. Ponte en contacto con Enkanta2.");
             return;
@@ -513,8 +515,7 @@
                 }
             }
             localStorage.removeItem('market_sesion_activa');
-            localStorage.removeItem('market_expiracion');
-            mostrarErrorAcceso("Tu llave de acceso temporal ha expirado. Contacta a Enkanta2 para renovarla.");
+            mostrarErrorAcceso("Tu llave temporal ha expirado. Contacta a Enkanta2.");
             return false;
         }
         return true;
@@ -527,19 +528,17 @@
     }
 
     // ==========================================
-    // LÓGICA DE NEGOCIO ORIGINAL
+    // CONFIGURACIÓN UI ADN TIGO
     // ==========================================
-    const capacidad = capacidadDB; 
     const configUI = {
-        agilidad: { nombre: "Agilidad", color: "color-agilidad" },
-        colaboracion: { nombre: "Colaboración", color: "color-colaboracion" },
-        foco: { nombre: "Foco", color: "color-foco" },
-        integridad: { nombre: "Integridad", color: "color-integridad" },
-        talento: { nombre: "Talento", color: "color-talento" }
+        agilidad: { nombre: "DICIENDO Y HACIENDO", color: "color-agilidad" },
+        colaboracion: { nombre: "JUNTOS PA' LAS QUE SEA", color: "color-colaboracion" },
+        integridad: { nombre: "NO TODO SE VALE", color: "color-integridad" },
+        talento: { nombre: "SOMOS TALENTO TIGO", color: "color-talento" }
     };
 
     let capActual = '';
-    let datos = JSON.parse(localStorage.getItem('market_data')) || { progreso: {}, bloqueos: {}, ultima_bienvenida: "" };
+    let datos = JSON.parse(localStorage.getItem('market_adn_data_v2')) || { progreso: {}, bloqueos: {}, ultima_bienvenida: "" };
 
     function checkBienvenida() {
         const hoy = new Date().toDateString();
@@ -549,15 +548,15 @@
     function mostrarBienvenida() { document.getElementById('pantalla-bienvenida').style.display = 'flex'; }
     function cerrarBienvenida() {
         datos.ultima_bienvenida = new Date().toDateString();
-        localStorage.setItem('market_data', JSON.stringify(datos));
+        localStorage.setItem('market_adn_data_v2', JSON.stringify(datos));
         document.getElementById('pantalla-bienvenida').style.display = 'none';
     }
 
     function obtenerNivel(puntos) {
-        if (puntos >= 21) return { texto: "Leyenda 👑", pts: puntos };
-        if (puntos >= 14) return { texto: "Maestro 🌳", pts: puntos };
-        if (puntos >= 7) return { texto: "Avanzado 🌿", pts: puntos };
-        return { texto: "Iniciado 🌱", pts: puntos };
+        if (puntos >= 21) return { texto: "Maestría ADN 👑", pts: puntos };
+        if (puntos >= 14) return { texto: "ADN Integrado ✅", pts: puntos };
+        if (puntos >= 7) return { texto: "Estructura 🏗️", pts: puntos };
+        return { texto: "Célula Base 🧬", pts: puntos };
     }
 
     function renderizarMenu() {
@@ -566,7 +565,7 @@
         grid.innerHTML = '';
         const hoy = new Date().toDateString();
 
-        for (let key in capacidad) {
+        for (let key in configUI) {
             const estaBloqueado = datos.bloqueos[key] === hoy;
             const nivel = obtenerNivel(datos.progreso[key] || 0);
             const ui = configUI[key];
@@ -600,7 +599,7 @@
     }
 
     function generarReto() {
-        const opciones = capacidad[capActual];
+        const opciones = capacidadDB[capActual];
         const actualTxt = document.getElementById('reto-display').innerText;
         let nuevoReto;
         do { nuevoReto = opciones[Math.floor(Math.random() * opciones.length)]; } 
@@ -609,7 +608,7 @@
         document.getElementById('frase-display').innerText = `"${nuevoReto.frase}"`;
         document.getElementById('reto-display').innerText = nuevoReto.reto;
         
-        const msj = encodeURIComponent(`🚀 *RETO ADN TIGO*\n\n"${nuevoReto.frase}"\n\n*Acción:* ${nuevoReto.reto}`);
+        const msj = encodeURIComponent(`🧬 *ADN TIGO - SECUENCIA ACTIVADA*\n\n"${nuevoReto.frase}"\n\n*Acción:* ${nuevoReto.reto}`);
         document.getElementById('btn-share-wa').href = `https://wa.me/?text=${msj}`;
     }
 
@@ -617,14 +616,14 @@
         const hoy = new Date().toDateString();
         datos.progreso[capActual] = (datos.progreso[capActual] || 0) + 1;
         datos.bloqueos[capActual] = hoy;
-        localStorage.setItem('market_data', JSON.stringify(datos));
+        localStorage.setItem('market_adn_data_v2', JSON.stringify(datos));
         
         if(datos.progreso[capActual] >= 21) {
             document.getElementById('emoji-exito').innerText = "👑";
-            confetti({ particleCount: 400, spread: 120 });
+            confetti({ particleCount: 400, spread: 120, colors:['#00377d', '#f3b01a'] });
         } else {
-            document.getElementById('emoji-exito').innerText = "🚀";
-            confetti({ particleCount: 150, spread: 70 });
+            document.getElementById('emoji-exito').innerText = "🧬";
+            confetti({ particleCount: 150, spread: 70, colors:['#00377d', '#00a1e1'] });
         }
         document.getElementById('modal-confirmacion').style.display = 'flex';
     }
@@ -643,7 +642,7 @@
     function crearAlertaCalendario() {
         const hora = document.getElementById('hora-alerta').value;
         const [h, m] = hora.split(':');
-        const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=Mi%20Reto%20ADN%20Tigo&recur=RRULE:FREQ=DAILY`;
+        const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=Mi%20Secuencia%20ADN%20Tigo&recur=RRULE:FREQ=DAILY`;
         window.open(googleUrl, '_blank');
     }
 
