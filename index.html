@@ -6,7 +6,6 @@
     <title>Market Inspirarte - Bienestar</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* ESTILOS ORIGINALES MANTENIDOS */
         :root {
             --cafe: #6d4c41; --cafe-claro: #8d6e63; --fondo: #fdfaf5;
             --oro: #d4af37; --whatsapp: #25D366; --blanco: #ffffff;
@@ -15,37 +14,33 @@
 
         body { font-family: 'Montserrat', sans-serif; background-color: #e0e0e0; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
         .container { width: 100%; max-width: 450px; background: var(--blanco); box-shadow: 0 0 50px rgba(0,0,0,0.2); display: flex; flex-direction: column; position: relative; }
-        
         header { background: linear-gradient(135deg, var(--cafe), var(--cafe-claro)); color: white; text-align: center; padding: 30px 20px; border-bottom: 6px solid var(--oro); }
 
-        #pantalla-login { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--cafe); z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; padding: 30px; text-align: center; box-sizing: border-box; }
+        #pantalla-login { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--cafe); z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; padding: 30px; text-align: center; }
         #input-password { width: 100%; max-width: 280px; padding: 15px; border-radius: 10px; border: none; text-align: center; font-size: 1.2rem; margin-bottom: 20px; }
 
         #menu-principal { padding: 20px; display: block; }
-        .grid-pasillos { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
-        .card-menu { background: white; border-radius: 15px; padding: 15px; border: 1px solid #eee; text-align: center; cursor: pointer; transition: transform 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .card-menu:active { transform: scale(0.95); }
-        
-        .btn-categoria { width: 100%; padding: 10px; border: none; border-radius: 10px; color: white; font-weight: bold; margin-bottom: 8px; font-size: 0.7rem; letter-spacing: 1px; }
+        .grid-pasillos { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .card-menu { background: white; border-radius: 15px; padding: 15px; border: 1px solid #eee; text-align: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .btn-categoria { width: 100%; padding: 10px; border: none; border-radius: 10px; color: white; font-weight: bold; margin-bottom: 8px; font-size: 0.65rem; }
         
         .progress-container { width: 100%; background: #eee; height: 8px; border-radius: 10px; overflow: hidden; margin: 10px 0; }
         .progress-fill { width: 0%; height: 100%; transition: width 0.8s ease; }
 
         #pantalla-reto { display: none; padding: 20px; background: var(--fondo); flex-grow: 1; flex-direction: column; }
-        .reto-main-card { background: white; border-radius: 25px; padding: 25px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); text-align: center; position: relative; }
-        
+        .reto-main-card { background: white; border-radius: 25px; padding: 25px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); text-align: center; }
         .frase-quote { font-size: 1.1rem; font-style: italic; margin-bottom: 20px; min-height: 80px; display: flex; align-items: center; justify-content: center; line-height: 1.4; color: #333; }
         
         .btn-whatsapp { background: var(--whatsapp); color: white; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 0.85rem; border:none; cursor:pointer; width: 100%; justify-content: center; }
+        .btn-soporte { background: #f1f1f1; color: #666; padding: 8px 15px; border-radius: 15px; text-decoration: none; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 5px; border: 1px solid #ddd; margin-bottom: 15px; }
         
         .reto-instruccion { background: #fff9c4; padding: 15px; border-left: 5px solid #fbc02d; text-align: left; margin-bottom: 15px; border-radius: 0 10px 10px 0; }
+        .btn-principal { width: 100%; padding: 18px; border-radius: 30px; border: none; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
+        .btn-secundario { width: 100%; padding: 12px; background: none; border: 2px solid #ddd; border-radius: 30px; color: #888; margin-top: 10px; cursor: pointer; }
+
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:6000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background:white; padding:25px; border-radius:20px; text-align:left; max-width:400px; width: 100%; }
         
-        .btn-principal { width: 100%; padding: 18px; border-radius: 30px; border: none; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
-        .btn-secundario { width: 100%; padding: 12px; background: none; border: 2px solid #ddd; border-radius: 30px; color: #888; font-weight: bold; margin-top: 10px; cursor: pointer; }
-
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 6000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: white; padding: 30px; border-radius: 20px; text-align: center; width: 100%; max-width: 400px; }
-
         .color-resiliencia { background-color: var(--resiliencia); }
         .color-sabiduria { background-color: var(--sabiduria); }
         .color-calma { background-color: var(--calma); }
@@ -63,88 +58,97 @@
 
 <div class="container">
     <header>
-        <h1 style="margin: 0; font-size: 1.5rem;">MARKET INSPIRARTE</h1>
-        <p style="margin: 5px 0 0; font-size: 0.8rem; opacity: 0.9;">By Enkanta2 "dos manos un encanto"</p>
+        <h1 style="margin:0; font-size: 1.5rem;">MARKET INSPIRARTE</h1>
+        <p style="margin:5px 0 0; opacity: 0.9;">By Enkanta2 "dos manos un encanto"</p>
     </header>
 
     <div id="menu-principal">
-        <h3 style="color: var(--cafe); margin-bottom: 20px;">PASILLOS DE BIENESTAR</h3>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="https://wa.me/573164917992" target="_blank" class="btn-soporte">🎧 Soporte</a>
+            <button onclick="abrirInfo()" style="background: none; border: 1px solid #ccc; border-radius: 50%; width: 32px; height: 32px; color: #888; font-weight: bold; cursor: pointer;">i</button>
+        </div>
+
         <div class="grid-pasillos">
             <div class="card-menu" onclick="irAPasillo('resiliencia')">
-                <div class="btn-categoria color-resiliencia">RESILIENCIA</div>
+                <div class="btn-categoria color-resiliencia">RESISTENCIA / RESILIENCIA</div>
                 <div class="progress-container"><div id="bar-menu-resiliencia" class="progress-fill color-resiliencia"></div></div>
-                <p style="font-size: 0.7rem;"><span id="mini-dias-resiliencia">0</span>/21 misiones</p>
+                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-resiliencia">0</span> misiones</p>
             </div>
             <div class="card-menu" onclick="irAPasillo('sabiduria')">
-                <div class="btn-categoria color-sabiduria">SABIDURÍA</div>
+                <div class="btn-categoria color-sabiduria">VISIÓN / SABIDURÍA</div>
                 <div class="progress-container"><div id="bar-menu-sabiduria" class="progress-fill color-sabiduria"></div></div>
-                <p style="font-size: 0.7rem;"><span id="mini-dias-sabiduria">0</span>/21 misiones</p>
+                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-sabiduria">0</span> misiones</p>
             </div>
             <div class="card-menu" onclick="irAPasillo('calma')">
-                <div class="btn-categoria color-calma">CALMA</div>
+                <div class="btn-categoria color-calma">EQUILIBRIO / CALMA</div>
                 <div class="progress-container"><div id="bar-menu-calma" class="progress-fill color-calma"></div></div>
-                <p style="font-size: 0.7rem;"><span id="mini-dias-calma">0</span>/21 misiones</p>
+                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-calma">0</span> misiones</p>
             </div>
             <div class="card-menu" onclick="irAPasillo('empatia')">
-                <div class="btn-categoria color-empatia">EMPATÍA</div>
+                <div class="btn-categoria color-empatia">CONEXIÓN / EMPATÍA</div>
                 <div class="progress-container"><div id="bar-menu-empatia" class="progress-fill color-empatia"></div></div>
-                <p style="font-size: 0.7rem;"><span id="mini-dias-empatia">0</span>/21 misiones</p>
+                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-empatia">0</span> misiones</p>
             </div>
-        </div>
-        
-        <div style="margin-top: 30px; text-align: center;">
-            <button onclick="window.open('https://wa.me/573000000000', '_blank')" class="btn-whatsapp" style="background: var(--cafe); opacity: 0.8;">
-                🛠️ Soporte Técnico
-            </button>
         </div>
     </div>
 
     <div id="pantalla-reto">
-        <h2 id="titulo-pasillo" style="text-align: center; color: var(--cafe); font-size: 1.2rem;"></h2>
+        <h2 id="titulo-pasillo" style="text-align:center; color: var(--cafe); text-transform: uppercase; font-size: 1.1rem;"></h2>
         <div class="reto-main-card">
             <div id="frase-display" class="frase-quote"></div>
-            <button onclick="compartirWhatsApp()" class="btn-whatsapp">Compartir Superpoder</button>
+            <button onclick="compartirWhatsApp()" class="btn-whatsapp">📱 Compartir Superpoder</button>
             <div class="reto-instruccion">
-                <strong style="font-size: 0.8rem;">⚡ ACCIÓN DE HOY:</strong>
+                <strong>⚡ ACCIÓN DE HOY:</strong>
                 <p id="reto-display" style="margin-top: 5px;"></p>
             </div>
             <button id="btn-logrado" onclick="completarReto()" class="btn-principal">¡ACTIVO MI SUPERPODER!</button>
-            <button class="btn-secundario" onclick="mostrarMenu()">Volver</button>
+            <button class="btn-secundario" onclick="seleccionarFraseNueva(); actualizarInterfaz();">🔄 Otra opción</button>
+            <button class="btn-secundario" onclick="mostrarMenu()" style="border:none;">← Volver</button>
         </div>
     </div>
 </div>
 
-<div id="modal-insignia" class="modal">
+<div id="modal-info" class="modal">
     <div class="modal-content">
+        <h2 style="text-align:center; color: var(--cafe);">🌟 Bienvenidos al Market</h2>
+        <p>Este espacio es creado por <strong>Enkanta2 "dos manos un encanto"</strong> para fortalecer tu bienestar diario.</p>
+        <h3>Tu Ruta de Bienestar:</h3>
+        <p>🌱 <strong>Iniciado:</strong> 0 - 6 días<br>🌿 <strong>Aprendiz:</strong> 7 - 13 días<br>🌳 <strong>Practicante:</strong> 14 - 20 días<br>👑 <strong>Maestro:</strong> 21+ días</p>
+        <button onclick="cerrarInfo()" class="btn-principal" style="background:var(--cafe)">¡VAMOS!</button>
+    </div>
+</div>
+
+<div id="modal-insignia" class="modal">
+    <div class="modal-content" style="text-align:center;">
         <div style="font-size: 4rem;">⚡</div>
         <h2>¡PODER ACTIVADO!</h2>
-        <p>Regresando al menú principal...</p>
+        <p>Tu compromiso ha sido guardado.<br>Regresando al menú...</p>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
-// BASE DE DATOS EXTENDIDA DESDE frasesDB.docx 
 const frasesDB = {
     "resiliencia": [
         {"id": 1, "frase": "No es la carga lo que te rompe, sino la forma en que la llevas.", "reto": "Hoy, identifica una responsabilidad pesada y decide afrontarla con una sonrisa."},
         {"id": 2, "frase": "La caída es un accidente, mantenerse en el suelo es una elección.", "reto": "Levántate 5 minutos antes de lo habitual para demostrarte que tienes el control."},
-        {"id": 10, "frase": "La perseverancia es el trabajo duro que haces después de cansarte.", "reto": "Termina esa tarea que has estado posponiendo por días."},
-        {"id": 21, "frase": "Lo que importa no es lo que te quitan, sino lo que haces con lo que te queda.", "reto": "Haz algo creativo con los recursos que tienes a mano ahora mismo."},
-        {"id": 41, "frase": "Eres más fuerte de lo que crees y más capaz de lo que imaginas.", "reto": "Anota tres logros personales de los que te sientas muy orgulloso/a."},
-        {"id": 62, "frase": "La vida es 10% lo que te pasa y 90% cómo reaccionas.", "reto": "Hoy, decide reaccionar con curiosidad en lugar de con enojo."}
+        {"id": 4, "frase": "Si el viento no sirve, usa los remos.", "reto": "Cambia tu plan de hoy si surge un obstáculo, en lugar de rendirte."},
+        {"id": 42, "frase": "La persistencia vence a la resistencia.", "reto": "Intenta una vez más eso que no te salió a la primera hoy."},
+        {"id": 44, "frase": "Un mar calmado no hace expertos.", "reto": "Afronta el problema más difícil de hoy con curiosidad en vez de miedo."}
     ],
     "sabiduria": [
-        {"id": 192, "frase": "El mayor paso hacia la sabiduría es el asombro.", "reto": "Mira un objeto cotidiano como si fuera la primera vez que lo ves."},
-        {"id": 200, "frase": "Solo los sabios son libres.", "reto": "Identifica un hábito que te esclaviza y redúcelo hoy."}
+        {"id": 26, "frase": "La sabiduría no es el resultado de la edad, sino de la reflexión.", "reto": "Dedica 10 minutos a escribir qué aprendiste en el último mes."},
+        {"id": 41, "frase": "El silencio es a menudo la mejor respuesta.", "reto": "Ante un comentario molesto, elige respirar y callar."},
+        {"id": 43, "frase": "La verdadera maestría es dominar tus emociones.", "reto": "Identifica qué sientes ahora y ponle nombre."}
     ],
     "calma": [
-        {"id": 78, "frase": "Tu calma es tu superpoder.", "reto": "Habla en un tono de voz más bajo y pausado de lo normal hoy."},
-        {"id": 125, "frase": "El presente es el único lugar donde existe la paz.", "reto": "Mira un objeto cercano y describe 5 detalles que nunca habías visto."}
+        {"id": 137, "frase": "El ahora es el único lugar donde existe la paz.", "reto": "Siente el contacto de tus pies con el suelo ahora mismo."},
+        {"id": 40, "frase": "Camina al menos 15 minutos seguidos hoy.", "reto": "Sal a caminar y enfócate solo en tu respiración."},
+        {"id": 141, "frase": "Un corazón tranquilo vive más.", "reto": "Pon tu mano en el corazón y siente sus latidos."}
     ],
     "empatia": [
         {"id": 35, "frase": "La paz comienza con una sonrisa.", "reto": "Saluda por su nombre a la persona que te atienda hoy."},
-        {"id": 51, "frase": "La empatía es el mayor facilitador de la paz.", "reto": "Escucha a alguien hoy sin intentar darle consejos, solo valida lo que siente."}
+        {"id": 47, "frase": "Tu sonrisa es tu mejor carta de presentación.", "reto": "Sonríe genuinamente a las primeras 5 personas que veas."}
     ]
 };
 
@@ -155,32 +159,53 @@ function verificarAcceso() {
     if (document.getElementById('input-password').value.toLowerCase() === "marketfeb26") {
         localStorage.setItem('acceso_market', 'true');
         document.getElementById('pantalla-login').style.display = 'none';
+        if (!localStorage.getItem('guia_leida')) abrirInfo();
         actualizarMenuPrincipal();
     }
 }
 
-window.onload = () => { if (localStorage.getItem('acceso_market') === 'true') document.getElementById('pantalla-login').style.display = 'none'; actualizarMenuPrincipal(); };
+window.onload = () => {
+    if (localStorage.getItem('acceso_market') === 'true') {
+        document.getElementById('pantalla-login').style.display = 'none';
+        actualizarMenuPrincipal();
+    }
+};
 
 function irAPasillo(nombre) {
     pasilloActual = nombre;
     document.getElementById('menu-principal').style.display = 'none';
     document.getElementById('pantalla-reto').style.display = 'flex';
-    if (!fraseAsignada[pasilloActual]) fraseAsignada[pasilloActual] = frasesDB[pasilloActual][Math.floor(Math.random() * frasesDB[pasilloActual].length)];
+    seleccionarFraseNueva();
     actualizarInterfaz();
 }
 
-function mostrarMenu() {
-    document.getElementById('menu-principal').style.display = 'block';
-    document.getElementById('pantalla-reto').style.display = 'none';
-    actualizarMenuPrincipal();
+function seleccionarFraseNueva() {
+    const lista = frasesDB[pasilloActual];
+    fraseAsignada[pasilloActual] = lista[Math.floor(Math.random() * lista.length)];
 }
 
 function actualizarInterfaz() {
     const hoy = fraseAsignada[pasilloActual];
-    document.getElementById('titulo-pasillo').innerText = pasilloActual.toUpperCase();
+    const titulos = {
+        'resiliencia': 'RESISTENCIA / RESILIENCIA',
+        'sabiduria': 'VISIÓN / SABIDURÍA',
+        'calma': 'EQUILIBRIO / CALMA',
+        'empatia': 'CONEXIÓN / EMPATÍA'
+    };
+    document.getElementById('titulo-pasillo').innerText = titulos[pasilloActual];
     document.getElementById('frase-display').innerText = `"${hoy.frase}"`;
     document.getElementById('reto-display').innerText = hoy.reto;
-    document.getElementById('btn-logrado').style.backgroundColor = `var(--${pasilloActual})`;
+    
+    const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
+    const lista = progreso[pasilloActual] || [];
+    const btn = document.getElementById('btn-logrado');
+    const fecha = new Date().toLocaleDateString('en-CA');
+
+    if (lista.includes(fecha)) {
+        btn.disabled = true; btn.innerText = "🤝 ACTIVADO"; btn.style.backgroundColor = "#ccc";
+    } else {
+        btn.disabled = false; btn.innerText = "¡ACTIVO MI SUPERPODER!"; btn.style.backgroundColor = `var(--${pasilloActual})`;
+    }
 }
 
 function completarReto() {
@@ -193,7 +218,6 @@ function completarReto() {
         localStorage.setItem('progreso_market', JSON.stringify(progreso));
         confetti({ particleCount: 150, spread: 70 });
         
-        // MOSTRAR MODAL Y VOLVER AUTOMÁTICAMENTE TRAS 3 SEGUNDOS
         document.getElementById('modal-insignia').style.display = 'flex';
         setTimeout(() => {
             document.getElementById('modal-insignia').style.display = 'none';
@@ -203,8 +227,14 @@ function completarReto() {
 }
 
 function compartirWhatsApp() {
-    const msg = encodeURIComponent(`*MI SUPERPODER DE HOY*\n"${fraseAsignada[pasilloActual].frase}"\n\nBy Enkanta2`);
+    const msg = encodeURIComponent(`🚀 *MARKET INSPIRARTE*\n"${fraseAsignada[pasilloActual].frase}"\n\n⚡ *Reto:* ${fraseAsignada[pasilloActual].reto}`);
     window.open(`https://wa.me/?text=${msg}`, '_blank');
+}
+
+function mostrarMenu() {
+    document.getElementById('menu-principal').style.display = 'block';
+    document.getElementById('pantalla-reto').style.display = 'none';
+    actualizarMenuPrincipal();
 }
 
 function actualizarMenuPrincipal() {
@@ -212,9 +242,12 @@ function actualizarMenuPrincipal() {
     ['resiliencia', 'sabiduria', 'calma', 'empatia'].forEach(p => {
         const cant = (progreso[p] || []).length;
         document.getElementById(`mini-dias-${p}`).innerText = cant;
-        document.getElementById(`bar-menu-${p}`).style.width = Math.min((cant / 21) * 100, 100) + "%";
+        document.getElementById(`bar-menu-${p}`).style.width = Math.min((cant/21)*100, 100) + "%";
     });
 }
+
+function abrirInfo() { document.getElementById('modal-info').style.display = 'flex'; }
+function cerrarInfo() { document.getElementById('modal-info').style.display = 'none'; localStorage.setItem('guia_leida', 'true'); }
 </script>
 </body>
 </html>
