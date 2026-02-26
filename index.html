@@ -138,38 +138,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
-// BASE DE DATOS EXTENDIDA (Simulando carga de frasesDB)
-const frasesDB = {
-    "resiliencia": [
-        {"id": 1, "frase": "No es la carga lo que te rompe, sino la forma en que la llevas.", "reto": "Hoy, identifica una responsabilidad pesada y decide afrontarla con una sonrisa."},
-        {"id": 2, "frase": "La caída es un accidente, mantenerse en el suelo es una elección.", "reto": "Levántate 5 minutos antes de lo habitual para demostrarte que tienes el control."},
-        {"id": 4, "frase": "Si el viento no sirve, usa los remos.", "reto": "Cambia tu plan de hoy si surge un obstáculo, en lugar de rendirte."},
-        {"id": 42, "frase": "La persistencia vence a la resistencia.", "reto": "Intenta una vez más eso que no te salió a la primera hoy."},
-        {"id": 10, "frase": "La perseverancia es el trabajo duro que haces después de cansarte.", "reto": "Termina esa tarea que has estado posponiendo por días."},
-        {"id": 62, "frase": "La vida es 10% lo que te pasa y 90% cómo reaccionas.", "reto": "Hoy, decide reaccionar con curiosidad en lugar de con enojo."}
-    ],
-    "sabiduria": [
-        {"id": 26, "frase": "La sabiduría no es el resultado de la edad, sino de la reflexión.", "reto": "Dedica 10 minutos a escribir qué aprendiste en el último mes."},
-        {"id": 41, "frase": "El silencio es a menudo la mejor respuesta.", "reto": "Ante un comentario molesto, elige respirar y callar."},
-        {"id": 43, "frase": "La verdadera maestría es dominar tus emociones.", "reto": "Identifica qué sientes ahora y ponle nombre."},
-        {"id": 192, "frase": "El mayor paso hacia la sabiduría es el asombro.", "reto": "Mira un objeto cotidiano como si fuera la primera vez que lo ves."}
-    ],
-    "calma": [
-        {"id": 137, "frase": "El ahora es el único lugar donde existe la paz.", "reto": "Siente el contacto de tus pies con el suelo ahora mismo."},
-        {"id": 125, "frase": "El presente es el único lugar donde existe la paz.", "reto": "Mira un objeto cercano y describe 5 detalles que nunca habías visto."},
-        {"id": 141, "frase": "Un corazón tranquilo vive más.", "reto": "Pon tu mano en el corazón y siente sus latidos."},
-        {"id": 78, "frase": "Tu calma es tu superpoder.", "reto": "Habla en un tono de voz más bajo y pausado de lo normal hoy."}
-    ],
-    "empatia": [
-        {"id": 35, "frase": "La paz comienza con una sonrisa.", "reto": "Saluda por su nombre a la persona que te atienda hoy."},
-        {"id": 51, "frase": "La empatía es el mayor facilitador de la paz.", "reto": "Escucha a alguien hoy sin intentar darle consejos, solo valida lo que siente."},
-        {"id": 47, "frase": "Tu sonrisa es tu mejor carta de presentación.", "reto": "Sonríe genuinamente a las primeras 5 personas que veas."}
-    ]
-};
-
 let pasilloActual = '';
 let fraseAsignada = {};
-
+<script src="frases.js"></script>
 function verificarAcceso() {
     if (document.getElementById('input-password').value.toLowerCase() === "marketfeb26") {
         localStorage.setItem('acceso_market', 'true');
