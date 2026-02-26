@@ -39,7 +39,8 @@
         .btn-secundario { width: 100%; padding: 12px; background: none; border: 2px solid #ddd; border-radius: 30px; color: #888; margin-top: 10px; cursor: pointer; }
 
         .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:6000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background:white; padding:25px; border-radius:20px; text-align:left; max-width:400px; width: 100%; }
+        .modal-content { background:white; padding:25px; border-radius:20px; text-align:left; max-width:400px; width: 100%; max-height: 85vh; overflow-y: auto; }
+        .alerta-seguridad { background: #ffebee; border: 1px solid #ffcdd2; padding: 10px; border-radius: 10px; font-size: 0.75rem; color: #c62828; margin: 10px 0; }
         
         .color-resiliencia { background-color: var(--resiliencia); }
         .color-sabiduria { background-color: var(--sabiduria); }
@@ -63,7 +64,7 @@
     </header>
 
     <div id="menu-principal">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
             <a href="https://wa.me/573164917992" target="_blank" class="btn-soporte">🎧 Soporte</a>
             <button onclick="abrirInfo()" style="background: none; border: 1px solid #ccc; border-radius: 50%; width: 32px; height: 32px; color: #888; font-weight: bold; cursor: pointer;">i</button>
         </div>
@@ -112,9 +113,18 @@
     <div class="modal-content">
         <h2 style="text-align:center; color: var(--cafe);">🌟 Bienvenidos al Market</h2>
         <p>Este espacio es creado por <strong>Enkanta2 "dos manos un encanto"</strong> para fortalecer tu bienestar diario.</p>
+        
+        <div class="alerta-seguridad">
+            <strong>🔒 SEGURIDAD Y PRIVACIDAD:</strong><br>
+            • No recopilamos datos personales ni contraseñas.<br>
+            • Tu progreso se guarda localmente en este navegador.<br>
+            • <strong>Si borras el historial o caché, perderás tu avance</strong> y deberás ingresar de nuevo con tu clave.
+        </div>
+
         <h3>Tu Ruta de Bienestar:</h3>
         <p>🌱 <strong>Iniciado:</strong> 0 - 6 días<br>🌿 <strong>Aprendiz:</strong> 7 - 13 días<br>🌳 <strong>Practicante:</strong> 14 - 20 días<br>👑 <strong>Maestro:</strong> 21+ días</p>
-        <button onclick="cerrarInfo()" class="btn-principal" style="background:var(--cafe)">¡VAMOS!</button>
+        
+        <button onclick="cerrarInfo()" class="btn-principal" style="background:var(--cafe)">¡ESTOY LISTO!</button>
     </div>
 </div>
 
@@ -122,32 +132,37 @@
     <div class="modal-content" style="text-align:center;">
         <div style="font-size: 4rem;">⚡</div>
         <h2>¡PODER ACTIVADO!</h2>
-        <p>Tu compromiso ha sido guardado.<br>Regresando al menú...</p>
+        <p>Tu compromiso ha sido guardado.<br>Regresando al menú principal...</p>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
+// BASE DE DATOS EXTENDIDA (Simulando carga de frasesDB)
 const frasesDB = {
     "resiliencia": [
         {"id": 1, "frase": "No es la carga lo que te rompe, sino la forma en que la llevas.", "reto": "Hoy, identifica una responsabilidad pesada y decide afrontarla con una sonrisa."},
         {"id": 2, "frase": "La caída es un accidente, mantenerse en el suelo es una elección.", "reto": "Levántate 5 minutos antes de lo habitual para demostrarte que tienes el control."},
         {"id": 4, "frase": "Si el viento no sirve, usa los remos.", "reto": "Cambia tu plan de hoy si surge un obstáculo, en lugar de rendirte."},
         {"id": 42, "frase": "La persistencia vence a la resistencia.", "reto": "Intenta una vez más eso que no te salió a la primera hoy."},
-        {"id": 44, "frase": "Un mar calmado no hace expertos.", "reto": "Afronta el problema más difícil de hoy con curiosidad en vez de miedo."}
+        {"id": 10, "frase": "La perseverancia es el trabajo duro que haces después de cansarte.", "reto": "Termina esa tarea que has estado posponiendo por días."},
+        {"id": 62, "frase": "La vida es 10% lo que te pasa y 90% cómo reaccionas.", "reto": "Hoy, decide reaccionar con curiosidad en lugar de con enojo."}
     ],
     "sabiduria": [
         {"id": 26, "frase": "La sabiduría no es el resultado de la edad, sino de la reflexión.", "reto": "Dedica 10 minutos a escribir qué aprendiste en el último mes."},
         {"id": 41, "frase": "El silencio es a menudo la mejor respuesta.", "reto": "Ante un comentario molesto, elige respirar y callar."},
-        {"id": 43, "frase": "La verdadera maestría es dominar tus emociones.", "reto": "Identifica qué sientes ahora y ponle nombre."}
+        {"id": 43, "frase": "La verdadera maestría es dominar tus emociones.", "reto": "Identifica qué sientes ahora y ponle nombre."},
+        {"id": 192, "frase": "El mayor paso hacia la sabiduría es el asombro.", "reto": "Mira un objeto cotidiano como si fuera la primera vez que lo ves."}
     ],
     "calma": [
         {"id": 137, "frase": "El ahora es el único lugar donde existe la paz.", "reto": "Siente el contacto de tus pies con el suelo ahora mismo."},
-        {"id": 40, "frase": "Camina al menos 15 minutos seguidos hoy.", "reto": "Sal a caminar y enfócate solo en tu respiración."},
-        {"id": 141, "frase": "Un corazón tranquilo vive más.", "reto": "Pon tu mano en el corazón y siente sus latidos."}
+        {"id": 125, "frase": "El presente es el único lugar donde existe la paz.", "reto": "Mira un objeto cercano y describe 5 detalles que nunca habías visto."},
+        {"id": 141, "frase": "Un corazón tranquilo vive más.", "reto": "Pon tu mano en el corazón y siente sus latidos."},
+        {"id": 78, "frase": "Tu calma es tu superpoder.", "reto": "Habla en un tono de voz más bajo y pausado de lo normal hoy."}
     ],
     "empatia": [
         {"id": 35, "frase": "La paz comienza con una sonrisa.", "reto": "Saluda por su nombre a la persona que te atienda hoy."},
+        {"id": 51, "frase": "La empatía es el mayor facilitador de la paz.", "reto": "Escucha a alguien hoy sin intentar darle consejos, solo valida lo que siente."},
         {"id": 47, "frase": "Tu sonrisa es tu mejor carta de presentación.", "reto": "Sonríe genuinamente a las primeras 5 personas que veas."}
     ]
 };
