@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Inspirarte - La CHISPA para iniciar tu día</title>
+    <title>Market Inspirarte - Bienestar</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -13,6 +13,7 @@
             --oro: #d4af37;
             --whatsapp: #25D366;
             --blanco: #ffffff;
+            --azul-oscuro: #00377d; /* Para textos de énfasis */
         }
 
         body {
@@ -75,7 +76,7 @@
 
         .btn-categoria {
             width: 100%; padding: 10px; border: none; border-radius: 10px;
-            color: white; font-weight: bold; margin-bottom: 8px;
+            color: white; font-weight: bold; margin-bottom: 8px; font-size: 0.7rem;
         }
 
         .progress-container {
@@ -112,18 +113,24 @@
             text-align: left; margin-bottom: 15px;
         }
 
+        /* Colores Pasillos */
         .color-resiliencia { background-color: #4caf50; }
         .color-sabiduria { background-color: #0288d1; }
         .color-calma { background-color: #ff7043; }
         .color-empatia { background-color: #fbc02d; }
-        .color-vip { background-color: var(--oro); }
 
-        /* MODAL INFO ESTILIZADO */
-        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:6000; justify-content: center; align-items: flex-start; padding: 20px; overflow-y: auto; }
-        .modal-content { background:white; padding:30px; border-radius:20px; text-align:left; max-width:400px; width: 100%; margin-top: 20px; }
-        .modal-content h2 { color: var(--cafe); font-size: 1.3rem; margin-top: 0; }
-        .modal-content h3 { color: var(--cafe-claro); font-size: 1rem; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        .modal-content p, .modal-content li { font-size: 0.85rem; color: #555; line-height: 1.5; }
+        /* MODALES */
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:6000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background:white; padding:30px; border-radius:20px; text-align:center; max-width:400px; width: 100%; }
+
+        /* ALERTA DIARIA ESTILO CULTURA */
+        #alerta-diaria {
+            display: none; background: #fff4e5; border: 1px solid #ffa726;
+            padding: 15px; margin: 10px 20px; border-radius: 10px;
+            font-size: 0.85rem; color: #6d4c41; text-align: center;
+            position: relative; animation: slideDown 0.5s ease;
+        }
+        @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
@@ -135,7 +142,6 @@
     <input type="text" id="input-password" placeholder="Ej: MarketFeb26">
     <button onclick="verificarAcceso()" style="background: var(--oro); color: var(--cafe); border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; cursor: pointer; width: 100%; max-width: 280px; margin-bottom: 20px;">ENTRAR</button>
     <p id="error-login" style="color: #ff8a80; margin-top: 0; margin-bottom: 15px; display: none; font-weight: bold;">⚠️ Clave incorrecta</p>
-    <a href="javascript:void(0)" onclick="contactarSoporte()" style="color: white; font-size: 0.8rem; text-decoration: underline; opacity: 0.7;">¿Perdiste tu llave o la clave no funciona?</a>
 </div>
 
 <div class="container">
@@ -144,44 +150,42 @@
         <p style="margin:5px 0 0; opacity: 0.9;">La CHISPA para iniciar tu día</p>
     </header>
 
+    <div id="alerta-diaria">
+        🔔 <strong>¡Tu Superpoder te espera!</strong> <br>
+        No has activado tu compromiso de hoy.
+    </div>
+
     <div id="menu-principal">
         <div style="text-align: right; padding: 0 0 15px 0;">
             <button onclick="abrirInfo()" style="background: none; border: 1px solid #ccc; border-radius: 50%; width: 32px; height: 32px; color: #888; font-weight: bold; cursor: pointer; font-size: 1.1rem;">i</button>
         </div>
 
         <div id="card-vip" class="card-vip" onclick="irAPasillo('vip')">
-            <h3 style="margin:0; color: #b38728;">✨ PASILLO VIP: MAESTRÍA ✨</h3>
-            <p style="font-size: 0.8rem; margin: 5px 0 0;">¡LOGRASTE EL EQUILIBRIO HOY!</p>
+            <h3 style="margin:0; color: #b38728;">✨ PASILLO VIP ACTIVADO ✨</h3>
+            <p style="font-size: 0.8rem; margin: 5px 0 0;">¡ESTÁS DOMINANDO TU BIENESTAR!</p>
         </div>
 
         <div class="grid-pasillos">
             <div class="card-menu" onclick="irAPasillo('resiliencia')">
-                <div class="btn-categoria color-resiliencia">RESILIENCIA</div>
+                <div class="btn-categoria color-resiliencia">PODER / RESILIENCIA</div>
                 <div class="progress-container"><div id="bar-menu-resiliencia" class="progress-fill color-resiliencia"></div></div>
-                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-resiliencia">0</span> días logrados</p>
+                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-resiliencia">0</span> misiones</p>
             </div>
             <div class="card-menu" onclick="irAPasillo('sabiduria')">
-                <div class="btn-categoria color-sabiduria">SABIDURÍA</div>
+                <div class="btn-categoria color-sabiduria">PODER / VISIÓN</div>
                 <div class="progress-container"><div id="bar-menu-sabiduria" class="progress-fill color-sabiduria"></div></div>
-                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-sabiduria">0</span> días logrados</p>
+                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-sabiduria">0</span> misiones</p>
             </div>
             <div class="card-menu" onclick="irAPasillo('calma')">
-                <div class="btn-categoria color-calma">CALMA</div>
+                <div class="btn-categoria color-calma">PODER / EQUILIBRIO</div>
                 <div class="progress-container"><div id="bar-menu-calma" class="progress-fill color-calma"></div></div>
-                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-calma">0</span> días logrados</p>
+                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-calma">0</span> misiones</p>
             </div>
             <div class="card-menu" onclick="irAPasillo('empatia')">
-                <div class="btn-categoria color-empatia">EMPATÍA</div>
+                <div class="btn-categoria color-empatia">PODER / CONEXIÓN</div>
                 <div class="progress-container"><div id="bar-menu-empatia" class="progress-fill color-empatia"></div></div>
-                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-empatia">0</span> días logrados</p>
+                <p style="font-size: 0.7rem; margin:0;"><span id="mini-dias-empatia">0</span> misiones</p>
             </div>
-        </div>
-
-        <div style="margin-top: 35px; text-align: center; border-top: 1px solid #eee; padding-top: 25px; padding-bottom: 20px;">
-            <p style="font-size: 0.8rem; color: #888; margin-bottom: 12px; font-style: italic;">¿Dudas con tu llave física o tu progreso?</p>
-            <button onclick="contactarSoporte()" style="background-color: #fdfaf5; border: 2px solid var(--cafe); color: var(--cafe); padding: 12px 25px; border-radius: 25px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0 auto;">
-                <span>💬</span> SOPORTE TÉCNICO
-            </button>
         </div>
     </div>
 
@@ -191,29 +195,21 @@
             <div class="progress-container" style="height: 12px; max-width: 80%; margin: 10px auto;">
                 <div id="bar-reto-detalle" class="progress-fill"></div>
             </div>
-            <p style="font-size: 0.8rem; color: #888;"><span id="porcentaje-txt">0%</span> - <span id="porcentaje-valor">0</span> días logrados</p>
+            <p style="font-size: 0.8rem; color: #888;"><span id="porcentaje-txt">0%</span></p>
         </div>
 
         <div class="reto-main-card">
             <div id="frase-display" class="frase-quote">"..."</div>
-            
-            <a href="javascript:void(0)" onclick="compartirWhatsApp()" class="btn-whatsapp">
-                📱 Compartir frase y reto
-            </a>
-            
             <div class="reto-instruccion">
-                <strong style="font-size: 0.8rem; color: #af8600;">⚡ RETO DE HOY:</strong>
+                <strong style="font-size: 0.8rem; color: #af8600;">⚡ ACCIÓN DE HOY:</strong>
                 <p id="reto-display" style="margin: 5px 0 0; font-size: 0.95rem;"></p>
             </div>
 
-            <button id="btn-logrado" onclick="completarReto()" class="btn-principal">
-                LO ACEPTO / ¡LOGRADO!
+            <button id="btn-logrado" onclick="completarReto()" class="btn-principal" style="background-color: var(--oro); color: var(--cafe);">
+                ¡ACTIVO MI SUPERPODER!
             </button>
             
-            <div id="instruccion-compromiso">
-                📌 <strong>Tip de Bienestar:</strong> Si no puedes cumplirlo ahora, presiona el botón como <strong>compromiso mental</strong>. <br>
-                <span style="color: var(--cafe-claro); display:block; margin-top:5px;">🔑 Deja tu llavero en un lugar visible para recordarlo durante el día.</span>
-            </div>
+            <div id="instruccion-compromiso"></div>
 
             <button id="btn-cambiar-frase" class="btn-secundario" onclick="seleccionarFraseNueva(); actualizarInterfaz();">🔄 Otra opción</button>
             <button class="btn-secundario" onclick="mostrarMenu()" style="border:none;">← Volver al inicio</button>
@@ -221,57 +217,157 @@
     </div>
 </div>
 
-<div id="modal-info" class="modal">
-    <div class="modal-content">
-        <h2 style="text-align:center;">🌟 Bienvenidos al Market Inspirarte</h2>
-        <p>Este no es solo un sitio web; es el gimnasio de tu mentalidad. Cada día, tu llave física te abre las puertas a una dosis de inspiración diseñada para que seas el arquitecto de tu propio bienestar.</p>
-        
-        <h3>¿Cómo funciona tu ruta?</h3>
-        <ul style="padding-left: 20px; list-style: none;">
-            <li>📍 <strong>Elige tu Pasillo:</strong> Según lo que necesites hoy: Resiliencia, Sabiduría, Calma o Empatía.</li>
-            <li>⚡ <strong>Acepta el Reto:</strong> Lee tu frase y presiona el botón para activar tu compromiso mental.</li>
-            <li>🚀 <strong>Sube de Nivel:</strong> La repetición crea hábito. Mira cómo evolucionas:</li>
-        </ul>
-
-        <div style="background: #f9f9f9; padding: 15px; border-radius: 15px; margin: 10px 0; border: 1px solid #eee;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.8rem;">
-                <span>🌱 <strong>Iniciado:</strong></span> <span>0 - 6 días</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.8rem;">
-                <span>🌿 <strong>Aprendiz:</strong></span> <span>7 - 13 días</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.8rem;">
-                <span>🌳 <strong>Practicante:</strong></span> <span>14 - 20 días</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #b38728;">
-                <span>👑 <strong>Maestro:</strong></span> <span>21+ días</span>
-            </div>
-        </div>
-
-        <h3>🔒 Tu Privacidad (Importante)</h3>
-        <p>En Market Inspirarte valoramos tu paz mental:</p>
-        <ul style="padding-left: 20px;">
-            <li><strong>Cero Datos Personales:</strong> No pedimos ni guardamos tu nombre o teléfono. Eres anónimo.</li>
-            <li><strong>Memoria Local:</strong> Tu progreso se guarda solo en este celular (Local Storage).</li>
-            <li><strong>¡Cuida tu historial!:</strong> Si borras los datos del navegador, tu progreso volverá a 0.</li>
-        </ul>
-        
-        <p style="text-align: center; font-size: 0.8rem; font-style: italic; color: var(--oro);">"Pequeñas chispas diarias crean grandes incendios de bienestar."</p>
-
-        <button onclick="cerrarInfo()" class="btn-principal" style="background-color: var(--cafe); margin-top: 15px;">¡ENTENDIDO, VAMOS!</button>
-    </div>
-</div>
 <div id="modal-insignia" class="modal">
-    <div class="modal-content" style="text-align: center;">
-        <div id="insignia-icon" style="font-size: 4rem;">🏆</div>
-        <h2 id="insignia-titulo"></h2>
-        <p id="insignia-msj"></p>
+    <div class="modal-content">
+        <div id="insignia-icon" style="font-size: 4rem;">⚡</div>
+        <h2 id="insignia-titulo">¡PODER ACTIVADO!</h2>
+        <p id="insignia-msj">Has iniciado tu entrenamiento diario.<br><strong>¡Diciendo y Haciendo contra el burnout!</strong></p>
         <button class="btn-principal" onclick="cerrarModalYMenu()" style="background-color: var(--cafe);">CONTINUAR</button>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<script src="frases.js"></script>
-<script src="script.js"></script>
+
+<script>
+// --- BASE DE DATOS INTEGRADA ---
+const frasesDB = {
+    "resiliencia": [
+        {"id": 1, "frase": "No es la carga lo que te rompe, sino la forma en que la llevas.", "reto": "Hoy, identifica una responsabilidad pesada y decide afrontarla con una sonrisa."},
+        {"id": 2, "frase": "La caída es un accidente, mantenerse en el suelo es una elección.", "reto": "Levántate 5 minutos antes de lo habitual para demostrarte que tienes el control."}
+    ],
+    "sabiduria": [
+        {"id": 20, "frase": "El conocimiento habla, pero la sabiduría escucha.", "reto": "Escucha un podcast o charla de un tema que no conozcas hoy."}
+    ],
+    "calma": [
+        {"id": 30, "frase": "Tu calma es tu superpoder.", "reto": "Haz 3 respiraciones profundas antes de contestar cualquier correo o mensaje."}
+    ],
+    "empatia": [
+        {"id": 40, "frase": "Ser amable es más importante que tener la razón.", "reto": "Hazle un cumplido genuino a alguien con quien no hables seguido."}
+    ],
+    "vip": [
+        {"id": 99, "frase": "El equilibrio no es algo que encuentras, es algo que creas.", "reto": "Regálate 10 minutos de silencio total al terminar el día."}
+    ]
+};
+
+// --- LÓGICA DE NEGOCIO ---
+let pasilloActual = '';
+let fraseAsignada = { resiliencia: null, sabiduria: null, calma: null, empatia: null, vip: null };
+const colores = { 'resiliencia': '#4caf50', 'sabiduria': '#0288d1', 'calma': '#ff7043', 'empatia': '#fbc02d', 'vip': '#d4af37' };
+
+const clavesMensuales = { 1: "MarketFeb26", 2: "MarketMar26" }; // Simplificado para el ejemplo
+
+function verificarAcceso() {
+    const passIngresada = document.getElementById('input-password').value.trim();
+    if (Object.values(clavesMensuales).includes(passIngresada)) {
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        localStorage.setItem('acceso_market', 'true');
+        document.getElementById('pantalla-login').style.display = 'none';
+        actualizarMenuPrincipal();
+    } else {
+        document.getElementById('error-login').style.display = 'block';
+    }
+}
+
+window.onload = () => {
+    if (localStorage.getItem('acceso_market') === 'true') {
+        document.getElementById('pantalla-login').style.display = 'none';
+        actualizarMenuPrincipal();
+        revisarAlertaDiaria();
+    }
+};
+
+function irAPasillo(nombre) {
+    pasilloActual = nombre;
+    document.getElementById('menu-principal').style.display = 'none';
+    document.getElementById('pantalla-reto').style.display = 'block';
+    if (!fraseAsignada[pasilloActual] || pasilloActual === 'vip') seleccionarFraseNueva();
+    actualizarInterfaz();
+}
+
+function mostrarMenu() {
+    document.getElementById('menu-principal').style.display = 'block';
+    document.getElementById('pantalla-reto').style.display = 'none';
+    actualizarMenuPrincipal();
+    revisarAlertaDiaria();
+}
+
+function seleccionarFraseNueva() {
+    const lista = frasesDB[pasilloActual];
+    fraseAsignada[pasilloActual] = lista[Math.floor(Math.random() * lista.length)];
+}
+
+function actualizarInterfaz() {
+    const hoyFrase = fraseAsignada[pasilloActual];
+    document.getElementById('titulo-pasillo').innerText = "PODER / " + pasilloActual;
+    document.getElementById('frase-display').innerText = `"${hoyFrase.frase}"`;
+    document.getElementById('reto-display').innerText = hoyFrase.reto;
+
+    const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
+    const lista = progreso[pasilloActual] || [];
+    const numDias = lista.length;
+    let porcentaje = Math.min((numDias / 21) * 100, 100).toFixed(0);
+    
+    document.getElementById('porcentaje-txt').innerText = `Nivel: ${numDias} días logrados (${porcentaje}%)`;
+    const barraDetalle = document.getElementById('bar-reto-detalle');
+    barraDetalle.style.width = porcentaje + "%";
+    barraDetalle.style.backgroundColor = colores[pasilloActual];
+
+    const btn = document.getElementById('btn-logrado');
+    const hoy = new Date().toLocaleDateString('en-CA');
+    if (lista.includes(hoy)) {
+        btn.disabled = true;
+        btn.innerText = "🤝 PODER ACTIVADO";
+        btn.style.backgroundColor = "#ccc";
+    } else {
+        btn.disabled = false;
+        btn.innerText = "¡ACTIVO MI SUPERPODER!";
+        btn.style.backgroundColor = "var(--oro)";
+    }
+}
+
+function completarReto() {
+    let progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
+    if (!progreso[pasilloActual]) progreso[pasilloActual] = [];
+    const hoy = new Date().toLocaleDateString('en-CA');
+    
+    if (!progreso[pasilloActual].includes(hoy)) {
+        progreso[pasilloActual].push(hoy);
+        localStorage.setItem('progreso_market', JSON.stringify(progreso));
+        
+        lanzarMedalla();
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: [colores[pasilloActual], '#fff'] });
+    }
+}
+
+function revisarAlertaDiaria() {
+    const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
+    const hoy = new Date().toLocaleDateString('en-CA');
+    let hechoHoy = false;
+    Object.values(progreso).forEach(lista => { if(lista.includes(hoy)) hechoHoy = true; });
+    
+    document.getElementById('alerta-diaria').style.display = hechoHoy ? "none" : "block";
+}
+
+function actualizarMenuPrincipal() {
+    const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
+    const pasillos = ['resiliencia', 'sabiduria', 'calma', 'empatia'];
+    let completadosHoy = 0;
+    const hoy = new Date().toLocaleDateString('en-CA');
+
+    pasillos.forEach(p => {
+        const lista = progreso[p] || [];
+        if (lista.includes(hoy)) completadosHoy++;
+        document.getElementById(`mini-dias-${p}`).innerText = lista.length;
+        const porc = Math.min((lista.length / 21) * 100, 100);
+        document.getElementById(`bar-menu-${p}`).style.width = porc + "%";
+    });
+
+    document.getElementById('card-vip').style.display = (completadosHoy >= 4) ? "block" : "none";
+}
+
+function lanzarMedalla() { document.getElementById('modal-insignia').style.display = 'flex'; }
+function cerrarModalYMenu() { document.getElementById('modal-insignia').style.display = 'none'; mostrarMenu(); }
+function abrirInfo() { alert("El Market es un producto creado por Enkanta2 'dos manos un encanto'"); }
+</script>
 </body>
 </html>
