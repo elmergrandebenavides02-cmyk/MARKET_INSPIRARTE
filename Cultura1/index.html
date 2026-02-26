@@ -205,6 +205,7 @@
         .color-colaboracion { background-color: #00377d; }
         .color-integridad { background-color: #722f37; }
         .color-talento { background-color: #6a1b9a; }
+        .color-foco { background-color: #f3b01a; } /* CAMBIO 1: Nuevo color Foco */
 
         .mini-bar-container { 
             width: 100%; 
@@ -528,13 +529,14 @@
     }
 
     // ==========================================
-    // CONFIGURACIÓN UI ADN TIGO
+    // CONFIGURACIÓN UI ADN TIGO (CON FOCO)
     // ==========================================
     const configUI = {
         agilidad: { nombre: "DICIENDO Y HACIENDO", color: "color-agilidad" },
         colaboracion: { nombre: "JUNTOS PA' LAS QUE SEA", color: "color-colaboracion" },
         integridad: { nombre: "NO TODO SE VALE", color: "color-integridad" },
-        talento: { nombre: "SOMOS TALENTO TIGO", color: "color-talento" }
+        talento: { nombre: "SOMOS TALENTO TIGO", color: "color-talento" },
+        foco: { nombre: "SOMOS ENFOCADOS (FULL FOCO)", color: "color-foco" } // CAMBIO 2: Incluido en la configuración
     };
 
     let capActual = '';
@@ -599,6 +601,13 @@
     }
 
     function generarReto() {
+        // CAMBIO 3: Verificación de seguridad para asegurar que la capacidad existe en capacidad.js
+        if (!capacidadDB[capActual]) {
+            alert("Error: La capacidad '" + capActual + "' no se encuentra en capacidad.js");
+            volverMenu();
+            return;
+        }
+
         const opciones = capacidadDB[capActual];
         const actualTxt = document.getElementById('reto-display').innerText;
         let nuevoReto;
