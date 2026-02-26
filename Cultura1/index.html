@@ -41,7 +41,7 @@
             min-height: 100vh; 
         }
 
-        /* PANTALLA DE ACCESO (PASSWORD) */
+        /* PANTALLA DE ACCESO */
         #pantalla-login { 
             position: fixed; 
             top: 0; 
@@ -99,11 +99,9 @@
             align-items: center; 
             justify-content: center; 
             font-size: 1.2rem;
-            transition: all 0.3s;
             z-index: 10;
         }
 
-        /* Pantalla Bienvenida */
         #pantalla-bienvenida { 
             position: absolute; 
             top: 0; 
@@ -131,7 +129,6 @@
             box-sizing: border-box; 
         }
 
-        /* Estilos Tarjeta Hábito */
         .seccion-habito { 
             background: #fff9eb; 
             border: 2px dashed var(--tigo-gold); 
@@ -139,16 +136,6 @@
             padding: 20px; 
             margin-bottom: 25px; 
             text-align: center; 
-        }
-
-        .input-hora { 
-            padding: 12px; 
-            border-radius: 10px; 
-            border: 1px solid var(--tigo-gold); 
-            font-family: 'Montserrat'; 
-            font-weight: bold; 
-            color: var(--tigo-blue); 
-            outline: none; 
         }
 
         .grid-pasillos { 
@@ -166,10 +153,8 @@
             cursor: pointer; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
             position: relative; 
-            transition: transform 0.2s, box-shadow 0.2s; 
+            transition: transform 0.2s; 
         }
-
-        .card-menu:active { transform: scale(0.95); }
 
         .card-menu.bloqueado { 
             opacity: 0.6; 
@@ -177,12 +162,7 @@
             background: #f9f9f9; 
         }
 
-        .lock-icon { 
-            display: none; 
-            font-size: 1.5rem; 
-            margin-top: 10px; 
-        }
-
+        .lock-icon { display: none; font-size: 1.5rem; margin-top: 10px; }
         .card-menu.bloqueado .lock-icon { display: block; }
 
         .btn-categoria { 
@@ -205,7 +185,7 @@
         .color-colaboracion { background-color: #00377d; }
         .color-integridad { background-color: #722f37; }
         .color-talento { background-color: #6a1b9a; }
-        .color-foco { background-color: #f3b01a; } /* CAMBIO 1: Nuevo color Foco */
+        .color-foco { background-color: #f3b01a; }
 
         .mini-bar-container { 
             width: 100%; 
@@ -216,11 +196,7 @@
             margin: 10px 0; 
         }
 
-        .mini-bar-fill { 
-            height: 100%; 
-            width: 0%; 
-            transition: width 0.5s; 
-        }
+        .mini-bar-fill { height: 100%; width: 0%; transition: width 0.5s; }
 
         .btn-principal { 
             width: 100%; 
@@ -234,7 +210,6 @@
             background: var(--tigo-blue); 
             margin-bottom: 12px; 
             text-transform: uppercase; 
-            transition: 0.3s; 
         }
 
         .btn-whatsapp { 
@@ -253,7 +228,6 @@
             margin-bottom: 12px; 
             text-decoration: none; 
             font-size: 0.9rem; 
-            box-sizing: border-box; 
         }
 
         .btn-secundario { 
@@ -408,7 +382,7 @@
         <h3 style="color: var(--tigo-blue); margin-top: 0; font-size: 1rem;">Selecciona una Capacidad ADN:</h3>
         <div class="grid-pasillos" id="grid-pasillos"></div>
         
-        <a href="https://wa.me/573244173977?text=Hola%20equipo%20Enkanta2" target="_blank" class="btn-ayuda-soporte">🆘 NECESITO AYUDA</a>
+        <a href="https://wa.me/573244173977?text=Hola%20equipo%20Enkanta2,%20necesito%20ayuda%20con%20la%20plataforma%20de%20Market%20Inspirarte%20/%20Cultura" target="_blank" class="btn-ayuda-soporte">🆘 NECESITO AYUDA</a>
     </div>
 
     <div id="pantalla-reto" style="display:none;">
@@ -449,7 +423,7 @@
         <span style="font-size: 4rem; display: block; margin-bottom: 15px;">⚠️</span>
         <h2 style="color: var(--tigo-blue); margin: 0 0 10px 0;">ACCESO EXPIRADO</h2>
         <p id="mensaje-error-texto" style="font-size: 0.9rem; color: #555; line-height: 1.5;"></p>
-        <a href="https://wa.me/573244173977?text=Hola%20Enkanta2,%20mi%20llave%20de%20acceso%20ha%20expirado" 
+        <a href="https://wa.me/573244173977?text=Hola%20Enkanta2,%20mi%20llave%20de%20acceso%20ha%20expirado%20en%20el%20Market%20Inspirarte" 
            target="_blank" class="btn-soporte-wa">
             CONTACTAR SOPORTE ENKANTA2
         </a>
@@ -458,9 +432,6 @@
 </div>
 
 <script>
-    // ==========================================
-    // LLAVES - ENKANTA2 ORIGINALES
-    // ==========================================
     const LLAVES_DEMO = ["MarketDemo72", "TigoTemporal", "MarketCulFeb26", "bienestar3d"];
     const LLAVES_PERMANENTE = ["Enkanta2VIP", "TIGO_FULL_2026", "AdminMarket", "market2026"];
     const DURACION_DEMO_HORAS = 72;
@@ -476,7 +447,7 @@
         let blacklist = JSON.parse(localStorage.getItem('market_blacklist') || "[]");
 
         if (blacklist.includes(input)) {
-            mostrarErrorAcceso("Esta llave de acceso ya fue utilizada y expiró. Ponte en contacto con Enkanta2.");
+            mostrarErrorAcceso("Esta llave de acceso ya fue utilizada y expiró.");
             return;
         }
 
@@ -493,33 +464,15 @@
             localStorage.setItem('market_expiracion', fechaExpiracion);
             entrarAlMarket();
         } 
-        else {
-            alert("Llave no válida. Verifica con el administrador.");
-        }
+        else { alert("Llave no válida."); }
     }
 
     function validarSesion() {
         const activa = localStorage.getItem('market_sesion_activa');
         const expiracion = localStorage.getItem('market_expiracion');
-        const llaveUsada = localStorage.getItem('market_key_usada');
-        
         if (!activa || !expiracion) return false;
         if (expiracion === 'nunca') return true;
-
-        const ahora = new Date().getTime();
-        if (ahora > parseInt(expiracion)) {
-            if (llaveUsada) {
-                let blacklist = JSON.parse(localStorage.getItem('market_blacklist') || "[]");
-                if (!blacklist.includes(llaveUsada)) {
-                    blacklist.push(llaveUsada);
-                    localStorage.setItem('market_blacklist', JSON.stringify(blacklist));
-                }
-            }
-            localStorage.removeItem('market_sesion_activa');
-            mostrarErrorAcceso("Tu llave temporal ha expirado. Contacta a Enkanta2.");
-            return false;
-        }
-        return true;
+        return new Date().getTime() < parseInt(expiracion);
     }
 
     function entrarAlMarket() {
@@ -528,19 +481,16 @@
         checkBienvenida();
     }
 
-    // ==========================================
-    // CONFIGURACIÓN UI ADN TIGO (CON FOCO)
-    // ==========================================
     const configUI = {
         agilidad: { nombre: "DICIENDO Y HACIENDO", color: "color-agilidad" },
         colaboracion: { nombre: "JUNTOS PA' LAS QUE SEA", color: "color-colaboracion" },
         integridad: { nombre: "NO TODO SE VALE", color: "color-integridad" },
         talento: { nombre: "SOMOS TALENTO TIGO", color: "color-talento" },
-        foco: { nombre: "SOMOS ENFOCADOS (FULL FOCO)", color: "color-foco" } // CAMBIO 2: Incluido en la configuración
+        foco: { nombre: "SOMOS ENFOCADOS (FULL FOCO)", color: "color-foco" }
     };
 
     let capActual = '';
-    let datos = JSON.parse(localStorage.getItem('market_adn_data_v2')) || { progreso: {}, bloqueos: {}, ultima_bienvenida: "" };
+    let datos = JSON.parse(localStorage.getItem('market_adn_data_v2')) || { progreso: {agilidad:0, colaboracion:0, integridad:0, talento:0, foco:0}, bloqueos: {}, ultima_bienvenida: "" };
 
     function checkBienvenida() {
         const hoy = new Date().toDateString();
@@ -563,25 +513,20 @@
 
     function renderizarMenu() {
         const grid = document.getElementById('grid-pasillos');
-        if(!grid) return;
         grid.innerHTML = '';
         const hoy = new Date().toDateString();
-
         for (let key in configUI) {
             const estaBloqueado = datos.bloqueos[key] === hoy;
             const nivel = obtenerNivel(datos.progreso[key] || 0);
             const ui = configUI[key];
-            
             const card = document.createElement('div');
             card.className = `card-menu ${estaBloqueado ? 'bloqueado' : ''}`;
             if (!estaBloqueado) card.onclick = () => irAPasillo(key);
-
             card.innerHTML = `
                 <div class="btn-categoria ${ui.color}">${ui.nombre}</div>
                 <div class="mini-bar-container"><div class="mini-bar-fill ${ui.color}" style="width: ${Math.min((nivel.pts / 21) * 100, 100)}%"></div></div>
                 <div style="font-size: 0.65rem; font-weight: bold; color: #666;">${nivel.texto}</div>
-                <div class="lock-icon">🔒</div>
-            `;
+                <div class="lock-icon">🔒</div>`;
             grid.appendChild(card);
         }
     }
@@ -591,7 +536,6 @@
         document.getElementById('menu-principal').style.display = 'none';
         document.getElementById('pantalla-reto').style.display = 'block';
         document.getElementById('titulo-pasillo').innerText = configUI[id].nombre;
-        
         const nivel = obtenerNivel(datos.progreso[id] || 0);
         document.getElementById('status-evolucion').innerText = `Tu Estatus: ${nivel.texto}`;
         const barra = document.getElementById('bar-progreso-detalle');
@@ -601,22 +545,13 @@
     }
 
     function generarReto() {
-        // CAMBIO 3: Verificación de seguridad para asegurar que la capacidad existe en capacidad.js
-        if (!capacidadDB[capActual]) {
-            alert("Error: La capacidad '" + capActual + "' no se encuentra en capacidad.js");
-            volverMenu();
-            return;
-        }
-
+        if (!capacidadDB[capActual]) { volverMenu(); return; }
         const opciones = capacidadDB[capActual];
-        const actualTxt = document.getElementById('reto-display').innerText;
-        let nuevoReto;
-        do { nuevoReto = opciones[Math.floor(Math.random() * opciones.length)]; } 
-        while (nuevoReto.reto === actualTxt && opciones.length > 1);
-        
+        const nuevoReto = opciones[Math.floor(Math.random() * opciones.length)];
         document.getElementById('frase-display').innerText = `"${nuevoReto.frase}"`;
         document.getElementById('reto-display').innerText = nuevoReto.reto;
         
+        // CORRECCIÓN: wa.me/?text= (Sin número para que el usuario elija a quién enviar)
         const msj = encodeURIComponent(`🧬 *ADN TIGO - SECUENCIA ACTIVADA*\n\n"${nuevoReto.frase}"\n\n*Acción:* ${nuevoReto.reto}`);
         document.getElementById('btn-share-wa').href = `https://wa.me/?text=${msj}`;
     }
@@ -626,14 +561,7 @@
         datos.progreso[capActual] = (datos.progreso[capActual] || 0) + 1;
         datos.bloqueos[capActual] = hoy;
         localStorage.setItem('market_adn_data_v2', JSON.stringify(datos));
-        
-        if(datos.progreso[capActual] >= 21) {
-            document.getElementById('emoji-exito').innerText = "👑";
-            confetti({ particleCount: 400, spread: 120, colors:['#00377d', '#f3b01a'] });
-        } else {
-            document.getElementById('emoji-exito').innerText = "🧬";
-            confetti({ particleCount: 150, spread: 70, colors:['#00377d', '#00a1e1'] });
-        }
+        confetti({ particleCount: 150, spread: 70 });
         document.getElementById('modal-confirmacion').style.display = 'flex';
     }
 
@@ -649,15 +577,11 @@
     }
 
     function crearAlertaCalendario() {
-        const hora = document.getElementById('hora-alerta').value;
-        const [h, m] = hora.split(':');
-        const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=Mi%20Secuencia%20ADN%20Tigo&recur=RRULE:FREQ=DAILY`;
-        window.open(googleUrl, '_blank');
+        window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=Mi%20Secuencia%20ADN%20Tigo&recur=RRULE:FREQ=DAILY`, '_blank');
     }
 
     window.onload = () => {
         if (validarSesion()) entrarAlMarket();
-        else document.getElementById('pantalla-login').style.display = 'flex';
     };
 </script>
 </body>
