@@ -40,12 +40,6 @@
 
         .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:6000; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background:white; padding:25px; border-radius:20px; text-align:left; max-width:400px; width: 100%; max-height: 85vh; overflow-y: auto; }
-        .alerta-seguridad { background: #ffebee; border: 1px solid #ffcdd2; padding: 10px; border-radius: 10px; font-size: 0.75rem; color: #c62828; margin: 10px 0; }
-        
-        .color-resiliencia { background-color: var(--resiliencia); }
-        .color-sabiduria { background-color: var(--sabiduria); }
-        .color-calma { background-color: var(--calma); }
-        .color-empatia { background-color: var(--empatia); }
     </style>
 </head>
 <body>
@@ -55,17 +49,18 @@
     <h2>LLAVE DEL MARKET</h2>
     <input type="text" id="input-password" placeholder="Código de acceso...">
     <button onclick="verificarAcceso()" style="background: var(--oro); color: var(--cafe); border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; cursor: pointer; width: 100%; max-width: 280px;">ENTRAR</button>
+    <p id="error-login" style="color: #ffcdd2; margin-top: 15px; display: none; font-size: 0.9rem;"></p>
 </div>
 
 <div class="container">
     <header>
-        <h1 style="margin:0; font-size: 1.5rem;">MARKET INSPIRARTE/ BIENESTAR</h1>
+        <h1 style="margin:0; font-size: 1.5rem;">MARKET InspirARTE / BIENESTAR</h1>
         <p style="margin:5px 0 0; opacity: 0.9;">By Enkanta2 "dos manos un encanto"</p>
     </header>
 
     <div id="menu-principal">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <a href="https://wa.me/573244173977?text=Hola%20equipo%20de%20Enkanta2,%20necesito%20ayuda%20técnica%20con%20mi%20Market%20InspirARTE%20BIENESTAR.%20Mi%20nombre%20es:" target="_blank" class="btn-soporte">🎧 Soporte</a>
+            <a href="https://wa.me/573244173977?text=Hola%20equipo%20de%20Enkanta2,%20necesito%20ayuda%20técnica%20con%20mi%20Market%20InspirARTE%20BIENESTAR" target="_blank" class="btn-soporte">🎧 Soporte</a>
             <button onclick="abrirInfo()" style="background: none; border: 1px solid #ccc; border-radius: 50%; width: 32px; height: 32px; color: #888; font-weight: bold; cursor: pointer;">i</button>
         </div>
 
@@ -109,53 +104,73 @@
     </div>
 </div>
 
-<div id="modal-info" class="modal">
-    <div class="modal-content">
-        <h2 style="text-align:center; color: var(--cafe);">🌟 Bienvenidos al Market</h2>
-        <p>Este espacio es creado por <strong>Enkanta2 "dos manos un encanto"</strong> para fortalecer tu bienestar diario.</p>
-        
-        <div class="alerta-seguridad">
-            <strong>🔒 SEGURIDAD Y PRIVACIDAD:</strong><br>
-            • No recopilamos datos personales ni contraseñas.<br>
-            • Tu progreso se guarda localmente en este navegador.<br>
-            • <strong>Si borras el historial o caché, perderás tu avance</strong> y deberás ingresar de nuevo con tu clave.
-        </div>
-
-        <h3>Tu Ruta de Bienestar:</h3>
-        <p>🌱 <strong>Iniciado:</strong> 0 - 6 días<br>🌿 <strong>Aprendiz:</strong> 7 - 13 días<br>🌳 <strong>Practicante:</strong> 14 - 20 días<br>👑 <strong>Maestro:</strong> 21+ días</p>
-        
-        <button onclick="cerrarInfo()" class="btn-principal" style="background:var(--cafe)">¡ESTOY LISTO!</button>
-    </div>
-</div>
-
-<div id="modal-insignia" class="modal">
-    <div class="modal-content" style="text-align:center;">
-        <div style="font-size: 4rem;">⚡</div>
-        <h2>¡PODER ACTIVADO!</h2>
-        <p>Tu compromiso ha sido guardado.<br>Regresando al menú principal...</p>
-    </div>
-</div>
+<div id="modal-info" class="modal"><div class="modal-content" id="content-info"></div></div>
+<div id="modal-insignia" class="modal"><div class="modal-content" style="text-align:center;"><h2>⚡ PODER ACTIVADO</h2><p>Regresando al menú...</p></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="frases.js"></script>
+
 <script>
 let pasilloActual = '';
 let fraseAsignada = {};
-<script src="frases.js"></script>
+
+// CONFIGURACIÓN DE CLAVES
+const CLAVE_PERMANENTE = "market2026";
+const CLAVE_TEMPORAL = "bienestar3d";
+const DIAS_VALIDEZ = 3;
+
 function verificarAcceso() {
-    if (document.getElementById('input-password').value.toLowerCase() === "marketfeb26") {
-        localStorage.setItem('acceso_market', 'true');
-        document.getElementById('pantalla-login').style.display = 'none';
-        if (!localStorage.getItem('guia_leida')) abrirInfo();
-        actualizarMenuPrincipal();
+    const pass = document.getElementById('input-password').value.toLowerCase().trim();
+    const errorMsg = document.getElementById('error-login');
+    const ahora = new Date().getTime();
+
+    if (pass === CLAVE_PERMANENTE) {
+        otorgarAcceso("permanente");
+    } else if (pass === CLAVE_TEMPORAL) {
+        let inicio = localStorage.getItem('market_temp_start');
+        if (!inicio) {
+            localStorage.setItem('market_temp_start', ahora);
+            otorgarAcceso("temporal");
+        } else {
+            const transcurrido = (ahora - inicio) / (1000 * 60 * 60 * 24);
+            if (transcurrido <= DIAS_VALIDEZ) {
+                otorgarAcceso("temporal");
+            } else {
+                errorMsg.innerText = "Esta clave temporal ha caducado.";
+                errorMsg.style.display = "block";
+            }
+        }
+    } else {
+        errorMsg.innerText = "Clave incorrecta. Inténtalo de nuevo.";
+        errorMsg.style.display = "block";
     }
 }
 
+function otorgarAcceso(tipo) {
+    localStorage.setItem('acceso_market', tipo);
+    document.getElementById('pantalla-login').style.display = 'none';
+    if (!localStorage.getItem('guia_leida')) abrirInfo();
+    actualizarMenuPrincipal();
+}
+
 window.onload = () => {
-    if (localStorage.getItem('acceso_market') === 'true') {
+    const acceso = localStorage.getItem('acceso_market');
+    if (acceso === "permanente") {
         document.getElementById('pantalla-login').style.display = 'none';
         actualizarMenuPrincipal();
+    } else if (acceso === "temporal") {
+        const inicio = localStorage.getItem('market_temp_start');
+        const transcurrido = (new Date().getTime() - inicio) / (1000 * 60 * 60 * 24);
+        if (transcurrido <= DIAS_VALIDEZ) {
+            document.getElementById('pantalla-login').style.display = 'none';
+            actualizarMenuPrincipal();
+        } else {
+            localStorage.removeItem('acceso_market');
+        }
     }
 };
+
+// ... Resto de funciones (irAPasillo, completarReto, etc.) igual que antes ...
 
 function irAPasillo(nombre) {
     pasilloActual = nombre;
@@ -172,49 +187,27 @@ function seleccionarFraseNueva() {
 
 function actualizarInterfaz() {
     const hoy = fraseAsignada[pasilloActual];
-    const titulos = {
-        'resiliencia': 'RESISTENCIA / RESILIENCIA',
-        'sabiduria': 'VISIÓN / SABIDURÍA',
-        'calma': 'EQUILIBRIO / CALMA',
-        'empatia': 'CONEXIÓN / EMPATÍA'
-    };
+    const titulos = {'resiliencia':'RESISTENCIA / RESILIENCIA','sabiduria':'VISIÓN / SABIDURÍA','calma':'EQUILIBRIO / CALMA','empatia':'CONEXIÓN / EMPATÍA'};
     document.getElementById('titulo-pasillo').innerText = titulos[pasilloActual];
     document.getElementById('frase-display').innerText = `"${hoy.frase}"`;
     document.getElementById('reto-display').innerText = hoy.reto;
-    
-    const progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
-    const lista = progreso[pasilloActual] || [];
-    const btn = document.getElementById('btn-logrado');
-    const fecha = new Date().toLocaleDateString('en-CA');
-
-    if (lista.includes(fecha)) {
-        btn.disabled = true; btn.innerText = "🤝 ACTIVADO"; btn.style.backgroundColor = "#ccc";
-    } else {
-        btn.disabled = false; btn.innerText = "¡ACTIVO MI SUPERPODER!"; btn.style.backgroundColor = `var(--${pasilloActual})`;
-    }
+    document.getElementById('btn-logrado').style.backgroundColor = `var(--${pasilloActual})`;
 }
 
 function completarReto() {
     let progreso = JSON.parse(localStorage.getItem('progreso_market')) || {};
     if (!progreso[pasilloActual]) progreso[pasilloActual] = [];
     const fecha = new Date().toLocaleDateString('en-CA');
-    
     if (!progreso[pasilloActual].includes(fecha)) {
         progreso[pasilloActual].push(fecha);
         localStorage.setItem('progreso_market', JSON.stringify(progreso));
         confetti({ particleCount: 150, spread: 70 });
-        
         document.getElementById('modal-insignia').style.display = 'flex';
         setTimeout(() => {
             document.getElementById('modal-insignia').style.display = 'none';
             mostrarMenu();
         }, 3000);
     }
-}
-
-function compartirWhatsApp() {
-    const msg = encodeURIComponent(`🚀 *MARKET INSPIRARTE*\n"${fraseAsignada[pasilloActual].frase}"\n\n⚡ *Reto:* ${fraseAsignada[pasilloActual].reto}`);
-    window.open(`https://wa.me/?text=${msg}`, '_blank');
 }
 
 function mostrarMenu() {
@@ -232,8 +225,20 @@ function actualizarMenuPrincipal() {
     });
 }
 
-function abrirInfo() { document.getElementById('modal-info').style.display = 'flex'; }
+function abrirInfo() { 
+    document.getElementById('content-info').innerHTML = `
+        <h2 style="text-align:center; color: var(--cafe);">🌟 Bienvenidos al Market</h2>
+        <p>Espacio creado por <strong>Enkanta2</strong>.</p>
+        <p>🔒 <strong>Privacidad:</strong> No guardamos tus datos. Todo se queda en este navegador.</p>
+        <p>⚠️ <strong>Aviso:</strong> Si borras el historial, perderás tu progreso.</p>
+        <button onclick="cerrarInfo()" class="btn-principal" style="background:var(--cafe)">¡VAMOS!</button>`;
+    document.getElementById('modal-info').style.display = 'flex'; 
+}
 function cerrarInfo() { document.getElementById('modal-info').style.display = 'none'; localStorage.setItem('guia_leida', 'true'); }
+function compartirWhatsApp() {
+    const msg = encodeURIComponent(`🚀 *MARKET InspirARTE*\n"${fraseAsignada[pasilloActual].frase}"\n\n⚡ *Reto:* ${fraseAsignada[pasilloActual].reto}`);
+    window.open(`https://wa.me/?text=${msg}`, '_blank');
+}
 </script>
 </body>
 </html>
