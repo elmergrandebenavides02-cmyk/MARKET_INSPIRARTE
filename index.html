@@ -9,6 +9,7 @@
         :root {
             --cafe: #6d4c41; --cafe-claro: #8d6e63; --fondo: #fdfaf5;
             --oro: #d4af37; --whatsapp: #25D366; --blanco: #ffffff;
+            --google-blue: #4285F4;
             --resiliencia: #4caf50; --sabiduria: #0288d1; --calma: #ff7043; --empatia: #fbc02d;
         }
 
@@ -35,7 +36,8 @@
         .frase-quote { font-size: 1.1rem; font-style: italic; margin-bottom: 20px; min-height: 80px; display: flex; align-items: center; justify-content: center; line-height: 1.4; color: #333; }
         
         /* Botones */
-        .btn-whatsapp { background: var(--whatsapp); color: white; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 0.85rem; border:none; cursor:pointer; width: 100%; justify-content: center; }
+        .btn-whatsapp { background: var(--whatsapp); color: white; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 0.85rem; border:none; cursor:pointer; width: 100%; justify-content: center; }
+        .btn-calendar { background: var(--google-blue); color: white; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 0.85rem; border:none; cursor:pointer; width: 100%; justify-content: center; }
         .btn-soporte { background: #f1f1f1; color: #666; padding: 8px 15px; border-radius: 15px; text-decoration: none; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 5px; border: 1px solid #ddd; margin-bottom: 15px; }
         .btn-principal { width: 100%; padding: 18px; border-radius: 30px; border: none; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
         .btn-secundario { width: 100%; padding: 12px; background: none; border: 2px solid #ddd; border-radius: 30px; color: #888; margin-top: 10px; cursor: pointer; }
@@ -102,13 +104,17 @@
         <h2 id="titulo-pasillo" style="text-align:center; color: var(--cafe); text-transform: uppercase; font-size: 1rem;"></h2>
         <div class="reto-main-card">
             <div id="frase-display" class="frase-quote"></div>
+            
             <button onclick="compartirWhatsApp()" class="btn-whatsapp">📱 Compartir Superpoder</button>
+            <button onclick="agendarGoogleCalendar()" class="btn-calendar">📅 Crear Alerta Calendar</button>
+
             <div class="reto-instruccion" style="background: #fff9c4; padding: 15px; border-left: 5px solid #fbc02d; text-align: left; margin-bottom: 15px; border-radius: 0 10px 10px 0;">
                 <strong>⚡ ACCIÓN DE HOY:</strong>
                 <p id="reto-display" style="margin-top: 5px;"></p>
             </div>
+            
             <button id="btn-logrado" onclick="completarReto()" class="btn-principal">¡ACTIVO MI SUPERPODER!</button>
-            <button class="btn-secundario" onclick="seleccionarFraseNueva(); actualizarInterfaz();">🔄 Otra opción</button>
+            <button class="btn-secundario" id="btn-otra-opcion" onclick="seleccionarFraseNueva(); actualizarInterfaz();">🔄 Otra opción</button>
             <button class="btn-secundario" onclick="mostrarMenu()" style="border:none;">← Volver</button>
         </div>
     </div>
@@ -223,6 +229,8 @@ function actualizarInterfaz() {
     document.getElementById('titulo-pasillo').innerText = titulos[pasilloActual];
     document.getElementById('frase-display').innerText = `"${hoy.frase}"`;
     document.getElementById('reto-display').innerText = hoy.reto;
+    
+    // Color dinámico del botón principal según pasillo
     document.getElementById('btn-logrado').style.backgroundColor = `var(--${pasilloActual})`;
     
     // Verificar si ya se hizo hoy
@@ -230,11 +238,17 @@ function actualizarInterfaz() {
     const lista = progreso[pasilloActual] || [];
     const fecha = new Date().toLocaleDateString('en-CA');
     const btn = document.getElementById('btn-logrado');
+    const btnOtra = document.getElementById('btn-otra-opcion');
     
     if (lista.includes(fecha)) {
-        btn.disabled = true; btn.innerText = "🤝 ACTIVADO HOY"; btn.style.backgroundColor = "#ccc";
+        btn.disabled = true; 
+        btn.innerText = "🤝 ACTIVADO HOY"; 
+        btn.style.backgroundColor = "#ccc";
+        btnOtra.style.display = "none";
     } else {
-        btn.disabled = false; btn.innerText = "¡ACTIVO MI SUPERPODER!";
+        btn.disabled = false; 
+        btn.innerText = "¡ACTIVO MI SUPERPODER!";
+        btnOtra.style.display = "block";
     }
 }
 
@@ -273,9 +287,32 @@ function actualizarMenuPrincipal() {
 
 function abrirInfo() { document.getElementById('modal-info').style.display = 'flex'; }
 function cerrarInfo() { document.getElementById('modal-info').style.display = 'none'; localStorage.setItem('guia_leida', 'true'); }
+
 function compartirWhatsApp() {
     const msg = encodeURIComponent(`🚀 *MARKET InspirARTE*\n"${fraseAsignada[pasilloActual].frase}"\n\n⚡ *Reto:* ${fraseAsignada[pasilloActual].reto}`);
     window.open(`https://wa.me/?text=${msg}`, '_blank');
+}
+
+// NUEVA FUNCIÓN DE CALENDAR
+function agendarGoogleCalendar() {
+    const hoy = fraseAsignada[pasilloActual];
+    const titulos = {
+        'resiliencia': 'RESILIENCIA', 'sabiduria': 'SABIDURÍA',
+        'calma': 'CALMA', 'empatia': 'EMPATÍA'
+    };
+    const nombrePasillo = titulos[pasilloActual];
+    
+    const titulo = encodeURIComponent(`MI RETO DE HOY: ${nombrePasillo}`);
+    const detalles = encodeURIComponent(`Market InspirARTE por Enkanta2\n\nFrase: "${hoy.frase}"\n\nReto: ${hoy.reto}`);
+    
+    // Formato de fecha para hoy (YYYYMMDD)
+    const d = new Date();
+    const isoFecha = d.toISOString().replace(/-|:|\.\d\d\d/g, "").split("T")[0];
+    
+    // URL que abre el calendario con los datos precargados
+    const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${titulo}&details=${detalles}&dates=${isoFecha}/${isoFecha}`;
+    
+    window.open(url, '_blank');
 }
 </script>
 </body>
